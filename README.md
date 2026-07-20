@@ -42,12 +42,12 @@ See **docs/course-map.md** for the mapping between course modules and repository
 Installs are standardized on **pnpm** (`pnpm-lock.yaml` is the committed lockfile). Scripts run identically under **Node** or **Bun**:
 
 |              | Node                   | Bun                                     |
-| ------------ | ----------------------- | --------------------------------------- |
-| Install      | `pnpm install`          | `pnpm install` (once, for the lockfile) |
-| Dev          | `pnpm dev`               | `bun run dev`                           |
-| Build        | `pnpm build`             | `bun run build`                         |
-| Test         | `pnpm test`              | `bun test`                              |
-| Run one file | `ts-node src/index.ts`   | `bun src/index.ts`                      |
+| ------------ | ---------------------- | --------------------------------------- |
+| Install      | `pnpm install`         | `pnpm install` (once, for the lockfile) |
+| Dev          | `pnpm dev`             | `bun run dev`                           |
+| Build        | `pnpm build`           | `bun run build`                         |
+| Test         | `pnpm test`            | `bun test`                              |
+| Run one file | `ts-node src/index.ts` | `bun src/index.ts`                      |
 
 See [`docs/adr/0003-support-node-and-bun.md`](docs/adr/0003-support-node-and-bun.md).
 
