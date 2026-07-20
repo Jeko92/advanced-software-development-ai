@@ -1,0 +1,42 @@
+# Core Dependencies
+node_modules/
+.pnpm-store/
+
+# Production Builds & Outputs
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Frameworks & Monorepos
+.next/
+.turbo/
+
+# Environment & Sensitive Files
+.env
+.env.*
+.env.local
+
+# IDEs & System Files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Logs & Diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing & Cache
+.eslintcache
+.stylelintcache
+.prettiercache
+.cache/

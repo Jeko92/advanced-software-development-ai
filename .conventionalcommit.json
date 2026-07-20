@@ -1,0 +1,50 @@
+{
+  "types": {
+    "feat": {
+      "description": "A new feature, application implementation, or challenge solution"
+    },
+    "fix": {
+      "description": "A bugfix in an application, utility package, or assignment"
+    },
+    "refactor": {
+      "description": "Code change that neither fixes a bug nor adds a feature"
+    },
+    "perf": {
+      "description": "A change that improves runtime performance or build speeds"
+    },
+    "test": { "description": "Adding or correcting test suites" },
+    "docs": {
+      "description": "Documentation updates across READMEs, ADRs, or internal notes"
+    },
+    "style": {
+      "description": "Formatting, missing semi-colons, whitespace (no logic changes)"
+    },
+    "chore": {
+      "description": "Routine repository maintenance, tooling updates, or dependency bumps"
+    },
+    "build": {
+      "description": "Changes affecting Turborepo pipelines, pnpm workspaces, or compilers"
+    },
+    "ci": {
+      "description": "Changes to GitHub Actions workflows or PR validation scripts"
+    },
+    "revert": { "description": "Reverts a previous commit history entry" }
+  },
+  "scopes": {
+    "repo": "Global repository tooling, root configurations, and workspace setup",
+    "ci": "GitHub Actions workflows and automation pipelines",
+    "tooling": "Shared configurations like tsconfig, eslint, or build scripts",
+    "apps": "Any work inside the runnable applications directory (e.g., capstone, next-dashboard, online-shop)",
+    "packages": "Any work inside the topic-focused learning workspaces (e.g., ts-advanced, nestjs, real-time)",
+    "challenges": "Coding challenges, coding assignments, and leveling exercises across all 16 weeks"
+  },
+  "footerTypes": {
+    "BREAKING CHANGE": {
+      "description": "The commit introduces architectural breaking changes"
+    },
+    "Closes": { "description": "Closes a tracking issue or pull request" },
+    "Co-authored-by": {
+      "description": "Credits mentors or cohort peers during pairing sessions"
+    }
+  }
+}

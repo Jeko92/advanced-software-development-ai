@@ -1,0 +1,8 @@
+# pnpm-workspace.yaml
+
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "challenges/*"
+  - "!challenges/daily-coding-challenges"
+  - "tooling/*"

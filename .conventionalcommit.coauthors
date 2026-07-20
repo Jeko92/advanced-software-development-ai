@@ -1,0 +1,12 @@
+# Co-authored-by trailers for pairing sessions.
+# Paste the relevant line(s) at the END of a commit message, after a blank line:
+#
+#   feat(nestjs): implement auth guard
+#
+#   Co-authored-by: Name <email@example.com>
+#
+# Add entries below as you pair with mentors/cohort members:
+
+# Co-authored-by: <name> <email>
+
+Jemal Khachidze <jkhachidze92@gmail.com>
