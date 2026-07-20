@@ -5,7 +5,7 @@ import { test } from "@/test.ts";
 
 function removeEveryOther(ar: unknown[]): unknown[] {
   // your code here
-  return ar.filter((_, index) => index %2 === 0);
+  return ar.filter((_, index) => index % 2 === 0);
 }
 
 test(removeEveryOther([1, 2, 3, 4, 5]), [1, 3, 5]);
