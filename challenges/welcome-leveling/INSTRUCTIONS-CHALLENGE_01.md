@@ -28,7 +28,7 @@ The input data has the following structure:
 
 The corresponding output should look as follows:
 
-```js
+```
 {
   online: ['David'],
   offline: ['Lucy'],
@@ -38,7 +38,7 @@ The corresponding output should look as follows:
 
 If, for example, no users are online, the output should look as follows:
 
-```js
+```
 {
   offline: ['Lucy'],
   away: ['Bob']
