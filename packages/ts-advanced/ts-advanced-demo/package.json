@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build:watch": "tsc --watch",
+    "start:dev": "nodemon",
+    "start:concurrently": "concurrently \"npm run build:watch\" \"npm run start:dev\"",
+    "start:tsx": "tsx --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "http-server": "14.1.1"
+  },
+  "dependencies": {
+    "concurrently": "^10.0.3",
+    "nodemon": "^3.1.14",
+    "ts-advanced-demo": "link:",
+    "tsx": "^4.23.1"
+  }
+}
