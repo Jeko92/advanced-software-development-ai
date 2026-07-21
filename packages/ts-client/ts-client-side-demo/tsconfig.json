@@ -4,18 +4,10 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
-    "types": [
-      "vite/client"
-    ],
+    "lib": ["DOM", "ESNext"],
+    "types": ["vite/client"],
     "strict": true,
     "noEmit": true
   },
-  "include": [
-    "src",
-    "vite.config.ts"
-  ]
+  "include": ["src", "vite.config.ts"]
 }

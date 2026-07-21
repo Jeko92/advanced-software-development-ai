@@ -20,7 +20,7 @@
 // --- Arrays and objects get coerced to strings/numbers in weird ways ---
 [] + []            // ""              -> both arrays become "" then concatenate
 [] + {}            // "[object Object]" -> [] becomes "", {} becomes "[object Object]"
-{} + []            // 2 (in Node) or "[object Object]" in a browser console! 
+{} + []            // 2 (in Node) or "[object Object]" in a browser console!
 //   -> context-dependent: {} can be parsed as an empty BLOCK statement, not an object literal
 
 // --- Booleans coerce to 1 / 0 ---

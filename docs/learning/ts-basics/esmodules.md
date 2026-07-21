@@ -101,10 +101,16 @@ import { formatVolunteer } from "./volunteer.js";
 
 ```typescript
 // volunteers.ts
-interface Volunteer { id: number; name: string; }
+interface Volunteer {
+  id: number;
+  name: string;
+}
 
 // reports.ts
-interface Volunteer { id: number; name: string; } // copied by hand
+interface Volunteer {
+  id: number;
+  name: string;
+} // copied by hand
 ```
 
 When the same shape is defined in multiple files, they drift apart as the project evolves. Define the type once and import it everywhere it is needed:

@@ -1,10 +1,5 @@
 import { formatOrder, isInStock, orderTotal } from "./online-shop.js";
-import type {
-  Category,
-  Customer,
-  Order,
-  Product,
-} from "./types.js";
+import type { Category, Customer, Order, Product } from "./types.js";
 
 const electronics: Category = {
   name: "Electronics",

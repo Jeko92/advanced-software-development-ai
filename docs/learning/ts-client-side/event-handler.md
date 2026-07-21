@@ -54,9 +54,12 @@ If you use a function expression and need TypeScript to recognize `this` as a sp
 ```typescript
 const container = document.getElementById("container");
 
-container.addEventListener("click", function (this: HTMLDivElement, event: MouseEvent) {
-  console.log(this.offsetWidth);
-});
+container.addEventListener(
+  "click",
+  function (this: HTMLDivElement, event: MouseEvent) {
+    console.log(this.offsetWidth);
+  },
+);
 ```
 
 This pattern is uncommon in modern code. Arrow functions handle most handler cases without needing explicit `this` annotations.

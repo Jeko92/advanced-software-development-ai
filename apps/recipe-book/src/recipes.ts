@@ -1,14 +1,14 @@
 export type Ingredient = {
   name: string;
   amountGrams: number;
-}
+};
 
 type Recipe = {
   name: string;
   servings: number;
   vegetarian: boolean;
   ingredients: Ingredient[];
-}
+};
 
 const khachapuri: Recipe = {
   name: "Khachapuri",

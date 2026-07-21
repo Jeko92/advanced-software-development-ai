@@ -20,6 +20,7 @@ The parentheses around `myValue as string` ensure the assertion applies to the v
 ## DOM element types
 
 Each HTML element type has a corresponding TypeScript interface e.g.:
+
 - `HTMLInputElement`
 - `HTMLButtonElement`
 - `HTMLImageElement`
