@@ -21,10 +21,6 @@
     "forceConsistentCasingInFileNames": true
   },
 
-  "include": [
-    "demo-nodemon/src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["demo-nodemon/src/**/*"],
+  "exclude": ["node_modules"]
 }

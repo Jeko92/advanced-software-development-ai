@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainSection = document.querySelector<HTMLElement>("main");
 
   if (!form || !input || !mainSection) {
-    console.error("Required DOM elements are missing!")
+    console.error("Required DOM elements are missing!");
     return;
   }
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const searchTerm = input.value.trim();
 
-    if(!searchTerm) {
+    if (!searchTerm) {
       alert("Please enter search query!");
     }
 
@@ -35,5 +35,5 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     input.value = "";
-  })
-})
+  });
+});
