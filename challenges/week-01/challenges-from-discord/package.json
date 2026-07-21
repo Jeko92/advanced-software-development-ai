@@ -1,0 +1,13 @@
+{
+    "name": "typescript-tutorial",
+    "version": "1.0.0",
+    "description": "A tutorial on TypeScript",
+    "scripts": {
+        "compile": "tsc"
+    },
+    "author": "Martin Zachoszcz",
+    "license": "MIT",
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
