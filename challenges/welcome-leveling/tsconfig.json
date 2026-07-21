@@ -9,9 +9,5 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": [
-    "src/**/*",
-    "challenges/**/*",
-    "**/*.ts"
-  ]
+  "include": ["src/**/*", "challenges/**/*", "**/*.ts"]
 }
