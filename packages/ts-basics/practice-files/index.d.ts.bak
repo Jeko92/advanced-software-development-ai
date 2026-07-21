@@ -1,0 +1,12 @@
+declare const _exports: {
+    add: typeof add;
+    greeting: string;
+};
+export = _exports;
+/**
+ * Adds two numbers together.
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
+declare function add(a: number, b: number): number;
