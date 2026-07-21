@@ -16,7 +16,9 @@ export interface Playlist {
 
 export function formatFilm(film: Film): string {
   const base = `${film.title} (${film.year}) - ${film.watched ? "Watched" : "Unwatched"}`;
-  return film.rating !== undefined ? `${base} - Rating: ${film.rating}/5` : base;
+  return film.rating !== undefined
+    ? `${base} - Rating: ${film.rating}/5`
+    : base;
 }
 
 export function getUnwatched(playlist: Playlist): Film[] {

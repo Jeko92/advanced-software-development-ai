@@ -1,0 +1,17 @@
+/**
+ * Adds two numbers together.
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
+function add(a, b) {
+    return a + b;
+}
+
+/**
+ * A simple greeting message.
+ * @type {string}
+ */
+const greeting = "Hello, TypeScript!";
+
+module.exports = { add, greeting };

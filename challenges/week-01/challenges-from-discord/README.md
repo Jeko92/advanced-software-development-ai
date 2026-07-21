@@ -31,7 +31,7 @@ A `.ts` file is mostly JavaScript. TypeScript adds **type annotations** so the c
 ### Starting with this JavaScript snippet
 
 ```js
-const firstName = 'Alex';
+const firstName = "Alex";
 let age = 28;
 const isStudent = true;
 
@@ -57,20 +57,20 @@ In JavaScript, any value can be passed to any function. TypeScript lets you **de
 
 ```js
 function greet(name) {
-    return `Hello, ${name}!`;
+  return `Hello, ${name}!`;
 }
 
 function logMessage(message) {
-    console.log(message);
+  console.log(message);
 }
 
 function add(a, b) {
-    return a + b;
+  return a + b;
 }
 
-console.log(greet('Sam'));
-logMessage('Welcome to TypeScript');
-console.log(add('5', '7'));
+console.log(greet("Sam"));
+logMessage("Welcome to TypeScript");
+console.log(add("5", "7"));
 ```
 
 ### Tasks
@@ -92,14 +92,14 @@ Arrays in TypeScript hold **one kind of value** (unless you use unions — later
 ### Starting JavaScript
 
 ```js
-const fruits = ['apple', 'banana', 'cherry', 123];
+const fruits = ["apple", "banana", "cherry", 123];
 
 function shoutAll(items) {
-    return items.map(item => item.toUpperCase());
+  return items.map((item) => item.toUpperCase());
 }
 
 function sum(numbers) {
-    return numbers.reduce((total, n) => total + n, 0);
+  return numbers.reduce((total, n) => total + n, 0);
 }
 
 console.log(shoutAll(fruits));
@@ -127,14 +127,14 @@ JavaScript objects have any shape you want. TypeScript uses **interfaces** to de
 
 ```js
 const book = {
-    title: 'The Pragmatic Programmer',
-    author: 'Hunt & Thomas',
-    pages: 352,
-    published: 1999,
+  title: "The Pragmatic Programmer",
+  author: "Hunt & Thomas",
+  pages: 352,
+  published: 1999,
 };
 
 function printBookInfo(book) {
-    console.log(`${book.title} by ${book.author} (${book.pages} pages)`);
+  console.log(`${book.title} by ${book.author} (${book.pages} pages)`);
 }
 
 printBookInfo(book);
@@ -161,15 +161,15 @@ Not every property is always present. TypeScript marks optional fields with `?`.
 
 ```js
 const users = [
-    { id: 1, name: 'Kim', email: 'kim@example.com' },
-    { id: 2, name: 'Lee' },
+  { id: 1, name: "Kim", email: "kim@example.com" },
+  { id: 2, name: "Lee" },
 ];
 
 function formatUser(user) {
-    // LOGIC here for a format like: Kim <kim@example.com>
+  // LOGIC here for a format like: Kim <kim@example.com>
 }
 
-users.forEach(user => console.log(formatUser(user)));
+users.forEach((user) => console.log(formatUser(user)));
 ```
 
 ### Tasks
