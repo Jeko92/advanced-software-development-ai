@@ -1,0 +1,20 @@
+meta {
+  name: API Update Post
+  type: http
+  seq: 22
+}
+
+put {
+  url: {{baseUrl}}/api/posts/5
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "API Playground Post (updated)",
+    "author": "API Tester",
+    "teaser": "Updated via the JSON API.",
+    "content": "<p>Updated via the JSON API.</p>"
+  }
+}

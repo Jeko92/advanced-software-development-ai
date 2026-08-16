@@ -1,0 +1,87 @@
+{% extends "layouts/_admin-base.njk" %}
+
+{% block main_content %}
+  <h1 class="h3 mb-4">Edit Post</h1>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <!-- Enctype added for file handling -->
+  <form
+    method="POST"
+    action="/admin/posts/{{ post.slug }}"
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        value="{{ post.title }}"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <input
+        type="text"
+        class="form-control"
+        id="author"
+        name="author"
+        value="{{ post.author }}"
+        required
+      />
+    </div>
+
+    <!-- Image upload field with preview of current image -->
+    <div class="mb-3">
+      <label for="image" class="form-label">Post Image</label>
+      {% if post.image %}
+        <div class="mb-2">
+          <small class="text-muted d-block mb-1">Current Image:</small>
+          <img
+            src="/assets/img/post-bg/{{ post.image }}"
+            alt="Current post image"
+            style="max-height: 120px;"
+            class="img-thumbnail"
+          />
+        </div>
+      {% endif %}
+      <input
+        type="file"
+        class="form-control"
+        id="image"
+        name="image"
+        accept="image/*"
+      />
+      <div class="form-text">Leave blank to keep the existing image.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="teaser" class="form-label">Teaser</label>
+      <textarea class="form-control" id="teaser" name="teaser" rows="2">
+{{ post.teaser }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="editorjs" class="form-label">Content</label>
+      <div id="editorjs" class="form-control" style="min-height: 200px"></div>
+      <!-- Editor.js populates this on submit; if its scripts fail to load,
+           this plain-HTML textarea stays visible as a fallback. -->
+      <textarea
+        class="form-control mt-2"
+        id="content-field"
+        name="content"
+        rows="6"
+      >
+{{ post.content }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/admin" class="btn btn-outline-secondary">Cancel</a>
+  </form>
+{% endblock %}

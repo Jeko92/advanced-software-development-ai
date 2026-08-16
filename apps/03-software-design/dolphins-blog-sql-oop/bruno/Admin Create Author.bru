@@ -1,0 +1,15 @@
+meta {
+  name: Admin Create Author
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/admin/authors
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  name: Gwen Stacy
+}

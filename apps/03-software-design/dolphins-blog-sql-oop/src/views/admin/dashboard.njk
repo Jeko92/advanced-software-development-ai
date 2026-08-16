@@ -1,0 +1,49 @@
+{% extends "layouts/_admin-base.njk" %}
+
+{% block main_content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Posts</h1>
+    <a href="/admin/posts/new" class="btn btn-primary">+ New Post</a>
+  </div>
+
+  {% if posts.length === 0 %}
+    <p class="text-muted">No posts yet. Create your first one.</p>
+  {% else %}
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Created</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in posts %}
+          <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.author }}</td>
+            <td>{{ post.createdAt }}</td>
+            <td class="text-end">
+              <a
+                href="/admin/posts/{{ post.slug }}/edit"
+                class="btn btn-sm btn-outline-secondary"
+                >Edit
+              </a>
+              <form
+                method="POST"
+                action="/admin/posts/{{ post.slug }}/delete"
+                class="d-inline"
+                onsubmit="return confirm('Delete this post?');"
+              >
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

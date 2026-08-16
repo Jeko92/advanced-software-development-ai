@@ -21,8 +21,7 @@ export class ErrorHandlerMiddleware {
     }
 
     const isClientUploadError =
-      err instanceof multer.MulterError ||
-      err instanceof UploadValidationError;
+      err instanceof multer.MulterError || err instanceof UploadValidationError;
 
     if (isClientUploadError) {
       res.status(400).render('public/400.njk', {

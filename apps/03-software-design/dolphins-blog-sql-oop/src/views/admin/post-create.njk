@@ -1,0 +1,69 @@
+{% extends "layouts/_admin-base.njk" %}
+
+{% block main_content %}
+  <h1 class="h3 mb-4">New Post</h1>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/admin/posts" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        value="{{ post.title | default('') }}"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <input
+        type="text"
+        class="form-control"
+        id="author"
+        name="author"
+        value="{{ post.author | default('') }}"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Post Image</label>
+      <input
+        type="file"
+        class="form-control"
+        id="image"
+        name="image"
+        accept="image/*"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="teaser" class="form-label">Teaser</label>
+      <textarea class="form-control" id="teaser" name="teaser" rows="2">
+{{ post.teaser | default('') }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="editorjs" class="form-label">Content</label>
+      <div id="editorjs" class="form-control" style="min-height: 200px"></div>
+      <!-- Editor.js populates this on submit; if its scripts fail to load,
+           this plain-HTML textarea stays visible as a fallback. -->
+      <textarea
+        class="form-control mt-2"
+        id="content-field"
+        name="content"
+        rows="6"
+      >
+{{ post.content | default('') }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Post</button>
+    <a href="/admin" class="btn btn-outline-secondary">Cancel</a>
+  </form>
+{% endblock %}

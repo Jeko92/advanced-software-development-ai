@@ -29,11 +29,7 @@ export function createAdminRoutes(
   adminRoutes.get('/logout', authController.getLogout);
 
   // Protected admin routes
-  adminRoutes.use(
-    '/admin',
-    authMiddleware.requireAdminAny,
-    adminRoute,
-  );
+  adminRoutes.use('/admin', authMiddleware.requireAdminAny, adminRoute);
 
   return adminRoutes;
 }

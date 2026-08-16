@@ -70,13 +70,9 @@ async function main(): Promise<void> {
     imageStorageService,
   );
 
-  const adminAuthorController = new AdminAuthorController(
-    authorService,
-  );
+  const adminAuthorController = new AdminAuthorController(authorService);
 
-  const authController = new AuthController(
-    authService,
-  );
+  const authController = new AuthController(authService);
 
   // Admin routes
   const adminRoutes = createAdminRoutes(
@@ -91,10 +87,7 @@ async function main(): Promise<void> {
   const apiPostController = new ApiPostController(postService);
 
   // API routes
-  const apiRoutes = createApiRoute(
-    apiPostController,
-    authMiddleware,
-  );
+  const apiRoutes = createApiRoute(apiPostController, authMiddleware);
 
   // Error handling
   const errorHandlerMiddleware = new ErrorHandlerMiddleware();

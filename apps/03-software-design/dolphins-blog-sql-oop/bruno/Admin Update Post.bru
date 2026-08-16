@@ -1,0 +1,18 @@
+meta {
+  name: Admin Update Post
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/admin/posts/api-playground-post
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  title: API Playground Post (edited)
+  author: API Tester
+  teaser: Edited via the admin form flow.
+  content: <p>Edited via the admin form flow.</p>
+}

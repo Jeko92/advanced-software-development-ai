@@ -1,0 +1,13 @@
+<div class="post-preview">
+  <a href="/posts/{{ post.slug }}">
+    <h2 class="post-title">{{ post.title }}</h2>
+    <h3 class="post-subtitle">{{ post.teaser }}</h3>
+  </a>
+  <p class="post-meta">
+    Posted by
+    <a href="#{{ post.author | lower | replace(' ', '-') }}"
+      >{{ post.author }}</a
+    >
+    {{ post.createdAt }}
+  </p>
+</div>
