@@ -8,6 +8,7 @@ import { Stack } from './stack.ts';
 import { BubbleSorter } from './bubble-sort.ts';
 import { InsertionSort } from './insertion-sort.ts';
 import { MergeSort } from './merge-sort.ts';
+import { TimSort } from './timsort.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -621,3 +622,9 @@ const sorted = mergeSorter.sort(original);
 console.log('original:', original);
 console.log('sorted:', sorted);
 console.log('same array reference?', original === sorted);
+
+logSection('TimSort');
+const timSorter = new TimSort(3);
+
+console.log('Sorting [5, 2, 8, 1, 9, 3, 7, 4, 6] with a run size of 3:');
+console.log(timSorter.sort([5, 2, 8, 1, 9, 3, 7, 4, 6]));

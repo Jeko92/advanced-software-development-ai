@@ -12,7 +12,7 @@ export class MergeSort {
     return this.merge(left, right);
   }
 
-  private merge(left: number[], right: number[]): number[] {
+  merge(left: number[], right: number[]): number[] {
     const result: number[] = [];
 
     let leftIndex = 0;
