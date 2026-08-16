@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>Undo / Redo</title>
+  </head>
+  <body>
+    <main class="container">
+      <article>
+        <label for="editor">Text</label>
+        <input id="editor" type="text" name="editor" />
+        <div class="grid">
+          <button id="undo-btn" type="button">Undo</button>
+          <button id="redo-btn" type="button">Redo</button>
+        </div>
+      </article>
+      <script type="module" src="./src/index.ts"></script>
+    </main>
+  </body>
+</html>
