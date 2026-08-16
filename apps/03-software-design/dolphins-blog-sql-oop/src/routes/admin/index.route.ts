@@ -3,13 +3,21 @@ import Database from '../../db/Databse.ts';
 import { PostRepository } from '../../repositories/PostRepository.ts';
 import { PostService } from '../../services/PostService.ts';
 import { AdminPostController } from '../../controllers/admin/AdminPostController.ts';
+import { AuthorRepository } from '../../repositories/AuthorRepository.ts';
+import { AuthorService } from '../../services/AuthorService.ts';
+import { AdminAuthorController } from '../../controllers/admin/AdminAuthorController.ts';
 import { createAdminRoute } from './admin.route.ts';
 import { requireAdminAny, ADMIN_PASS } from '../../middlewares/auth.ts';
 
 const postRepository = new PostRepository(Database.getInstance());
 const postService = new PostService(postRepository);
 const adminPostController = new AdminPostController(postService);
-const adminRoute = createAdminRoute(adminPostController);
+
+const authorRepository = new AuthorRepository(Database.getInstance());
+const authorService = new AuthorService(authorRepository);
+const adminAuthorController = new AdminAuthorController(authorService);
+
+const adminRoute = createAdminRoute(adminPostController, adminAuthorController);
 
 const adminRoutes: Router = Router();
 
