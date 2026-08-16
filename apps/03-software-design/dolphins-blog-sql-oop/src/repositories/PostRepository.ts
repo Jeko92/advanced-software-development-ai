@@ -1,34 +1,32 @@
 import Database from '../db/Databse.ts';
 import type { IPostRepository } from './IPostRepository.ts';
-import { slugify, type Post, type PostWithAuthor, type PostWithNeighbors } from '../entities/Post.ts';
+import { slugify, type Post, type PostWithAuthor } from '../entities/Post.ts';
 
 export class PostRepository implements IPostRepository {
   constructor(private readonly database: Database) {}
 
   async loadPosts(): Promise<Post[]> {
-    return this.database.getConnection().all<Post[]>(
-      /* sql */ `
-    SELECT
-      *
-    FROM
-      posting
-    ORDER BY
-      createdAt DESC
-  `
-    );
+    return this.database.getConnection().all<Post[]>(/* sql */ `
+      SELECT
+        *
+      FROM
+        posting
+      ORDER BY
+        createdAt DESC
+    `);
   }
 
   async getPostBySlug(slug: string): Promise<Post | undefined> {
     const db = Database.getInstance().getConnection();
     return db.get<Post>(
       /* sql */ `
-      SELECT
-        *
-      FROM
-        posting
-      WHERE
-        slug = ?
-    `,
+        SELECT
+          *
+        FROM
+          posting
+        WHERE
+          slug = ?
+      `,
       slug,
     );
   }
@@ -44,19 +42,19 @@ export class PostRepository implements IPostRepository {
 
     await db.run(
       /* sql */ `
-      INSERT INTO
-        posting (
-          image,
-          author,
-          createdAt,
-          teaser,
-          title,
-          content,
-          slug
-        )
-      VALUES
-        (?, ?, ?, ?, ?, ?, ?)
-    `,
+        INSERT INTO
+          posting (
+            image,
+            author,
+            createdAt,
+            teaser,
+            title,
+            content,
+            slug
+          )
+        VALUES
+          (?, ?, ?, ?, ?, ?, ?)
+      `,
       post.image,
       post.author,
       post.createdAt,
@@ -67,10 +65,7 @@ export class PostRepository implements IPostRepository {
     );
   }
 
-  async updatePost(
-    slug: string,
-    changes: Partial<Post>,
-  ): Promise<void> {
+  async updatePost(slug: string, changes: Partial<Post>): Promise<void> {
     const db = Database.getInstance().getConnection();
     const existing = await this.getPostBySlug(slug);
 
@@ -87,18 +82,18 @@ export class PostRepository implements IPostRepository {
 
     await db.run(
       /* sql */ `
-      UPDATE posting
-      SET
-        image = ?,
-        author = ?,
-        createdAt = ?,
-        teaser = ?,
-        title = ?,
-        content = ?,
-        slug = ?
-      WHERE
-        id = ?
-    `,
+        UPDATE posting
+        SET
+          image = ?,
+          author = ?,
+          createdAt = ?,
+          teaser = ?,
+          title = ?,
+          content = ?,
+          slug = ?
+        WHERE
+          id = ?
+      `,
       updated.image,
       updated.author,
       updated.createdAt,
@@ -114,10 +109,10 @@ export class PostRepository implements IPostRepository {
     const db = Database.getInstance().getConnection();
     const result = await db.run(
       /* sql */ `
-      DELETE FROM posting
-      WHERE
-        slug = ?
-    `,
+        DELETE FROM posting
+        WHERE
+          slug = ?
+      `,
       slug,
     );
 
@@ -131,9 +126,7 @@ export class PostRepository implements IPostRepository {
    * the JSON API. The admin HTML flow keeps using the slug-scoped addPost
    * above unchanged.
    */
-  async createBlogEntry(
-    entry: Omit<Post, 'id' | 'slug'>,
-  ): Promise<number> {
+  async createBlogEntry(entry: Omit<Post, 'id' | 'slug'>): Promise<number> {
     const db = Database.getInstance().getConnection();
     const slug = slugify(entry.title);
 
@@ -144,20 +137,20 @@ export class PostRepository implements IPostRepository {
 
     const result = await db.run(
       /* sql */ `
-      INSERT INTO
-        posting (
-          image,
-          author,
-          author_id,
-          createdAt,
-          teaser,
-          title,
-          content,
-          slug
-        )
-      VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?)
-    `,
+        INSERT INTO
+          posting (
+            image,
+            author,
+            author_id,
+            createdAt,
+            teaser,
+            title,
+            content,
+            slug
+          )
+        VALUES
+          (?, ?, ?, ?, ?, ?, ?, ?)
+      `,
       entry.image,
       entry.author,
       entry.author_id ?? null,
@@ -185,13 +178,13 @@ export class PostRepository implements IPostRepository {
     const db = Database.getInstance().getConnection();
     const existing = await db.get<Post>(
       /* sql */ `
-      SELECT
-        *
-      FROM
-        posting
-      WHERE
-        id = ?
-    `,
+        SELECT
+          *
+        FROM
+          posting
+        WHERE
+          id = ?
+      `,
       id,
     );
 
@@ -210,19 +203,19 @@ export class PostRepository implements IPostRepository {
 
     await db.run(
       /* sql */ `
-      UPDATE posting
-      SET
-        image = ?,
-        author = ?,
-        author_id = ?,
-        createdAt = ?,
-        teaser = ?,
-        title = ?,
-        content = ?,
-        slug = ?
-      WHERE
-        id = ?
-    `,
+        UPDATE posting
+        SET
+          image = ?,
+          author = ?,
+          author_id = ?,
+          createdAt = ?,
+          teaser = ?,
+          title = ?,
+          content = ?,
+          slug = ?
+        WHERE
+          id = ?
+      `,
       updated.image,
       updated.author,
       updated.author_id ?? null,
@@ -242,10 +235,10 @@ export class PostRepository implements IPostRepository {
     const db = Database.getInstance().getConnection();
     const result = await db.run(
       /* sql */ `
-      DELETE FROM posting
-      WHERE
-        id = ?
-    `,
+        DELETE FROM posting
+        WHERE
+          id = ?
+      `,
       id,
     );
 
@@ -260,32 +253,14 @@ export class PostRepository implements IPostRepository {
   async loadPostsWithAuthors(): Promise<PostWithAuthor[]> {
     const db = Database.getInstance().getConnection();
     return db.all<PostWithAuthor[]>(/* sql */ `
-    SELECT
-      posting.*,
-      authors.name AS authorName
-    FROM
-      posting
-      LEFT JOIN authors ON posting.author_id = authors.id
-    ORDER BY
-      posting.createdAt DESC
-  `);
-  }
-
-  async getPostWithNeighbors(
-    slug: string,
-  ): Promise<PostWithNeighbors | undefined> {
-    const posts = await this.loadPosts();
-    const index = posts.findIndex((p) => p.slug === slug);
-
-    if (index === -1) return undefined;
-
-    const post = posts[index];
-    if (!post) return undefined;
-
-    return {
-      post,
-      previousPost: index < posts.length - 1 ? (posts[index + 1] ?? null) : null,
-      nextPost: index > 0 ? (posts[index - 1] ?? null) : null,
-    };
+      SELECT
+        posting.*,
+        authors.name AS authorName
+      FROM
+        posting
+        LEFT JOIN authors ON posting.author_id = authors.id
+      ORDER BY
+        posting.createdAt DESC
+    `);
   }
 }

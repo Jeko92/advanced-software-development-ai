@@ -148,6 +148,14 @@ export class PostService {
     return this.postRepository.loadPostsWithAuthors();
   }
 
+  async loadPosts(): Promise<Post[]> {
+    return this.postRepository.loadPosts();
+  }
+
+  async getPostBySlug(slug: string): Promise<Post | undefined> {
+    return this.postRepository.getPostBySlug(slug);
+  }
+
   async createPost(post: Post): Promise<void> {
     await this.postRepository.addPost({
       ...post,
