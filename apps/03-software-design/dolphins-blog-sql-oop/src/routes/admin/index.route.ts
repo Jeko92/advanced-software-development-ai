@@ -9,11 +9,17 @@ import { AdminAuthorController } from '../../controllers/admin/AdminAuthorContro
 import { AuthService } from '../../services/AuthService.ts';
 import { AuthMiddleware } from '../../middlewares/AuthMiddleware.ts';
 import { AuthController } from '../../controllers/admin/AuthController.ts';
+import { ImageStorageService } from '../../services/ImageStorageService.ts';
+import { UploadMiddleware } from '../../middlewares/UploadMiddleware.ts';
 import { createAdminRoute } from './admin.route.ts';
 
 const postRepository = new PostRepository(Database.getInstance());
 const postService = new PostService(postRepository);
-const adminPostController = new AdminPostController(postService);
+const imageStorageService = new ImageStorageService();
+const adminPostController = new AdminPostController(
+  postService,
+  imageStorageService,
+);
 
 const authorRepository = new AuthorRepository(Database.getInstance());
 const authorService = new AuthorService(authorRepository);
@@ -23,7 +29,13 @@ const authService = new AuthService();
 const authMiddleware = new AuthMiddleware(authService);
 const authController = new AuthController(authService);
 
-const adminRoute = createAdminRoute(adminPostController, adminAuthorController);
+const uploadMiddleware = new UploadMiddleware();
+
+const adminRoute = createAdminRoute(
+  adminPostController,
+  adminAuthorController,
+  uploadMiddleware,
+);
 
 const adminRoutes: Router = Router();
 

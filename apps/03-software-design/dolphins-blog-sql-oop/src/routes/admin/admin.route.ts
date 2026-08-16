@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import type { AdminPostController } from '../../controllers/admin/AdminPostController.ts';
 import type { AdminAuthorController } from '../../controllers/admin/AdminAuthorController.ts';
-import { upload } from '../../middlewares/upload.ts';
+import type { UploadMiddleware } from '../../middlewares/UploadMiddleware.ts';
 
 export function createAdminRoute(
   adminPostController: AdminPostController,
   adminAuthorController: AdminAuthorController,
+  uploadMiddleware: UploadMiddleware,
 ): Router {
   const adminRoute: Router = Router();
 
@@ -13,13 +14,13 @@ export function createAdminRoute(
   adminRoute.get('/posts/new', adminPostController.getNewPostForm);
   adminRoute.post(
     '/posts',
-    upload.single('image'),
+    uploadMiddleware.single('image'),
     adminPostController.createPost,
   );
   adminRoute.get('/posts/:slug/edit', adminPostController.getEditPostForm);
   adminRoute.post(
     '/posts/:slug',
-    upload.single('image'),
+    uploadMiddleware.single('image'),
     adminPostController.updatePostHandler,
   );
   adminRoute.post('/posts/:slug/delete', adminPostController.deletePostHandler);
