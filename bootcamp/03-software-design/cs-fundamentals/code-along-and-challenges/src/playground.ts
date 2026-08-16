@@ -2,6 +2,7 @@ import { DoublyNode, Node } from './node.ts';
 import { LinkedList } from './singly-linked-list.ts';
 import { DoublyLinkedList } from './doubly-linked-list.ts';
 import { TreeNode } from './general-tree.ts';
+import { BinaryTreeNode } from './binary-tree.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -379,3 +380,54 @@ logDivider();
 console.log('Removing Android:');
 electronics.removeChild('Android');
 electronics.print();
+
+logSection('Binary Tree');
+const root = new BinaryTreeNode(1);
+
+console.log('insert(2):');
+root.insert(2);
+root.print();
+logDivider();
+
+console.log('insert(3):');
+root.insert(3);
+root.print();
+logDivider();
+
+console.log('insert(4):');
+root.insert(4);
+root.print();
+logDivider();
+
+console.log('insert(5):');
+root.insert(5);
+root.print();
+logDivider();
+
+console.log('Pre-order traversal (node, left, right):');
+root.preOrderTraversal();
+logDivider();
+
+console.log('In-order traversal (left, node, right):');
+root.inOrderTraversal();
+logDivider();
+
+console.log('Post-order traversal (left, right, node):');
+root.postOrderTraversal();
+logDivider();
+
+console.log('height():', root.height());
+console.log('size():', root.size());
+logDivider();
+
+console.log('find(5):', root.find(5));
+console.log('find(99):', root.find(99));
+logDivider();
+
+console.log('Removing 2 (and its subtree):');
+root.remove(2);
+root.print();
+logDivider();
+
+console.log('height() after removal:', root.height());
+console.log('size() after removal:', root.size());
