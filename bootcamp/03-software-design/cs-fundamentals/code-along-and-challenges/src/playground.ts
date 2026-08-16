@@ -7,6 +7,7 @@ import { BinarySearchTree } from './binary-search-tree.ts';
 import { Stack } from './stack.ts';
 import { BubbleSorter } from './bubble-sort.ts';
 import { InsertionSort } from './insertion-sort.ts';
+import { MergeSort } from './merge-sort.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -584,3 +585,39 @@ logDivider();
 
 console.log('Edge case — empty array []:');
 console.log(insertionSorter.sort([]));
+
+logSection('Merge Sort');
+const mergeSorter = new MergeSort();
+
+console.log('Sorting [5, 2, 4, 6, 1, 3]:');
+console.log(mergeSorter.sort([5, 2, 4, 6, 1, 3]));
+logDivider();
+
+console.log('Already sorted [1, 2, 3, 4, 5, 6, 7, 8]:');
+console.log(mergeSorter.sort([1, 2, 3, 4, 5, 6, 7, 8]));
+logDivider();
+
+console.log(
+  'Reverse sorted [8, 7, 6, 5, 4, 3, 2, 1] — same O(n log n) split-and-merge shape either way, unlike insertion sort:',
+);
+console.log(mergeSorter.sort([8, 7, 6, 5, 4, 3, 2, 1]));
+logDivider();
+
+console.log('Duplicate values [3, 1, 2, 3, 1] (checks it handles repeats correctly):');
+console.log(mergeSorter.sort([3, 1, 2, 3, 1]));
+logDivider();
+
+console.log('Edge case — single-element array [42]:');
+console.log(mergeSorter.sort([42]));
+logDivider();
+
+console.log('Edge case — empty array []:');
+console.log(mergeSorter.sort([]));
+logDivider();
+
+console.log('Non-mutating, unlike BubbleSorter/InsertionSort — merge always builds a new array:');
+const original = [5, 2, 4, 6, 1, 3];
+const sorted = mergeSorter.sort(original);
+console.log('original:', original);
+console.log('sorted:', sorted);
+console.log('same array reference?', original === sorted);
