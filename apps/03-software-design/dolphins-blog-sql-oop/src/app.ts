@@ -7,10 +7,11 @@ import Database from './db/Databse.ts';
 import publicRoutes from './routes/public/index.route.ts';
 import adminRoutes from './routes/admin/index.route.ts';
 import apiRoutes from './routes/api/index.route.ts';
-import { COOKIE_SECRET } from './middlewares/auth.ts';
+import { AuthService } from './services/AuthService.ts';
 import { errorHandler } from './middlewares/error-handler.ts';
 
 const app = express();
+const authService = new AuthService();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +37,7 @@ app.use('/css', express.static(cssDir));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser(COOKIE_SECRET));
+app.use(cookieParser(authService.cookieSecret));
 
 app.use(publicRoutes).use(adminRoutes).use(apiRoutes);
 

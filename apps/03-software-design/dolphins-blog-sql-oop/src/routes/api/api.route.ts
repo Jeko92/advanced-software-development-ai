@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import type { ApiPostController } from '../../controllers/api/ApiPostController.ts';
-import { requireAdminApi } from '../../middlewares/auth.ts';
+import type { AuthMiddleware } from '../../middlewares/AuthMiddleware.ts';
 
-export function createApiRoute(apiPostController: ApiPostController): Router {
+export function createApiRoute(
+  apiPostController: ApiPostController,
+  authMiddleware: AuthMiddleware,
+): Router {
   const apiRoute: Router = Router();
 
   apiRoute.get('/posts/random', apiPostController.getRandomPost);
@@ -14,17 +17,17 @@ export function createApiRoute(apiPostController: ApiPostController): Router {
   );
   apiRoute.post(
     '/posts',
-    requireAdminApi,
+    authMiddleware.requireAdminApi,
     apiPostController.createBlogEntryHandler,
   );
   apiRoute.put(
     '/posts/:id',
-    requireAdminApi,
+    authMiddleware.requireAdminApi,
     apiPostController.updateBlogEntryHandler,
   );
   apiRoute.delete(
     '/posts/:id',
-    requireAdminApi,
+    authMiddleware.requireAdminApi,
     apiPostController.deleteBlogEntryHandler,
   );
 
