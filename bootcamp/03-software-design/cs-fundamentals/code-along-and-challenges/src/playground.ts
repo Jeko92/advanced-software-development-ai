@@ -4,6 +4,7 @@ import { DoublyLinkedList } from './doubly-linked-list.ts';
 import { TreeNode } from './general-tree.ts';
 import { BinaryTreeNode } from './binary-tree.ts';
 import { BinarySearchTree } from './binary-search-tree.ts';
+import { Stack } from './stack.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -489,3 +490,54 @@ logDivider();
 console.log('height() and size() after all the removals:');
 console.log('height():', bstRoot.height());
 console.log('size():', bstRoot.size());
+
+logSection('Stack');
+const stack = new Stack<number>(3);
+
+console.log('isEmpty():', stack.isEmpty());
+console.log('getMaxSize():', stack.getMaxSize());
+logDivider();
+
+console.log('push(1):');
+stack.push(1);
+console.log('toArray() (top → bottom):', stack.toArray());
+console.log('peek():', stack.peek());
+console.log('size():', stack.size());
+logDivider();
+
+console.log('push(2), push(3):');
+stack.push(2);
+stack.push(3);
+console.log('toArray() (top → bottom):', stack.toArray());
+console.log('size():', stack.size());
+console.log('remaining():', stack.remaining());
+logDivider();
+
+console.log('push(4) — should throw, stack is at maxSize:');
+try {
+  stack.push(4);
+} catch (error) {
+  console.log('Caught:', (error as Error).message);
+}
+logDivider();
+
+console.log('pop():', stack.pop());
+console.log('toArray() after pop:', stack.toArray());
+console.log('remaining() after pop:', stack.remaining());
+logDivider();
+
+console.log('clear():');
+stack.clear();
+console.log('isEmpty() after clear():', stack.isEmpty());
+console.log('pop() on empty stack:', stack.pop());
+console.log('peek() on empty stack:', stack.peek());
+logDivider();
+
+console.log('Unbounded stack (no maxSize given):');
+const unboundedStack = new Stack<string>();
+console.log('getMaxSize():', unboundedStack.getMaxSize());
+unboundedStack.push('a');
+unboundedStack.push('b');
+unboundedStack.push('c');
+console.log('toArray() (top → bottom):', unboundedStack.toArray());
+console.log('remaining():', unboundedStack.remaining());
