@@ -21,7 +21,7 @@ import { Node } from './node.ts';
 export class LinkedList<T> {
   head: Node<T> | null = null;
 
-  // add Node to head of LinkedList
+  // add Node to head
   addToHead(data: T): void {
     const newHead = new Node(data);
     const currentHead = this.head;
@@ -31,7 +31,7 @@ export class LinkedList<T> {
     }
   }
 
-  // add Node to tail of LinkedList
+  // add Node to tail
   addToTail(data: T): void {
     let tail = this.head;
     if (!tail) {

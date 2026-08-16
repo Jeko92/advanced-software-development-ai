@@ -1,5 +1,6 @@
-import { Node, DoublyNode } from './node.ts';
+import { DoublyNode, Node } from './node.ts';
 import { LinkedList } from './singly-linked-list.ts';
+import { DoublyLinkedList } from './doubly-linked-list.ts';
 /*==========================================================*/
 /*                      EXAMPLES                            */
 /*==========================================================*/
@@ -163,3 +164,183 @@ console.log('\n11. removeTail() from empty list');
 const emptyTailRemoval = numbers.removeTail();
 console.log('Removed:', emptyTailRemoval);
 numbers.printList();
+
+logSection('Doubly Linked List');
+const months = new DoublyLinkedList<string>();
+
+console.log('Initial empty list:');
+months.printList();
+
+logDivider();
+
+console.log('addToHead("February"):');
+months.addToHead('February');
+months.printList();
+
+console.log('addToHead("January"):');
+months.addToHead('January');
+months.printList();
+
+logDivider();
+
+console.log('addToTail("March"):');
+months.addToTail('March');
+months.printList();
+
+console.log('addToTail("April"):');
+months.addToTail('April');
+months.printList();
+
+logSection('Remove Head');
+
+console.log('Before removing head:');
+months.printList();
+
+console.log('Removed:', months.removeHead());
+console.log('After removing head:');
+months.printList();
+
+logSection('Remove Tail');
+
+console.log('Before removing tail:');
+months.printList();
+
+console.log('Removed:', months.removeTail());
+console.log('After removing tail:');
+months.printList();
+
+logSection('Remove By Data');
+
+console.log('Rebuilding list...');
+
+months.addToHead('January');
+months.addToTail('April');
+months.addToTail('May');
+
+console.log('Current list:');
+months.printList();
+
+logDivider();
+
+console.log('Removing "April" from the middle:');
+
+const removedApril = months.removeByData('April');
+
+console.log('Removed node:', removedApril?.data ?? null);
+months.printList();
+
+logSection('Remove By Data — Reversed');
+
+console.log('Current list:');
+months.printList();
+
+logDivider();
+
+console.log('Searching from the tail and removing "January":');
+
+const removedJanuary = months.removeByDataReversed('January');
+
+console.log('Removed node:', removedJanuary?.data ?? null);
+months.printList();
+
+logSection('Bidirectional Traversal');
+
+console.log('Forward traversal:');
+
+let current = months.head;
+
+while (current !== null) {
+  console.log(`→ ${current.data}`);
+  current = current.getNextNode();
+}
+
+logDivider();
+
+console.log('Backward traversal:');
+
+current = months.tail;
+
+while (current !== null) {
+  console.log(`← ${current.data}`);
+  current = current.getPreviousNode();
+}
+
+logSection('Single-Node Edge Case');
+
+const singleNodeList = new DoublyLinkedList<string>();
+
+singleNodeList.addToHead('Only-Node');
+
+console.log('After adding one node:');
+singleNodeList.printList();
+
+logDivider();
+
+console.log('removeHead():');
+console.log('Removed:', singleNodeList.removeHead());
+singleNodeList.printList();
+
+logDivider();
+
+console.log('addToTail("Only Node"):');
+singleNodeList.addToTail('Only-Node');
+singleNodeList.printList();
+
+logDivider();
+
+console.log('removeTail():');
+console.log('Removed:', singleNodeList.removeTail());
+singleNodeList.printList();
+
+logSection('Missing Data');
+
+const numbersDoubly = new DoublyLinkedList<number>();
+
+numbersDoubly.addToHead(10);
+numbersDoubly.addToTail(20);
+numbersDoubly.addToTail(30);
+
+console.log('Current list:');
+numbersDoubly.printList();
+
+logDivider();
+
+console.log('Trying to remove 999:');
+console.log('Removed:', numbersDoubly.removeByData(999));
+
+numbersDoubly.printList();
+
+logDivider();
+
+console.log('Trying reversed search for 999:');
+console.log('Removed:', numbersDoubly.removeByDataReversed(999));
+
+numbersDoubly.printList();
+
+logDivider();
+const navigation = new DoublyLinkedList<string>();
+
+navigation.addToTail('A');
+navigation.addToTail('B');
+navigation.addToTail('C');
+navigation.addToTail('D');
+
+console.log('Forward:');
+
+let forward = navigation.head;
+
+while (forward !== null) {
+  console.log(`→ ${forward.data}`);
+  forward = forward.getNextNode();
+}
+
+logDivider();
+
+console.log('Backward:');
+
+let backward = navigation.tail;
+
+while (backward !== null) {
+  console.log(`← ${backward.data}`);
+  backward = backward.getPreviousNode();
+}
