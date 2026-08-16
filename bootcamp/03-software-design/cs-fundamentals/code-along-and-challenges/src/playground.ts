@@ -6,6 +6,7 @@ import { BinaryTreeNode } from './binary-tree.ts';
 import { BinarySearchTree } from './binary-search-tree.ts';
 import { Stack } from './stack.ts';
 import { BubbleSorter } from './bubble-sort.ts';
+import { InsertionSort } from './insertion-sort.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -561,3 +562,25 @@ logDivider();
 console.log('Custom comparator — descending order:');
 const descendingSorter = new BubbleSorter<number>((a, b) => b - a);
 console.log(descendingSorter.sort([5, 2, 4, 6, 1, 3]));
+
+logSection('Insertion Sort');
+const insertionSorter = new InsertionSort();
+
+console.log('Sorting [5, 2, 4, 6, 1, 3]:');
+console.log(insertionSorter.sort([5, 2, 4, 6, 1, 3]));
+logDivider();
+
+console.log('Best case — already sorted [1, 2, 3, 4, 5] (inner while exits immediately every time):');
+console.log(insertionSorter.sort([1, 2, 3, 4, 5]));
+logDivider();
+
+console.log('Worst case — reverse sorted [5, 4, 3, 2, 1] (every element slides all the way to the front):');
+console.log(insertionSorter.sort([5, 4, 3, 2, 1]));
+logDivider();
+
+console.log('Edge case — single-element array [42]:');
+console.log(insertionSorter.sort([42]));
+logDivider();
+
+console.log('Edge case — empty array []:');
+console.log(insertionSorter.sort([]));
