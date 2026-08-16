@@ -8,10 +8,11 @@ import publicRoutes from './routes/public/index.route.ts';
 import adminRoutes from './routes/admin/index.route.ts';
 import apiRoutes from './routes/api/index.route.ts';
 import { AuthService } from './services/AuthService.ts';
-import { errorHandler } from './middlewares/error-handler.ts';
+import { ErrorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware.ts';
 
 const app = express();
 const authService = new AuthService();
+const errorHandlerMiddleware = new ErrorHandlerMiddleware();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,7 +43,7 @@ app.use(cookieParser(authService.cookieSecret));
 app.use(publicRoutes).use(adminRoutes).use(apiRoutes);
 
 // Must be registered after every router — see error-handler.ts.
-app.use(errorHandler);
+app.use(errorHandlerMiddleware.handle);
 
 const port = Number(process.env['PORT']) || 3000;
 
