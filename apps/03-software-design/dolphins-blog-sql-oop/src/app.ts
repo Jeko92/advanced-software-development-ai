@@ -1,57 +1,116 @@
-import express from 'express';
-import nunjucks from 'nunjucks';
-import path from 'node:path';
-import cookieParser from 'cookie-parser';
-import { fileURLToPath } from 'node:url';
 import Database from './db/Databse.ts';
-import publicRoutes from './routes/public/index.route.ts';
-import adminRoutes from './routes/admin/index.route.ts';
-import apiRoutes from './routes/api/index.route.ts';
+import { App } from './core/App.ts';
+
+import { PostRepository } from './repositories/PostRepository.ts';
+import { AuthorRepository } from './repositories/AuthorRepository.ts';
+
+import { PostService } from './services/PostService.ts';
+import { AuthorService } from './services/AuthorService.ts';
 import { AuthService } from './services/AuthService.ts';
+import { ImageStorageService } from './services/ImageStorageService.ts';
+
 import { ErrorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware.ts';
+import { AuthMiddleware } from './middlewares/AuthMiddleware.ts';
+import { UploadMiddleware } from './middlewares/UploadMiddleware.ts';
 
-const app = express();
-const authService = new AuthService();
-const errorHandlerMiddleware = new ErrorHandlerMiddleware();
+import { HomeController } from './controllers/public/HomeController.ts';
+import { PostController } from './controllers/public/PostController.ts';
+import { AboutController } from './controllers/public/AboutController.ts';
+import { ContactController } from './controllers/public/ContactController.ts';
+import { ExamplePostController } from './controllers/public/ExamplePostController.ts';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const projectRoot = path.resolve(__dirname, '..');
+import { AdminPostController } from './controllers/admin/AdminPostController.ts';
+import { AdminAuthorController } from './controllers/admin/AdminAuthorController.ts';
+import { AuthController } from './controllers/admin/AuthController.ts';
 
-const viewsDir = path.join(projectRoot, 'src', 'views');
-const assetsDir = path.join(projectRoot, 'src', 'assets');
-const cssDir = path.join(projectRoot, 'src', 'css');
+import { ApiPostController } from './controllers/api/ApiPostController.ts';
 
-app.set('views', viewsDir);
-app.set('view engine', 'njk');
+import { createPublicRoutes } from './routes/public/index.route.ts';
+import { createAdminRoutes } from './routes/admin/index.route.ts';
+import { createApiRoute } from './routes/api/api.route.ts';
 
-const env = nunjucks.configure(viewsDir, {
-  autoescape: true,
-  express: app,
-  watch: true,
-});
+async function main(): Promise<void> {
+  // Infrastructure
+  const database = Database.getInstance();
+  await database.connect();
 
-env.addGlobal('currentYear', () => new Date().getFullYear());
+  // Repositories
+  const postRepository = new PostRepository(database);
+  const authorRepository = new AuthorRepository(database);
 
-app.use('/assets', express.static(assetsDir));
-app.use('/css', express.static(cssDir));
-app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cookieParser(authService.cookieSecret));
+  // Services
+  const postService = new PostService(postRepository);
+  const authorService = new AuthorService(authorRepository);
+  const authService = new AuthService();
+  const imageStorageService = new ImageStorageService();
 
-app.use(publicRoutes).use(adminRoutes).use(apiRoutes);
+  // Middleware dependencies
+  const authMiddleware = new AuthMiddleware(authService);
+  const uploadMiddleware = new UploadMiddleware();
 
-// Must be registered after every router — see error-handler.ts.
-app.use(errorHandlerMiddleware.handle);
+  // Public controllers
+  const homeController = new HomeController(postService);
+  const postController = new PostController(postService);
+  const aboutController = new AboutController();
+  const contactController = new ContactController();
+  const examplePostController = new ExamplePostController();
 
-const port = Number(process.env['PORT']) || 3000;
+  // Public routes
+  const publicRoutes = createPublicRoutes(
+    homeController,
+    postController,
+    aboutController,
+    contactController,
+    examplePostController,
+  );
 
-async function init() {
-  await Database.getInstance().connect();
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
+  // Admin controllers
+  const adminPostController = new AdminPostController(
+    postService,
+    imageStorageService,
+  );
+
+  const adminAuthorController = new AdminAuthorController(
+    authorService,
+  );
+
+  const authController = new AuthController(
+    authService,
+  );
+
+  // Admin routes
+  const adminRoutes = createAdminRoutes(
+    adminPostController,
+    adminAuthorController,
+    authController,
+    authMiddleware,
+    uploadMiddleware,
+  );
+
+  // API controllers
+  const apiPostController = new ApiPostController(postService);
+
+  // API routes
+  const apiRoutes = createApiRoute(
+    apiPostController,
+    authMiddleware,
+  );
+
+  // Error handling
+  const errorHandlerMiddleware = new ErrorHandlerMiddleware();
+
+  // Application
+  const app = new App(
+    publicRoutes,
+    adminRoutes,
+    apiRoutes,
+    errorHandlerMiddleware,
+    authService,
+  );
+
+  const port = Number(process.env['PORT']) || 3000;
+
+  app.listen(port);
 }
 
-init();
+main();

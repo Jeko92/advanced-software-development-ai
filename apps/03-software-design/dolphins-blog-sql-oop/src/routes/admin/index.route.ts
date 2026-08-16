@@ -1,48 +1,39 @@
 import { Router } from 'express';
-import Database from '../../db/Databse.ts';
-import { PostRepository } from '../../repositories/PostRepository.ts';
-import { PostService } from '../../services/PostService.ts';
-import { AdminPostController } from '../../controllers/admin/AdminPostController.ts';
-import { AuthorRepository } from '../../repositories/AuthorRepository.ts';
-import { AuthorService } from '../../services/AuthorService.ts';
-import { AdminAuthorController } from '../../controllers/admin/AdminAuthorController.ts';
-import { AuthService } from '../../services/AuthService.ts';
-import { AuthMiddleware } from '../../middlewares/AuthMiddleware.ts';
-import { AuthController } from '../../controllers/admin/AuthController.ts';
-import { ImageStorageService } from '../../services/ImageStorageService.ts';
-import { UploadMiddleware } from '../../middlewares/UploadMiddleware.ts';
+
+import type { AdminPostController } from '../../controllers/admin/AdminPostController.ts';
+import type { AdminAuthorController } from '../../controllers/admin/AdminAuthorController.ts';
+import type { AuthController } from '../../controllers/admin/AuthController.ts';
+import type { AuthMiddleware } from '../../middlewares/AuthMiddleware.ts';
+import type { UploadMiddleware } from '../../middlewares/UploadMiddleware.ts';
+
 import { createAdminRoute } from './admin.route.ts';
 
-const postRepository = new PostRepository(Database.getInstance());
-const postService = new PostService(postRepository);
-const imageStorageService = new ImageStorageService();
-const adminPostController = new AdminPostController(
-  postService,
-  imageStorageService,
-);
+export function createAdminRoutes(
+  adminPostController: AdminPostController,
+  adminAuthorController: AdminAuthorController,
+  authController: AuthController,
+  authMiddleware: AuthMiddleware,
+  uploadMiddleware: UploadMiddleware,
+): Router {
+  const adminRoute = createAdminRoute(
+    adminPostController,
+    adminAuthorController,
+    uploadMiddleware,
+  );
 
-const authorRepository = new AuthorRepository(Database.getInstance());
-const authorService = new AuthorService(authorRepository);
-const adminAuthorController = new AdminAuthorController(authorService);
+  const adminRoutes = Router();
 
-const authService = new AuthService();
-const authMiddleware = new AuthMiddleware(authService);
-const authController = new AuthController(authService);
+  // Public admin auth routes
+  adminRoutes.get('/login', authController.getLogin);
+  adminRoutes.post('/login', authController.postLogin);
+  adminRoutes.get('/logout', authController.getLogout);
 
-const uploadMiddleware = new UploadMiddleware();
+  // Protected admin routes
+  adminRoutes.use(
+    '/admin',
+    authMiddleware.requireAdminAny,
+    adminRoute,
+  );
 
-const adminRoute = createAdminRoute(
-  adminPostController,
-  adminAuthorController,
-  uploadMiddleware,
-);
-
-const adminRoutes: Router = Router();
-
-adminRoutes.get('/login', authController.getLogin);
-adminRoutes.post('/login', authController.postLogin);
-adminRoutes.get('/logout', authController.getLogout);
-
-adminRoutes.use('/admin', authMiddleware.requireAdminAny, adminRoute);
-
-export default adminRoutes;
+  return adminRoutes;
+}

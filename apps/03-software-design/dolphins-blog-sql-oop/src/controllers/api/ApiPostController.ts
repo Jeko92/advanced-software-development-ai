@@ -2,9 +2,6 @@ import type { Request, Response } from 'express';
 import type { PostService } from '../../services/PostService.ts';
 import type { Post } from '../../entities/Post.ts';
 
-// `image` ends up on disk (see AdminPostController#removeImageFromDisk), so
-// reject anything that isn't a bare filename here — no path separators, no
-// `..` — instead of letting a path-traversal payload reach the DB at all.
 const SAFE_FILENAME_PATTERN = /^[A-Za-z0-9._-]+$/;
 
 function isSafeImageFilename(image: unknown): image is string {

@@ -3,6 +3,6 @@ import {ExamplePostController} from '../../controllers/public/ExamplePostControl
 
 export function createExamplePostRoute(examplePostController: ExamplePostController ): Router {
   const router: Router = Router();
-  router.get('/example-post', examplePostController.index);
+  router.get('/', examplePostController.index);
   return router;
 }
