@@ -83,14 +83,21 @@ async function main() {
   const shutdown = async (signal: string) => {
     console.log(`\nReceived ${signal}. Shutting down gracefully...`);
 
+    const forceExit = setTimeout(() => {
+      console.error('Graceful shutdown timed out — forcing exit.');
+      process.exit(1);
+    }, 5000).unref();
+
     // Stop receiving new HTTP requests
     server.close(async () => {
       try {
         await closeDB();
         console.log('Database connection closed.');
+        clearTimeout(forceExit);
         process.exit(0);
       } catch (err) {
         console.error('Error during shutdown:', err);
+        clearTimeout(forceExit);
         process.exit(1);
       }
     });
