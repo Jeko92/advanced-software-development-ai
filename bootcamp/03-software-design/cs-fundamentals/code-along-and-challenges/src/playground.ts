@@ -5,6 +5,7 @@ import { TreeNode } from './general-tree.ts';
 import { BinaryTreeNode } from './binary-tree.ts';
 import { BinarySearchTree } from './binary-search-tree.ts';
 import { Stack } from './stack.ts';
+import { BubbleSorter } from './bubble-sort.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -541,3 +542,22 @@ unboundedStack.push('b');
 unboundedStack.push('c');
 console.log('toArray() (top → bottom):', unboundedStack.toArray());
 console.log('remaining():', unboundedStack.remaining());
+
+logSection('Bubble Sort');
+const numberSorter = new BubbleSorter<number>();
+
+console.log('Sorting [5, 2, 4, 6, 1, 3]:');
+console.log(numberSorter.sort([5, 2, 4, 6, 1, 3]));
+logDivider();
+
+console.log('Best case — already sorted [1, 2, 3, 4, 5] (one clean pass, no swaps):');
+console.log(numberSorter.sort([1, 2, 3, 4, 5]));
+logDivider();
+
+console.log('Worst case — reverse sorted [5, 4, 3, 2, 1] (every pair swaps):');
+console.log(numberSorter.sort([5, 4, 3, 2, 1]));
+logDivider();
+
+console.log('Custom comparator — descending order:');
+const descendingSorter = new BubbleSorter<number>((a, b) => b - a);
+console.log(descendingSorter.sort([5, 2, 4, 6, 1, 3]));
