@@ -63,7 +63,7 @@ export class App {
     this.expressApp
       .use(this.publicRoutes)
       .use(this.adminRoutes)
-      .use(this.apiRoutes)
+      .use('/api', this.apiRoutes)
       .use(this.errorHandlerMiddleware.handle);
   }
 
