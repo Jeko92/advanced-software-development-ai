@@ -23,6 +23,9 @@
 | 2.6 SQL Advanced                          | `bootcamp/02-backend/backend-sql-advanced`     | 🟢         |
 | 2.7 Recap Project                         | `apps/02-backend-intro/trail-guide`            | 🟢         |
 | 3 Software Design                         | `bootcamp/03-software-design`                  | ⬜         |
+| 3.1 Programming Paradigms                 | `bootcamp/03-software-design/programming-paradigms` | 🟢         |
+| 3.2 CS fundamentals                       | `bootcamp/03-software-design/cs-fundamentals`  | ⬜         |
+| 3.3 Design Patterns                       | `bootcamp/03-software-design/design-patterns`  | ⬜         |
 | 4 NestJS                                  | `bootcamp/04-nestjs`                           | ⬜         |
 | 4.1 NestJS Basics 1                       | `bootcamp/04-nestjs/nestjs-basiscs-1`          | 🟢         |
 | 4.2 NestJS Basics 2                       | `bootcamp/04-nestjs/nestjs-basiscs-2`          | 🟢         |
