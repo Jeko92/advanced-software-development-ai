@@ -1,5 +1,5 @@
 import { Node, DoublyNode } from './node.ts';
-
+import { LinkedList } from './singly-linked-list.ts';
 /*==========================================================*/
 /*                      EXAMPLES                            */
 /*==========================================================*/
@@ -113,3 +113,53 @@ while (currentMonthAfterRemoval !== null) {
 
 /* Singly-linked-list */
 logSection('Singly Linked List');
+const numbers = new LinkedList<number>();
+
+console.log('\n1. Empty list');
+numbers.printList();
+
+console.log('\n2. addToHead(20)');
+numbers.addToHead(20);
+numbers.printList();
+
+console.log('\n3. addToHead(10)');
+numbers.addToHead(10);
+numbers.printList();
+
+console.log('\n4. addToTail(30)');
+numbers.addToTail(30);
+numbers.printList();
+
+console.log('\n5. addToTail(40)');
+numbers.addToTail(40);
+numbers.printList();
+
+console.log('\n6. removeHead()');
+const removedHead = numbers.removeHead();
+console.log('Removed:', removedHead);
+numbers.printList();
+
+console.log('\n7. removeTail()');
+const removedTail = numbers.removeTail();
+console.log('Removed:', removedTail);
+numbers.printList();
+
+console.log('\n8. removeHead() again');
+const secondRemovedHead = numbers.removeHead();
+console.log('Removed:', secondRemovedHead);
+numbers.printList();
+
+console.log('\n9. removeTail() from single-node list');
+const lastRemoved = numbers.removeTail();
+console.log('Removed:', lastRemoved);
+numbers.printList();
+
+console.log('\n10. removeHead() from empty list');
+const emptyRemoval = numbers.removeHead();
+console.log('Removed:', emptyRemoval);
+numbers.printList();
+
+console.log('\n11. removeTail() from empty list');
+const emptyTailRemoval = numbers.removeTail();
+console.log('Removed:', emptyTailRemoval);
+numbers.printList();
