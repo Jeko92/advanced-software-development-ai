@@ -3,6 +3,7 @@ import { LinkedList } from './singly-linked-list.ts';
 import { DoublyLinkedList } from './doubly-linked-list.ts';
 import { TreeNode } from './general-tree.ts';
 import { BinaryTreeNode } from './binary-tree.ts';
+import { BinarySearchTree } from './binary-search-tree.ts';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */
@@ -431,3 +432,60 @@ logDivider();
 
 console.log('height() after removal:', root.height());
 console.log('size() after removal:', root.size());
+
+logSection('Binary Search Tree');
+const bstRoot = new BinarySearchTree<number>(50);
+
+console.log('Building the tree: insert 30, 70, 20, 40, 60, 80');
+[30, 70, 20, 40, 60, 80].forEach((value) => bstRoot.insert(value));
+bstRoot.print();
+logDivider();
+
+console.log('In-order traversal (should come out sorted, unlike BinaryTree):');
+bstRoot.inOrderTraversal();
+logDivider();
+
+console.log('Pre-order traversal:');
+bstRoot.preOrderTraversal();
+logDivider();
+
+console.log('Post-order traversal:');
+bstRoot.postOrderTraversal();
+logDivider();
+
+console.log(
+  "find(60) — the ordering rule means this doesn't have to check both branches like BinaryTree.find:",
+);
+console.log(bstRoot.find(60)?.value);
+console.log('find(999):', bstRoot.find(999));
+logDivider();
+
+console.log('height():', bstRoot.height());
+console.log('size():', bstRoot.size());
+logDivider();
+
+console.log('Removing a leaf (20):');
+bstRoot.remove(20);
+bstRoot.print();
+logDivider();
+
+console.log('Giving 40 a single child (insert 45) then removing 40:');
+bstRoot.insert(45);
+bstRoot.print();
+logDivider();
+bstRoot.remove(40);
+console.log('45 should have been promoted into 40\'s spot:');
+bstRoot.print();
+logDivider();
+
+console.log('Removing a node with two children (70, whose children are 60 and 80):');
+bstRoot.remove(70);
+console.log(
+  "70's in-order successor (80) should have taken its place:",
+);
+bstRoot.print();
+logDivider();
+
+console.log('height() and size() after all the removals:');
+console.log('height():', bstRoot.height());
+console.log('size():', bstRoot.size());
