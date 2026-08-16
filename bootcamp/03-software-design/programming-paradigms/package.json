@@ -1,0 +1,33 @@
+{
+  "name": "programming-paradigms",
+  "version": "1.0.0",
+  "description": "Practice package for the Software Design Paradigms challenges (functional, OOP, design principles) built around a shared library-management domain.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run build && concurrently \"pnpm run build:watch\" \"pnpm run start:dev\"",
+    "build": "tsc --noEmitOnError",
+    "build:watch": "tsc --watch --noEmitOnError",
+    "start:dev": "nodemon",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@types/express": "^5.0.6",
+    "concurrently": "^10.0.4",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}
