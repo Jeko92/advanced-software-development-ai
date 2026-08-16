@@ -1,6 +1,8 @@
 import { DoublyNode, Node } from './node.ts';
 import { LinkedList } from './singly-linked-list.ts';
 import { DoublyLinkedList } from './doubly-linked-list.ts';
+import { TreeNode } from './general-tree.ts';
+
 /*==========================================================*/
 /*                      EXAMPLES                            */
 /*==========================================================*/
@@ -344,3 +346,36 @@ while (backward !== null) {
   console.log(`← ${backward.data}`);
   backward = backward.getPreviousNode();
 }
+
+logSection('General Tree');
+const electronics = new TreeNode('Electronics');
+
+const phones = new TreeNode('Phones');
+const computers = new TreeNode('Computers');
+
+electronics.addChild(phones);
+electronics.print();
+logDivider();
+electronics.addChild(computers);
+electronics.print();
+logDivider();
+phones.addChild('iPhone');
+phones.addChild('Android');
+electronics.print();
+logDivider();
+computers.addChild('Mac');
+computers.addChild('PC');
+electronics.print();
+logDivider();
+
+console.log('Depth-first traversal:');
+electronics.depthFirstTraversal();
+logDivider();
+
+console.log('Breadth-first traversal:');
+electronics.breadthFirstTraversal();
+logDivider();
+
+console.log('Removing Android:');
+electronics.removeChild('Android');
+electronics.print();
