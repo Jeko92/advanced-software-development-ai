@@ -1,0 +1,15 @@
+meta {
+  name: Ping Health
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get Users
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/users
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

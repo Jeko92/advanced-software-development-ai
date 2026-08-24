@@ -1,0 +1,15 @@
+meta {
+  name: Delete Concert (Session)
+  type: http
+  seq: 23
+}
+
+delete {
+  url: {{baseUrl}}/concerts/{{concertId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Create Concert (No Session)
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/concerts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "This should be rejected",
+    "artist": "Nobody",
+    "venue": "Nowhere",
+    "date": "2026-12-25T20:00:00.000Z",
+    "ticketPrice": 10,
+    "genre": "pop"
+  }
+}
+
+assert {
+  res.status: eq 401
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Get Admin Stats (Viewer Role)
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{baseUrl}}/admin/stats
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: viewer
+  password: viewer12345
+}
+
+assert {
+  res.status: eq 403
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Create Api Key (JWT)
+  type: http
+  seq: 34
+}
+
+post {
+  url: {{baseUrl}}/api-keys
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "label": "bruno-test-key",
+    "active": true
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  bru.setVar("apiKeyId", res.body.id);
+}

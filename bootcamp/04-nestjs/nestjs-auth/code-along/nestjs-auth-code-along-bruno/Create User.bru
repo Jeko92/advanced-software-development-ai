@@ -1,0 +1,26 @@
+meta {
+  name: Create User
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "bruno-tester",
+    "password": "brunoPass123"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  bru.setVar("userId", res.body.id);
+}

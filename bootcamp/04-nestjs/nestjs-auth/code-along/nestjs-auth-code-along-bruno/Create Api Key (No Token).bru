@@ -1,0 +1,22 @@
+meta {
+  name: Create Api Key (No Token)
+  type: http
+  seq: 33
+}
+
+post {
+  url: {{baseUrl}}/api-keys
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "label": "bruno-test-key",
+    "active": true
+  }
+}
+
+assert {
+  res.status: eq 401
+}

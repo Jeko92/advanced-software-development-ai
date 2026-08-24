@@ -1,0 +1,19 @@
+meta {
+  name: Get Api Keys
+  type: http
+  seq: 35
+}
+
+get {
+  url: {{baseUrl}}/api-keys
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}

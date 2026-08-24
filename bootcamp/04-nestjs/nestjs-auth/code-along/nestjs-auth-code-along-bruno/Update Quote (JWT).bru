@@ -1,0 +1,25 @@
+meta {
+  name: Update Quote (JWT)
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/quotes/{{quoteId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "author": "A. Freeman"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

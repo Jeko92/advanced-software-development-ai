@@ -1,0 +1,21 @@
+meta {
+  name: Update Concert (Session)
+  type: http
+  seq: 22
+}
+
+patch {
+  url: {{baseUrl}}/concerts/{{concertId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "ticketPrice": 45
+  }
+}
+
+assert {
+  res.status: eq 200
+}
