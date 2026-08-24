@@ -10,6 +10,7 @@ packages:
   - 'playgrounds/*'
 allowBuilds:
   '@scarf/scarf': false
+  bcrypt: true
   better-sqlite3: true
   esbuild: true
   protobufjs: false
