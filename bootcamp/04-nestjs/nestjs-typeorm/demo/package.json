@@ -14,11 +14,11 @@
     "typecheck": "tsc --noEmit",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
-    "db:seed": "node --env-file=.env --import tsx src/db/seed.ts",
-    "typeorm": "node --env-file=.env --import tsx ./node_modules/typeorm/cli.js -d src/db/data-source.ts",
-    "migration:generate": "pnpm typeorm -- migration:generate",
-    "migration:run": "pnpm typeorm -- migration:run",
-    "migration:revert": "pnpm typeorm -- migration:revert"
+    "db:seed": "node --loader ts-node/esm src/db/seed.ts",
+    "typeorm": "typeorm-ts-node-esm -d ./src/db/data-source.ts",
+    "migration:generate": "typeorm-ts-node-esm -d ./src/db/data-source.ts migration:generate",
+    "migration:run": "typeorm-ts-node-esm -d ./src/db/data-source.ts migration:run",
+    "migration:revert": "typeorm-ts-node-esm -d ./src/db/data-source.ts migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^11.2.1",
@@ -40,8 +40,9 @@
     "@types/better-sqlite3": "^9.6.0",
     "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",
+    "dotenv": "17.4.2",
     "globals": "^17.0.0",
-    "tsx": "^4.19.0",
+    "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }
 }
