@@ -6,18 +6,13 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import type { Request as ExpressRequest } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service.ts';
 import { LoginDto } from './dto/login.dto.ts';
 import { CreateUserDto } from '../users/dto/create-user.dto.ts';
 import { UsersService } from '../users/users.service.ts';
 import { Public } from '../common/decorators/public.decorator.ts';
-import type { User } from '../users/entities/user.entity.ts';
-
-export interface RequestWithUser extends ExpressRequest {
-  user: Omit<User, 'passwordHash'>;
-}
+import type { RequestWithUser } from '../common/types/request-with-user.ts';
 
 @Controller('auth')
 export class AuthController {

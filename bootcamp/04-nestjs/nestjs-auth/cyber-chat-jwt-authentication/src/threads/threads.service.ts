@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Thread } from './entities/threads.entity.ts';
@@ -10,6 +10,8 @@ import { ThreadResponseDto } from './dto/thread-response.dto.ts';
 import { plainToInstance } from 'class-transformer';
 import { ThreadWithCommentsResponseDto } from './dto/thread-with-comments-response.dto.ts';
 import type { PaginationQueryDto } from '../common/dto/pagination-query.dto.ts';
+import type { UserRole } from '../users/entities/user.entity.ts';
+import { canBypassOwnership } from '../common/utils/authorization.util.ts';
 
 @Injectable()
 export class ThreadsService {
@@ -26,16 +28,21 @@ export class ThreadsService {
       skip: (page - 1) * limit,
       take: limit,
       where: {
-        ...(author ? { author } : {}),
+        ...(author ? { authorUser: { username: author } } : {}),
         ...(startDate ? { createdAt: MoreThanOrEqual(startDate) } : {}),
       },
       order: { createdAt: sort?.startsWith('-') ? 'DESC' : 'ASC' },
     });
 
     return {
-      data: plainToInstance(ThreadResponseDto, threads, {
-        excludeExtraneousValues: true,
-      }),
+      data: plainToInstance(
+        ThreadResponseDto,
+        threads.map((thread) => ({
+          ...thread,
+          author: thread.authorUser.username,
+        })),
+        { excludeExtraneousValues: true },
+      ),
       meta: {
         page,
         limit,
@@ -60,43 +67,87 @@ export class ThreadsService {
     );
     return plainToInstance(
       ThreadWithCommentsResponseDto,
-      { ...thread, comments },
+      {
+        ...thread,
+        author: thread.authorUser.username,
+        comments: comments.map((comment) => ({
+          ...comment,
+          author: comment.authorUser.username,
+        })),
+      },
       { excludeExtraneousValues: true },
     );
   }
 
-  async addCommentToThread(threadId: string, dto: CreateCommentDto) {
+  async addCommentToThread(
+    threadId: string,
+    dto: CreateCommentDto,
+    authorId: string,
+    authorUsername: string,
+  ) {
     const thread = await this.getById(threadId);
     if (!thread) return undefined;
 
-    return this.commentsService.addComment(thread.id, dto);
+    return this.commentsService.addComment(
+      thread.id,
+      dto,
+      authorId,
+      authorUsername,
+    );
   }
 
-  async addNewThread(dto: CreateThreadDto): Promise<ThreadResponseDto> {
-    const thread = this.threads.create(dto);
+  async addNewThread(
+    dto: CreateThreadDto,
+    authorId: string,
+    authorUsername: string,
+  ): Promise<ThreadResponseDto> {
+    const thread = this.threads.create({ ...dto, authorId });
     const saved = await this.threads.save(thread);
-    return plainToInstance(ThreadResponseDto, saved, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(
+      ThreadResponseDto,
+      { ...saved, author: authorUsername },
+      { excludeExtraneousValues: true },
+    );
   }
 
   async updateThread(
     threadId: string,
     dto: UpdateThreadDto,
+    userId: string,
+    userRoles: UserRole[],
   ): Promise<ThreadResponseDto | undefined> {
     const thread = await this.getById(threadId);
     if (!thread) return undefined;
 
+    if (thread.authorId !== userId && !canBypassOwnership(userRoles)) {
+      throw new ForbiddenException(
+        'You do not have permission to edit this thread',
+      );
+    }
+
+    const authorUsername = thread.authorUser.username;
     Object.assign(thread, dto);
     const saved = await this.threads.save(thread);
-    return plainToInstance(ThreadResponseDto, saved, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(
+      ThreadResponseDto,
+      { ...saved, author: authorUsername },
+      { excludeExtraneousValues: true },
+    );
   }
 
-  async deleteThread(threadId: string): Promise<boolean> {
+  async deleteThread(
+    threadId: string,
+    userId: string,
+    userRoles: UserRole[],
+  ): Promise<boolean> {
     const thread = await this.getById(threadId);
     if (!thread) return false;
+
+    if (thread.authorId !== userId && !canBypassOwnership(userRoles)) {
+      throw new ForbiddenException(
+        'You do not have permission to delete this thread',
+      );
+    }
 
     await this.commentsService.deleteCommentsByThreadId(thread.id);
     await this.threads.delete(thread.id);

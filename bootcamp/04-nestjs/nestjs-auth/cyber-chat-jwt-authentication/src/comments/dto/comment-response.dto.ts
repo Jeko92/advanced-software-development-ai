@@ -11,6 +11,9 @@ export class CommentResponseDto {
   body!: string;
 
   @Expose()
+  authorId!: string;
+
+  @Expose()
   author!: string;
 
   @Expose()

@@ -1,7 +1,7 @@
 meta {
-  name: Delete Thread
+  name: Delete Thread (Forbidden)
   type: http
-  seq: 20
+  seq: 18
 }
 
 delete {
@@ -11,9 +11,9 @@ delete {
 }
 
 assert {
-  res.status: eq 204
+  res.status: eq 403
 }
 
 auth:bearer {
-  token: {{accessToken}}
+  token: {{intruderToken}}
 }

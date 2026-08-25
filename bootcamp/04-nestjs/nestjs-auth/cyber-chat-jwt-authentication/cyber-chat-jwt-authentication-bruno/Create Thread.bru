@@ -13,13 +13,14 @@ post {
 body:json {
   {
     "title": "Anyone tried rollback-safe deploys yet?",
-    "author": "byte_witch",
     "body": "Curious what tooling people use to make prod rollouts less scary."
   }
 }
 
 assert {
   res.status: eq 201
+  res.body.author: eq chat_wanderer
+  res.body.authorId: isDefined
 }
 
 script:post-response {

@@ -11,6 +11,9 @@ export class ThreadResponseDto {
   body!: string;
 
   @Expose()
+  authorId!: string;
+
+  @Expose()
   author!: string;
 
   @Expose()

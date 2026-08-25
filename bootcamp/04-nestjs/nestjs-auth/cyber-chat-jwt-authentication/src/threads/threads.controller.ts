@@ -11,6 +11,7 @@ import {
   Patch,
   Post,
   Query,
+  Request,
 } from '@nestjs/common';
 import { ThreadsService } from './threads.service.ts';
 import { CreateThreadDto } from './dto/create-thread.dto.ts';
@@ -21,6 +22,7 @@ import { CreateCommentDto } from '../comments/dto/create-comment.dto.ts';
 import { CommentResponseDto } from '../comments/dto/comment-response.dto.ts';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto.ts';
 import { ParseDatePipe } from '../common/pipes/parse-date.pipe.ts';
+import type { RequestWithUser } from '../common/types/request-with-user.ts';
 
 @Controller('threads')
 export class ThreadsController {
@@ -46,16 +48,29 @@ export class ThreadsController {
   }
 
   @Post()
-  async create(@Body() dto: CreateThreadDto): Promise<ThreadResponseDto> {
-    return await this.threadsService.addNewThread(dto);
+  async create(
+    @Body() dto: CreateThreadDto,
+    @Request() req: RequestWithUser,
+  ): Promise<ThreadResponseDto> {
+    return await this.threadsService.addNewThread(
+      dto,
+      req.user.id,
+      req.user.username,
+    );
   }
 
   @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateThreadDto,
+    @Request() req: RequestWithUser,
   ): Promise<ThreadResponseDto> {
-    const thread = await this.threadsService.updateThread(id, dto);
+    const thread = await this.threadsService.updateThread(
+      id,
+      dto,
+      req.user.id,
+      req.user.roles,
+    );
     if (!thread) {
       throw new NotFoundException(`Thread with id ${id} not found`);
     }
@@ -66,8 +81,14 @@ export class ThreadsController {
   async addComment(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: CreateCommentDto,
+    @Request() req: RequestWithUser,
   ): Promise<CommentResponseDto> {
-    const comment = await this.threadsService.addCommentToThread(id, dto);
+    const comment = await this.threadsService.addCommentToThread(
+      id,
+      dto,
+      req.user.id,
+      req.user.username,
+    );
     if (!comment) {
       throw new NotFoundException(`Thread with id ${id} not found`);
     }
@@ -76,8 +97,15 @@ export class ThreadsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    const removed = await this.threadsService.deleteThread(id);
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: RequestWithUser,
+  ): Promise<void> {
+    const removed = await this.threadsService.deleteThread(
+      id,
+      req.user.id,
+      req.user.roles,
+    );
     if (!removed) {
       throw new NotFoundException(`Thread with id ${id} not found`);
     }

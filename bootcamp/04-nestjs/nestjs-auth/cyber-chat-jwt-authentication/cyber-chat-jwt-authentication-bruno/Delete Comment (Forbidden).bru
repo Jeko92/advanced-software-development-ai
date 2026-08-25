@@ -1,7 +1,7 @@
 meta {
-  name: Delete Comment (Soft Delete)
+  name: Delete Comment (Forbidden)
   type: http
-  seq: 19
+  seq: 17
 }
 
 delete {
@@ -11,9 +11,9 @@ delete {
 }
 
 assert {
-  res.status: eq 204
+  res.status: eq 403
 }
 
 auth:bearer {
-  token: {{accessToken}}
+  token: {{intruderToken}}
 }

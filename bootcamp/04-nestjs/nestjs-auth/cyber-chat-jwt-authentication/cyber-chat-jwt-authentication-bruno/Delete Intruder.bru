@@ -1,11 +1,11 @@
 meta {
-  name: Delete Auth User
+  name: Delete Intruder
   type: http
-  seq: 32
+  seq: 33
 }
 
 delete {
-  url: {{baseUrl}}/users/{{authUserId}}
+  url: {{baseUrl}}/users/{{intruderUserId}}
   body: none
   auth: bearer
 }
@@ -15,5 +15,5 @@ assert {
 }
 
 auth:bearer {
-  token: {{accessToken}}
+  token: {{intruderToken}}
 }

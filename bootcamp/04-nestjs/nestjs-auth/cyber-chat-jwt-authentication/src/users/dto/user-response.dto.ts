@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import type { UserRole } from '../entities/user.entity.ts';
 
 export class UserResponseDto {
   @Expose()
@@ -6,4 +7,7 @@ export class UserResponseDto {
 
   @Expose()
   username!: string;
+
+  @Expose()
+  roles!: UserRole[];
 }

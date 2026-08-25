@@ -7,6 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Thread } from '../../threads/entities/threads.entity.ts';
+import { User } from '../../users/entities/user.entity.ts';
 
 @Entity('comments')
 export class Comment {
@@ -17,7 +18,7 @@ export class Comment {
   threadId!: string;
 
   @Column()
-  author!: string;
+  authorId!: string;
 
   @Column('text')
   body!: string;
@@ -28,4 +29,8 @@ export class Comment {
   @ManyToOne(() => Thread, (thread) => thread.comments)
   @JoinColumn({ name: 'threadId' })
   thread!: Thread;
+
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'authorId' })
+  authorUser!: User;
 }

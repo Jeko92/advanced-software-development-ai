@@ -4,8 +4,11 @@ import {
   Column,
   CreateDateColumn,
   OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import type { Comment } from '../../comments/entities/comments.entity.ts';
+import { User } from '../../users/entities/user.entity.ts';
 
 @Entity('threads')
 export class Thread {
@@ -19,11 +22,15 @@ export class Thread {
   body!: string;
 
   @Column()
-  author!: string;
+  authorId!: string;
 
   @CreateDateColumn()
   createdAt!: Date;
 
   @OneToMany('Comment', 'thread')
   comments!: Comment[];
+
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'authorId' })
+  authorUser!: User;
 }
