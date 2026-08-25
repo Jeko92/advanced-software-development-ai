@@ -80,7 +80,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const instance = AudioEngine.getInstance();
 
   assert.strictEqual(instance, engine);
-  console.log(`Test 3 ${assert.strictEqual(instance, engine)}`);
+  console.log('Test 3 passed: getInstance() returns the same instance');
 
   try {
     AudioEngine.initialize(48000);

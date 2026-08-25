@@ -93,7 +93,7 @@ console.log(`Test 2 ${config instanceof ConfigStore}`);
 const instance = ConfigStore.getInstance();
 
 assert.strictEqual(instance, config);
-console.log(`Test 3 ${assert.strictEqual(instance, config)}`);
+console.log('Test 3 passed: getInstance() returns the same instance');
 
 try {
   ConfigStore.initialize({
