@@ -1,0 +1,16 @@
+meta {
+  name: Get User By Id
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/users/{{userId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.passwordHash: isUndefined
+}

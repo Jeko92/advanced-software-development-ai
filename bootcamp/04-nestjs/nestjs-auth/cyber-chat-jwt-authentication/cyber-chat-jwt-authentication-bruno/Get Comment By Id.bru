@@ -1,0 +1,15 @@
+meta {
+  name: Get Comment By Id
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/comments/{{commentId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

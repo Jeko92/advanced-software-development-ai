@@ -1,0 +1,26 @@
+meta {
+  name: Add Comment To Thread
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/threads/{{threadId}}/comments
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "author": "signal_jammer",
+    "body": "Try a low-blue-light theme too, helps more than font choice."
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  bru.setVar("commentId", res.body.id);
+}
