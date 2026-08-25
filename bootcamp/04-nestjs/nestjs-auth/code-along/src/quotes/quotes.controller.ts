@@ -6,9 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard.ts';
 import { QuotesService } from './quotes.service.ts';
 import { CreateQuoteDto } from './dto/create-quote.dto.ts';
 import { UpdateQuoteDto } from './dto/update-quote.dto.ts';
@@ -18,7 +16,6 @@ import { Public } from '../common/decorators/public.decorator.ts';
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createQuoteDto: CreateQuoteDto) {
     return this.quotesService.create(createQuoteDto);
