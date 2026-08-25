@@ -107,9 +107,9 @@ class BankTransferProcessor implements PaymentProcessor {
     };
   }
 }
-type PaymentMethod = 'stripe' | 'paypal' | 'bank';
+export type PaymentMethod = 'stripe' | 'paypal' | 'bank';
 
-class PaymentProcessorFactory {
+export class PaymentProcessorFactory {
   create(method: PaymentMethod): PaymentProcessor {
     switch (method) {
       case 'stripe':
@@ -139,32 +139,38 @@ class CheckoutService {
 }
 
 // --- Demo ---
-const paymentProcessorFactory = new PaymentProcessorFactory();
-const checkoutService = new CheckoutService(paymentProcessorFactory);
+async function main(): Promise<void> {
+  const paymentProcessorFactory = new PaymentProcessorFactory();
+  const checkoutService = new CheckoutService(paymentProcessorFactory);
 
-console.log('--- STRIPE CHECKOUT ---');
-const stripeReceipt = await checkoutService.checkout(
-  'stripe',
-  200,
-  'Developer Setup Order',
-  ['monitor', 'desk'],
-);
-console.log(stripeReceipt);
+  console.log('--- STRIPE CHECKOUT ---');
+  const stripeReceipt = await checkoutService.checkout(
+    'stripe',
+    200,
+    'Developer Setup Order',
+    ['monitor', 'desk'],
+  );
+  console.log(stripeReceipt);
 
-console.log('\n--- PAYPAL CHECKOUT ---');
-const paypalReceipt = await checkoutService.checkout(
-  'paypal',
-  300,
-  'Audio Gear',
-  ['headphones'],
-);
-console.log(paypalReceipt);
+  console.log('\n--- PAYPAL CHECKOUT ---');
+  const paypalReceipt = await checkoutService.checkout(
+    'paypal',
+    300,
+    'Audio Gear',
+    ['headphones'],
+  );
+  console.log(paypalReceipt);
 
-console.log('\n--- BANK TRANSFER CHECKOUT ---');
-const bankReceipt = await checkoutService.checkout(
-  'bank',
-  500,
-  'Office Furniture',
-  ['standing desk'],
-);
-console.log(bankReceipt);
+  console.log('\n--- BANK TRANSFER CHECKOUT ---');
+  const bankReceipt = await checkoutService.checkout(
+    'bank',
+    500,
+    'Office Furniture',
+    ['standing desk'],
+  );
+  console.log(bankReceipt);
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  void main();
+}

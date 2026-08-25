@@ -21,7 +21,7 @@
 const sleep = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
 
-const retry = (maxAttempts: number, delayMs: number) => {
+export const retry = (maxAttempts: number, delayMs: number) => {
   return <This, Args extends unknown[], Return>(
     originalMethod: (this: This, ...args: Args) => Return | Promise<Return>,
     context: ClassMethodDecoratorContext<

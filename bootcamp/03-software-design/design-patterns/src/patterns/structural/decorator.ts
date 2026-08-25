@@ -19,20 +19,28 @@
  * decorator rather than write one from scratch — this file is about
  * understanding the mechanism, not something you'd ship.
  */
-const measure = <This, Args extends unknown[], Return>(
-  originalMethod: (this: This, ...args: Args) => Return,
+export const measure = <This, Args extends unknown[], Return>(
+  originalMethod: (this: This, ...args: Args) => Return | Promise<Return>,
   context: ClassMethodDecoratorContext<
     This,
-    (this: This, ...args: Args) => Return
+    (this: This, ...args: Args) => Return | Promise<Return>
   >,
 ) => {
   const name = String(context.name);
-  return function (this: This, ...args: Args): Return {
+  // `await`-ed even for sync methods, so this also measures the true
+  // elapsed time of an async method (including whatever it awaits
+  // internally) rather than just the time to return a pending Promise.
+  return async function (this: This, ...args: Args): Promise<Return> {
     const start = performance.now();
-    const result = originalMethod.call(this, ...args);
-    const elapsed = performance.now() - start;
-    console.log(`[measure] ${name} took ${elapsed.toFixed(2)}ms`);
-    return result;
+    // Logged in `finally` so a call that throws (e.g. one that exhausted
+    // an inner @retry) still gets timed instead of silently skipping the
+    // log on its way out.
+    try {
+      return await originalMethod.call(this, ...args);
+    } finally {
+      const elapsed = performance.now() - start;
+      console.log(`[measure] ${name} took ${elapsed.toFixed(2)}ms`);
+    }
   };
 };
 
@@ -48,5 +56,6 @@ class Counter {
   }
 }
 
-new Counter().countToMillion();
-// new Counter().countToMillion();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  void new Counter().countToMillion();
+}

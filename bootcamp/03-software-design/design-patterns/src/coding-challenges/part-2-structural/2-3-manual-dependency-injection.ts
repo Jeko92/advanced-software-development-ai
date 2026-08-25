@@ -19,11 +19,11 @@
  */
 import assert from 'node:assert';
 
-interface Notifier {
+export interface Notifier {
   send(message: string): void;
 }
 
-class EmailNotifier implements Notifier {
+export class EmailNotifier implements Notifier {
   send(message: string): void {
     console.log(`[Email] ${message}`);
   }
