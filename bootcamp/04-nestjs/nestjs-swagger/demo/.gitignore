@@ -1,5 +1,5 @@
-# WAL-mode sidecar files SQLite/TypeORM writes alongside the .sqlite database.
-# The .sqlite file itself is committed as seeded demo data.
-*.sqlite-journal
-*.sqlite-shm
-*.sqlite-wal
+# .gitignore
+data/*.sqlite
+data/*.sqlite-journal
+data/*.sqlite-shm
+data/*.sqlite-wal

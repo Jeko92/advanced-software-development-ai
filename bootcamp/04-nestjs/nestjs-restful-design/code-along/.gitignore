@@ -1,6 +1,5 @@
-# SQLite database file created by TypeORM once you wire it up in Step 2.
-# It is generated data, not source code, so it never gets committed.
-*.sqlite
-*.sqlite-journal
-*.sqlite-shm
-*.sqlite-wal
+# .gitignore
+data/*.sqlite
+data/*.sqlite-journal
+data/*.sqlite-shm
+data/*.sqlite-wal
