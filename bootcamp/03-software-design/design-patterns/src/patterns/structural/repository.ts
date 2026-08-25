@@ -20,20 +20,20 @@
 
 import { Pool } from 'pg';
 
-type Track = {
+export type Track = {
   id: string;
   title: string;
   artist: string;
   format: string;
 };
 
-interface TrackRepository {
+export interface TrackRepository {
   findById(id: string): Promise<Track | null>;
   findByArtist(artist: string): Promise<Track[]>;
   save(track: Track): Promise<void>;
 }
 
-class PostgresTrackRepository implements TrackRepository {
+export class PostgresTrackRepository implements TrackRepository {
   constructor(private readonly pg: Pool) {}
 
   async findById(id: string): Promise<Track | null> {
@@ -68,7 +68,7 @@ class PostgresTrackRepository implements TrackRepository {
   }
 }
 
-class InMemoryTrackRepository implements TrackRepository {
+export class InMemoryTrackRepository implements TrackRepository {
   constructor(private readonly db: Map<string, Track> = new Map()) {}
 
   async findById(id: string): Promise<Track | null> {
@@ -137,4 +137,9 @@ async function main(): Promise<void> {
   }
 }
 
-void main();
+// Only self-run this demo when the file is executed directly — not when
+// another file imports these repositories, so importers don't inherit
+// this module's console output as a surprising side effect.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  void main();
+}

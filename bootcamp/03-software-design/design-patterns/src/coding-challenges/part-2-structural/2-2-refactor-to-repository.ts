@@ -44,7 +44,6 @@ class InvoiceServiceAntiPattern {
   }
 }
 
-
 type InvoiceLine = {
   invoiceId: number;
   amount: number;
@@ -76,8 +75,6 @@ class InMemoryInvoiceLineRepository implements InvoiceLineRepository {
   }
 }
 
-// The service depends only on the interface — it has no idea whether the
-// lines came from Postgres or a hard-coded array.
 class InvoiceService {
   constructor(private readonly repo: InvoiceLineRepository) {}
 
@@ -111,10 +108,6 @@ async function main(): Promise<void> {
 
   console.log('🎉 InvoiceService sums invoice lines correctly');
 
-  // Same InvoiceService, same getTotal call — now backed by the real
-  // Postgres-querying repository instead of the hard-coded one. No fake
-  // Pool: this needs a real database to actually succeed, so a missing
-  // table/connection is reported instead of crashing the demo.
   try {
     const pgService = new InvoiceService(
       new PostgresInvoiceLineRepository(pgPool),
@@ -128,12 +121,8 @@ async function main(): Promise<void> {
     );
   }
 
-  // The original anti-pattern, kept only as a before/after reference —
-  // exercised here too so it isn't dead code, but it hits the exact same
-  // missing table as the refactored Postgres path above.
   try {
-    const antiPatternTotal =
-      await new InvoiceServiceAntiPattern().getTotal(1);
+    const antiPatternTotal = await new InvoiceServiceAntiPattern().getTotal(1);
     console.log('getTotal(1) via anti-pattern ->', antiPatternTotal);
   } catch (error) {
     console.log(
@@ -146,4 +135,3 @@ async function main(): Promise<void> {
 }
 
 void main();
-
