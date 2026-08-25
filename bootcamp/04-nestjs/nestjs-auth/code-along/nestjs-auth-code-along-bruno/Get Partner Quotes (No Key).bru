@@ -1,0 +1,15 @@
+meta {
+  name: Get Partner Quotes (No Key)
+  type: http
+  seq: 25
+}
+
+get {
+  url: {{baseUrl}}/partners/quotes
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 401
+}

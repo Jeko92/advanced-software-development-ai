@@ -1,0 +1,21 @@
+meta {
+  name: Update User
+  type: http
+  seq: 15
+}
+
+patch {
+  url: {{baseUrl}}/users/{{userId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "bruno-tester-renamed"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

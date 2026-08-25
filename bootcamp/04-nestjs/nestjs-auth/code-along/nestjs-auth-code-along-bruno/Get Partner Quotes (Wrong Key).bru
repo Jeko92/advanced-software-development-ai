@@ -1,0 +1,19 @@
+meta {
+  name: Get Partner Quotes (Wrong Key)
+  type: http
+  seq: 26
+}
+
+get {
+  url: {{baseUrl}}/partners/quotes
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: wrong-value
+}
+
+assert {
+  res.status: eq 401
+}

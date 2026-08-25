@@ -1,0 +1,19 @@
+meta {
+  name: Get Partner Concerts (API Key)
+  type: http
+  seq: 28
+}
+
+get {
+  url: {{baseUrl}}/partners/concerts?page=1&limit=5
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+assert {
+  res.status: eq 200
+}

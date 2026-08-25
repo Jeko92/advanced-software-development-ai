@@ -1,0 +1,5 @@
+# WAL-mode sidecar files SQLite/TypeORM writes alongside the .sqlite database.
+# The .sqlite file itself is committed as seeded demo data.
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal

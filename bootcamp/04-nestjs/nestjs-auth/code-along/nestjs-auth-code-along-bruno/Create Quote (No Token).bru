@@ -1,0 +1,22 @@
+meta {
+  name: Create Quote (No Token)
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/quotes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quote": "This should be rejected.",
+    "author": "Nobody"
+  }
+}
+
+assert {
+  res.status: eq 401
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Session Logout
+  type: http
+  seq: 24
+}
+
+post {
+  url: {{baseUrl}}/auth/session/logout
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 201
+}

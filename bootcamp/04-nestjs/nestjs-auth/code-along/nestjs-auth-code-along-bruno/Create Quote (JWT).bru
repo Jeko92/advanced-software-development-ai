@@ -1,0 +1,30 @@
+meta {
+  name: Create Quote (JWT)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/quotes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "quote": "Simplicity is the soul of efficiency.",
+    "author": "Austin Freeman"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  bru.setVar("quoteId", res.body.id);
+}

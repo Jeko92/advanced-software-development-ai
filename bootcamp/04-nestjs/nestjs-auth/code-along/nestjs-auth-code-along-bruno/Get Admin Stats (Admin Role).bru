@@ -1,0 +1,20 @@
+meta {
+  name: Get Admin Stats (Admin Role)
+  type: http
+  seq: 32
+}
+
+get {
+  url: {{baseUrl}}/admin/stats
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: admin12345
+}
+
+assert {
+  res.status: eq 200
+}

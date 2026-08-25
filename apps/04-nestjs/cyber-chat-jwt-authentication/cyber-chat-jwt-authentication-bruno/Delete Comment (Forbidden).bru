@@ -1,0 +1,19 @@
+meta {
+  name: Delete Comment (Forbidden)
+  type: http
+  seq: 17
+}
+
+delete {
+  url: {{baseUrl}}/comments/{{commentId}}
+  body: none
+  auth: bearer
+}
+
+assert {
+  res.status: eq 403
+}
+
+auth:bearer {
+  token: {{intruderToken}}
+}
