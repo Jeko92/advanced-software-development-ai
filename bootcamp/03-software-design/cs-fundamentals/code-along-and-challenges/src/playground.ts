@@ -479,15 +479,15 @@ bstRoot.insert(45);
 bstRoot.print();
 logDivider();
 bstRoot.remove(40);
-console.log('45 should have been promoted into 40\'s spot:');
+console.log("45 should have been promoted into 40's spot:");
 bstRoot.print();
 logDivider();
 
-console.log('Removing a node with two children (70, whose children are 60 and 80):');
-bstRoot.remove(70);
 console.log(
-  "70's in-order successor (80) should have taken its place:",
+  'Removing a node with two children (70, whose children are 60 and 80):',
 );
+bstRoot.remove(70);
+console.log("70's in-order successor (80) should have taken its place:");
 bstRoot.print();
 logDivider();
 
@@ -553,7 +553,9 @@ console.log('Sorting [5, 2, 4, 6, 1, 3]:');
 console.log(numberSorter.sort([5, 2, 4, 6, 1, 3]));
 logDivider();
 
-console.log('Best case — already sorted [1, 2, 3, 4, 5] (one clean pass, no swaps):');
+console.log(
+  'Best case — already sorted [1, 2, 3, 4, 5] (one clean pass, no swaps):',
+);
 console.log(numberSorter.sort([1, 2, 3, 4, 5]));
 logDivider();
 
@@ -572,11 +574,15 @@ console.log('Sorting [5, 2, 4, 6, 1, 3]:');
 console.log(insertionSorter.sort([5, 2, 4, 6, 1, 3]));
 logDivider();
 
-console.log('Best case — already sorted [1, 2, 3, 4, 5] (inner while exits immediately every time):');
+console.log(
+  'Best case — already sorted [1, 2, 3, 4, 5] (inner while exits immediately every time):',
+);
 console.log(insertionSorter.sort([1, 2, 3, 4, 5]));
 logDivider();
 
-console.log('Worst case — reverse sorted [5, 4, 3, 2, 1] (every element slides all the way to the front):');
+console.log(
+  'Worst case — reverse sorted [5, 4, 3, 2, 1] (every element slides all the way to the front):',
+);
 console.log(insertionSorter.sort([5, 4, 3, 2, 1]));
 logDivider();
 
@@ -604,7 +610,9 @@ console.log(
 console.log(mergeSorter.sort([8, 7, 6, 5, 4, 3, 2, 1]));
 logDivider();
 
-console.log('Duplicate values [3, 1, 2, 3, 1] (checks it handles repeats correctly):');
+console.log(
+  'Duplicate values [3, 1, 2, 3, 1] (checks it handles repeats correctly):',
+);
 console.log(mergeSorter.sort([3, 1, 2, 3, 1]));
 logDivider();
 
@@ -616,7 +624,9 @@ console.log('Edge case — empty array []:');
 console.log(mergeSorter.sort([]));
 logDivider();
 
-console.log('Non-mutating, unlike BubbleSorter/InsertionSort — merge always builds a new array:');
+console.log(
+  'Non-mutating, unlike BubbleSorter/InsertionSort — merge always builds a new array:',
+);
 const original = [5, 2, 4, 6, 1, 3];
 const sorted = mergeSorter.sort(original);
 console.log('original:', original);
