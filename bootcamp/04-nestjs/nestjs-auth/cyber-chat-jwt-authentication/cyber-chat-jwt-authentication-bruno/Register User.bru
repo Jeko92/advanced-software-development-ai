@@ -1,18 +1,18 @@
 meta {
-  name: Create User
+  name: Register User
   type: http
-  seq: 17
+  seq: 1
 }
 
 post {
-  url: {{baseUrl}}/users
+  url: {{baseUrl}}/auth/register
   body: json
-  auth: bearer
+  auth: none
 }
 
 body:json {
   {
-    "username": "packet_sorcerer",
+    "username": "chat_wanderer",
     "password": "hunter2ButBetter"
   }
 }
@@ -23,9 +23,5 @@ assert {
 }
 
 script:post-response {
-  bru.setVar("userId", res.body.id);
-}
-
-auth:bearer {
-  token: {{accessToken}}
+  bru.setVar("authUserId", res.body.id);
 }

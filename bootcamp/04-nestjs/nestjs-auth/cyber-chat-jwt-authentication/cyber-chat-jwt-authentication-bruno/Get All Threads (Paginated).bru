@@ -1,17 +1,21 @@
 meta {
   name: Get All Threads (Paginated)
   type: http
-  seq: 10
+  seq: 14
 }
 
 get {
   url: {{baseUrl}}/threads?page=2&limit=2
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 200
   res.body.meta.page: eq 2
   res.body.meta.limit: eq 2
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

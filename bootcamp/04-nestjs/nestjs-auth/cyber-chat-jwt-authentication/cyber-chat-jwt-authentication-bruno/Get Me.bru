@@ -1,17 +1,18 @@
 meta {
-  name: Get User By Id
+  name: Get Me
   type: http
-  seq: 19
+  seq: 3
 }
 
 get {
-  url: {{baseUrl}}/users/{{userId}}
+  url: {{baseUrl}}/auth/me
   body: none
   auth: bearer
 }
 
 assert {
   res.status: eq 200
+  res.body.username: eq chat_wanderer
   res.body.passwordHash: isUndefined
 }
 

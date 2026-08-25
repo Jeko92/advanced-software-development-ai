@@ -1,15 +1,19 @@
 meta {
   name: Get All Users
   type: http
-  seq: 14
+  seq: 18
 }
 
 get {
   url: {{baseUrl}}/users
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 200
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

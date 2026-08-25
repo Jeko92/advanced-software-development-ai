@@ -1,15 +1,19 @@
 meta {
   name: Get Comment By Id
   type: http
-  seq: 6
+  seq: 10
 }
 
 get {
   url: {{baseUrl}}/comments/{{commentId}}
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 200
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

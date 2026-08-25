@@ -1,15 +1,19 @@
 meta {
   name: Get Thread By Id
   type: http
-  seq: 3
+  seq: 7
 }
 
 get {
   url: {{baseUrl}}/threads/{{threadId}}
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 200
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

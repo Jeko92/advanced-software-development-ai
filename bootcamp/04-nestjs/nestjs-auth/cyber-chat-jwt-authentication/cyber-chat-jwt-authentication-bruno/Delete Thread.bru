@@ -1,15 +1,19 @@
 meta {
   name: Delete Thread
   type: http
-  seq: 9
+  seq: 13
 }
 
 delete {
   url: {{baseUrl}}/threads/{{threadId}}
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 204
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

@@ -1,13 +1,13 @@
 meta {
   name: Add Comment To Thread
   type: http
-  seq: 5
+  seq: 9
 }
 
 post {
   url: {{baseUrl}}/threads/{{threadId}}/comments
   body: json
-  auth: none
+  auth: bearer
 }
 
 body:json {
@@ -23,4 +23,8 @@ assert {
 
 script:post-response {
   bru.setVar("commentId", res.body.id);
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

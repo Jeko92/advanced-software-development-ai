@@ -1,11 +1,11 @@
 meta {
-  name: Delete Comment (Soft Delete)
+  name: Delete Auth User
   type: http
-  seq: 12
+  seq: 25
 }
 
 delete {
-  url: {{baseUrl}}/comments/{{commentId}}
+  url: {{baseUrl}}/users/{{authUserId}}
   body: none
   auth: bearer
 }

@@ -1,15 +1,19 @@
 meta {
   name: Delete User
   type: http
-  seq: 18
+  seq: 22
 }
 
 delete {
   url: {{baseUrl}}/users/{{userId}}
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 204
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }

@@ -1,15 +1,19 @@
 meta {
   name: Get User By Id (Invalid Id)
   type: http
-  seq: 19
+  seq: 23
 }
 
 get {
   url: {{baseUrl}}/users/not-a-uuid
   body: none
-  auth: none
+  auth: bearer
 }
 
 assert {
   res.status: eq 400
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }
