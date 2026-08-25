@@ -378,6 +378,73 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  apps/03-software-design/dolphins-blog-sql-oop:
+    dependencies:
+      cookie-parser:
+        specifier: ^1.4.7
+        version: 1.4.7
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1(supports-color@10.2.2)
+      multer:
+        specifier: ^2.2.0
+        version: 2.2.0
+      nunjucks:
+        specifier: ^3.2.4
+        version: 3.2.4(chokidar@3.6.0)
+      sanitize-html:
+        specifier: ^2.17.6
+        version: 2.17.6
+      sqlite:
+        specifier: ^5.1.1
+        version: 5.1.1
+      sqlite3:
+        specifier: ^6.0.1
+        version: 6.0.1
+    devDependencies:
+      '@bootcamp/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@bootcamp/prettier-config':
+        specifier: workspace:*
+        version: link:../../../packages/prettier-config
+      '@bootcamp/tsconfig':
+        specifier: workspace:*
+        version: link:../../../packages/tsconfig
+      '@types/cookie-parser':
+        specifier: ^1.4.10
+        version: 1.4.10(@types/express@5.0.6)
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      '@types/multer':
+        specifier: ^2.2.0
+        version: 2.2.0
+      '@types/node':
+        specifier: ^26.2.0
+        version: 26.2.0
+      '@types/nunjucks':
+        specifier: ^3.2.6
+        version: 3.2.6
+      '@types/sanitize-html':
+        specifier: ^2.16.1
+        version: 2.16.1
+      prettier-plugin-embed:
+        specifier: ^0.5.1
+        version: 0.5.1
+      prettier-plugin-jinja-template:
+        specifier: ^2.2.0
+        version: 2.2.0(prettier@3.9.6)
+      prettier-plugin-sql:
+        specifier: ^0.20.0
+        version: 0.20.0(prettier@3.9.6)
+      tsx:
+        specifier: ^4.23.5
+        version: 4.23.12
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   apps/04-nestjs/cyber-chat:
     dependencies:
       '@nestjs/common':
