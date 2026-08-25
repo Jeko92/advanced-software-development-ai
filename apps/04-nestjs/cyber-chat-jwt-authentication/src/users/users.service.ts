@@ -1,12 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.ts';
 import { UpdateUserDto } from './dto/update-user.dto.ts';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity.ts';
+import { User, type UserRole } from './entities/user.entity.ts';
 import { Repository } from 'typeorm';
 import { hashSecret } from '../common/utils/hash.util.ts';
 import { plainToInstance } from 'class-transformer';
 import { UserResponseDto } from './dto/user-response.dto.ts';
+import { canBypassOwnership } from '../common/utils/authorization.util.ts';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +31,11 @@ export class UsersService {
     });
   }
 
-  async findAll(): Promise<UserResponseDto[]> {
+  async findAll(requesterRoles: UserRole[]): Promise<UserResponseDto[]> {
+    if (!canBypassOwnership(requesterRoles)) {
+      throw new ForbiddenException('You do not have permission to list users');
+    }
+
     const users = await this.users.find();
 
     return plainToInstance(UserResponseDto, users, {
@@ -50,14 +59,29 @@ export class UsersService {
     return this.users.findOneBy({ username });
   }
 
-  async update(id: string, body: UpdateUserDto) {
+  async update(
+    id: string,
+    body: UpdateUserDto,
+    userId: string,
+    userRoles: UserRole[],
+  ) {
     const user = await this.findUserEntity(id);
 
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found.`);
     }
 
-    Object.assign(user, body);
+    if (id !== userId && !canBypassOwnership(userRoles)) {
+      throw new ForbiddenException(
+        'You do not have permission to update this user',
+      );
+    }
+
+    const { password, ...rest } = body;
+    Object.assign(user, rest);
+    if (password) {
+      user.passwordHash = hashSecret(password);
+    }
 
     const updatedUser = await this.users.save(user);
 
@@ -66,12 +90,20 @@ export class UsersService {
     });
   }
 
-  async remove(id: string) {
-    const result = await this.users.delete(id);
+  async remove(id: string, userId: string, userRoles: UserRole[]) {
+    const user = await this.findUserEntity(id);
 
-    if ((result.affected ?? 0) === 0) {
+    if (!user) {
       throw new NotFoundException(`User with id ${id} not found.`);
     }
+
+    if (id !== userId && !canBypassOwnership(userRoles)) {
+      throw new ForbiddenException(
+        'You do not have permission to delete this user',
+      );
+    }
+
+    await this.users.delete(id);
   }
 
   private findUserEntity(id: string) {
