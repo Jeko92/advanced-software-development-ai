@@ -1,0 +1,27 @@
+{
+  "name": "@bootcamp/software-design-cs-fundamentals-code-along-and-challenges",
+  "version": "1.0.0",
+  "description": "Practice package for the Software Design CS Fundamentals module (linked lists, stacks, trees, sorting algorithms) — scaffolded only, implementations written by hand.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run build && concurrently \"pnpm run build:watch\" \"pnpm run start:dev\"",
+    "build": "tsc --noEmitOnError",
+    "build:watch": "tsc --watch --noEmitOnError",
+    "start:dev": "nodemon",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "concurrently": "^10.0.4",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}

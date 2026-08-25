@@ -1,0 +1,18 @@
+meta {
+  name: Admin Create Post
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/admin/posts
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  title: A New Post From Bruno
+  author: Peter Parker
+  teaser: Created via the admin form flow.
+  content: <p>Created via the admin form flow.</p>
+}

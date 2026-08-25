@@ -1,0 +1,8 @@
+{% extends "layouts/_base.njk" %}
+{% block main_content %}
+  <div class="container px-4 px-lg-5 text-center py-5">
+    <h1>400</h1>
+    <p>{{ message | default('Bad request.') }}</p>
+    <a href="/">Back home</a>
+  </div>
+{% endblock %}

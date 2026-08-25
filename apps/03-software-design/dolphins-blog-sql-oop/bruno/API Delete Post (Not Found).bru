@@ -1,0 +1,15 @@
+meta {
+  name: API Delete Post (Not Found)
+  type: http
+  seq: 24
+}
+
+delete {
+  url: {{baseUrl}}/api/posts/999999
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

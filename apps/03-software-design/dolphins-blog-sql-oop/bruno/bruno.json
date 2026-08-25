@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "dolphins-blog-sql",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}

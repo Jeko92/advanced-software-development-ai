@@ -1,0 +1,12 @@
+{% macro PostCard(post) %}
+  <article class="post-card">
+    <h3>{{ post.title }}</h3>
+    <p class="meta">By {{ post.author }} on {{ post.createdAt }}</p>
+    <p>{{ post.teaser or post.content }}</p>
+
+    <!-- Action button for editing -->
+    <div class="post-actions">
+      <a href="/admin/posts/{{ post.id }}/edit" class="btn btn-edit">Edit</a>
+    </div>
+  </article>
+{% endmacro %}

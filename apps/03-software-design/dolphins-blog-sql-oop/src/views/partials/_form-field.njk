@@ -1,0 +1,15 @@
+{% macro formField(id, label, type='text') %}
+  <div class="form-floating">
+    <input
+      class="form-control"
+      id="{{ id }}"
+      type="{{ type }}"
+      placeholder="{{ label }}"
+      data-sb-validations="required"
+    />
+    <label for="{{ id }}">{{ label }}</label>
+    <div class="invalid-feedback" data-sb-feedback="{{ id }}:required">
+      A {{ label }} is required.
+    </div>
+  </div>
+{% endmacro %}

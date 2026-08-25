@@ -1,0 +1,46 @@
+{
+  "name": "@bootcamp/dolphins-blog-sql-oop",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run build:client && tsx --watch --env-file=.env src/app.ts",
+    "build": "tsc && pnpm run build:client",
+    "build:client": "tsc -p tsconfig.client.json",
+    "start": "node --env-file=.env dist/app.js",
+    "db:seed": "tsx --env-file=.env src/db/seed.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "multer": "^2.2.0",
+    "nunjucks": "^3.2.4",
+    "sanitize-html": "^2.17.6",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.2.0",
+    "@types/nunjucks": "^3.2.6",
+    "@types/sanitize-html": "^2.16.1",
+    "prettier-plugin-jinja-template": "^2.2.0",
+    "prettier-plugin-sql": "^0.20.0",
+    "prettier-plugin-embed": "^0.5.1",
+    "tsx": "^4.23.5",
+    "typescript": "^6.0.3"
+  }
+}

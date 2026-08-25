@@ -1,0 +1,32 @@
+{% extends "layouts/_base.njk" %}
+
+{% block main_content %}
+  <div class="container my-5" style="max-width: 420px;">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h3 mb-4 text-center">Admin Login</h1>
+
+        {% if error %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+          <div class="mb-3">
+            <label for="password" class="form-label">Admin Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              required
+              autofocus
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Log In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
