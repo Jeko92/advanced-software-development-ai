@@ -1,0 +1,21 @@
+meta {
+  name: Update Playtime (Validation Error)
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{baseUrl}}/boardgame/{{boardgameId}}/playtime
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "playtimeMinutes": -5
+  }
+}
+
+assert {
+  res.status: eq 400
+}

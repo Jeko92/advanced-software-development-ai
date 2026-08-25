@@ -1,0 +1,15 @@
+meta {
+  name: Get Boardgame By Id
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/boardgame/{{boardgameId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

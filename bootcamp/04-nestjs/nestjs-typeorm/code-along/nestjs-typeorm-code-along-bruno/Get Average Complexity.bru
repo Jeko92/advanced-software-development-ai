@@ -1,0 +1,16 @@
+meta {
+  name: Get Average Complexity
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/boardgame/average-complexity
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.average: isNumber
+}

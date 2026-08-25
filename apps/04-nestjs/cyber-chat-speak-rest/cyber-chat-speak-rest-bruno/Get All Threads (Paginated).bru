@@ -1,0 +1,17 @@
+meta {
+  name: Get All Threads (Paginated)
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/threads?page=2&limit=2
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.meta.page: eq 2
+  res.body.meta.limit: eq 2
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Search Boardgames By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/boardgame/search?name=Azu
+  body: none
+  auth: none
+}
+
+params:query {
+  name: Azu
+}
+
+assert {
+  res.status: eq 200
+}

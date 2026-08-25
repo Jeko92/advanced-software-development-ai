@@ -1,0 +1,15 @@
+meta {
+  name: Delete Comment (Soft Delete)
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/comments/{{commentId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

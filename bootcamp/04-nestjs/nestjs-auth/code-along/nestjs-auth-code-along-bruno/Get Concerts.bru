@@ -1,0 +1,15 @@
+meta {
+  name: Get Concerts
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/concerts
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

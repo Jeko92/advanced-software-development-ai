@@ -1,0 +1,15 @@
+meta {
+  name: Create Room
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/rooms
+  body: none
+  auth: none
+}
+
+vars:post-response {
+  roomId: res.body.id
+}

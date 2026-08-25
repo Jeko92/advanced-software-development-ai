@@ -1,0 +1,36 @@
+{
+  "name": "@bootcamp/quote-api",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "start": "node --env-file=.env dist/app.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
+    "@nestjs/serve-static": "^5.0.5",
+    "express": "^5.2.1",
+    "nunjucks": "^3.2.4",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "prettier-plugin-jinja-template": "^2.2.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "@types/nunjucks": "^3.2.6",
+    "nodemon": "^3.1.14",
+    "typescript": "^6.0.3"
+  }
+}

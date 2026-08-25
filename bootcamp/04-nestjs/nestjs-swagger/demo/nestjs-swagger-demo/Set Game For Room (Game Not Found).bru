@@ -1,0 +1,15 @@
+meta {
+  name: Set Game For Room (Game Not Found)
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/rooms/{{roomId}}/set-game/999
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

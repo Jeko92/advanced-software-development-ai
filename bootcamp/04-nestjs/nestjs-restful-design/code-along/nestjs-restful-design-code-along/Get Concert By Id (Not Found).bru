@@ -1,0 +1,15 @@
+meta {
+  name: Get Concert By Id (Not Found)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/concerts/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

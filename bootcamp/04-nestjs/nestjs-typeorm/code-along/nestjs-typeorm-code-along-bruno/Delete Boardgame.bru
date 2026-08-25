@@ -1,0 +1,15 @@
+meta {
+  name: Delete Boardgame
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/boardgame/{{boardgameId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Update Api Key
+  type: http
+  seq: 37
+}
+
+patch {
+  url: {{baseUrl}}/api-keys/{{apiKeyId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "label": "bruno-test-key-updated",
+    "active": false
+  }
+}
+
+assert {
+  res.status: eq 200
+}

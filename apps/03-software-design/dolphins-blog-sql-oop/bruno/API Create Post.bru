@@ -1,0 +1,20 @@
+meta {
+  name: API Create Post
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/api/posts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "API Created Post",
+    "author": "API Tester",
+    "teaser": "Created via the JSON API.",
+    "content": "<p>Created via the JSON API.</p>"
+  }
+}

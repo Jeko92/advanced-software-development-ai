@@ -1,0 +1,26 @@
+meta {
+  name: Login (JWT)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "admin12345"
+  }
+}
+
+vars:post-response {
+  accessToken: res.body.access_token
+}
+
+assert {
+  res.status: eq 201
+}

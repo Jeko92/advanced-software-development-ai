@@ -1,0 +1,27 @@
+meta {
+  name: Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "chat_wanderer",
+    "password": "hunter2ButBetter"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.access_token: isDefined
+}
+
+script:post-response {
+  bru.setVar("accessToken", res.body.access_token);
+}

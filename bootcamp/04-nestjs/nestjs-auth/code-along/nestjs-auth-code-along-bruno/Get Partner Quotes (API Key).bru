@@ -1,0 +1,19 @@
+meta {
+  name: Get Partner Quotes (API Key)
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{baseUrl}}/partners/quotes
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+assert {
+  res.status: eq 200
+}

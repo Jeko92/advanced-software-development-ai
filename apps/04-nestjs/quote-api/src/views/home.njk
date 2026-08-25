@@ -1,0 +1,44 @@
+{% extends "partials/_base.njk" %}
+{% import "partials/quoteCard.njk" as cards %}
+
+{% block content %}
+  <section class="container">
+    <hgroup>
+      <h1>Quote Explorer</h1>
+      <p>Discover inspiring quotes.</p>
+    </hgroup>
+
+    <form method="GET" action="/#quotes">
+      <label for="author">Search by author</label>
+      <input
+        type="search"
+        id="author"
+        name="author"
+        placeholder="Search by author..."
+        value="{{ author }}"
+      />
+
+      <button type="submit">Search</button>
+    </form>
+  </section>
+
+  <section id="quotes" class="container">
+    <h2>Quotes</h2>
+
+    <div class="quotes-grid">
+      {% for quote in quotes %}
+        {{ cards.quoteCard(quote) }}
+      {% else %}
+        <p>No quotes found{% if author %}for "{{ author }}"{% endif %}.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="random" class="container">
+    <h2>Random Quote</h2>
+
+    <a href="/quotes/random">
+      <button type="button">Get Random Quote</button>
+    </a>
+  </section>
+{% endblock %}

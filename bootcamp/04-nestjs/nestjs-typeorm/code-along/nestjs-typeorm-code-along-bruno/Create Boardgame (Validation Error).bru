@@ -1,0 +1,25 @@
+meta {
+  name: Create Boardgame (Validation Error)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/boardgame
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Bad Game",
+    "minPlayers": "three",
+    "maxPlayers": -1,
+    "playtimeMinutes": 90,
+    "complexity": 2.3
+  }
+}
+
+assert {
+  res.status: eq 400
+}

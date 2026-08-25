@@ -1,0 +1,19 @@
+meta {
+  name: Create Product
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "USB-C Hub",
+    "price": 39.99,
+    "ownerId": "3"
+  }
+}

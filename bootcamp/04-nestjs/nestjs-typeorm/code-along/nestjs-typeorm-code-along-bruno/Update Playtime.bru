@@ -1,0 +1,21 @@
+meta {
+  name: Update Playtime
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/boardgame/{{boardgameId}}/playtime
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "playtimeMinutes": 80
+  }
+}
+
+assert {
+  res.status: eq 200
+}

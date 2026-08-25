@@ -1,0 +1,111 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - App
+  /ping:
+    get:
+      operationId: AppController_ping
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - App
+  /boardgames:
+    get:
+      operationId: BoardgamesController_getAllBoardgames
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Boardgames
+  /boardgames/{id}:
+    get:
+      operationId: BoardgamesController_getBoardgameById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Boardgames
+  /boardgames/hot:
+    get:
+      operationId: BoardgamesController_getHotBoardgames
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Boardgames
+  /rooms:
+    get:
+      operationId: RoomsController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Rooms
+    post:
+      operationId: RoomsController_createNewRoom
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Rooms
+  /rooms/{id}/set-game/{gameId}:
+    patch:
+      operationId: RoomsController_setGame
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: gameId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Rooms
+info:
+  title: Game Night API
+  description: play games with your friends online
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateRoomDto:
+      type: object
+      properties: {}

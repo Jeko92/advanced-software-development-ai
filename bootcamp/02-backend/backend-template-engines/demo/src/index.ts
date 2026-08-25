@@ -15,7 +15,7 @@ app.use(express.static('public'));
 
 app.get('/', (_req: Request, res: Response) => {
   const colors = getAllColors();
-  res.render('index.njk', { title: 'Colors', colors });
+  res.render('home.njk', { title: 'Colors', colors });
 });
 
 app.get('/all', (_req: Request, res: Response) => {

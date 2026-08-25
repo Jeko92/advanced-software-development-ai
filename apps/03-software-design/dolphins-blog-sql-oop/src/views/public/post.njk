@@ -1,0 +1,41 @@
+{% extends "layouts/_base.njk" %}
+{% import "macros/post.njk" as postMacro %}
+
+{% block page_header %}
+  {{ postMacro.renderHeader(post) }}
+{% endblock page_header %}
+
+{% block main_content %}
+  {{ postMacro.renderContent(post) }}
+
+  <!-- Navigation / Neighbors -->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="d-flex justify-content-between mb-4">
+          {% if previousPost %}
+            <a
+              class="btn btn-primary text-uppercase"
+              href="/posts/{{ previousPost.slug }}"
+            >
+              ← Previous Post
+            </a>
+          {% else %}
+            <span></span>
+          {% endif %}
+
+          {% if nextPost %}
+            <a
+              class="btn btn-primary text-uppercase"
+              href="/posts/{{ nextPost.slug }}"
+            >
+              Next Post →
+            </a>
+          {% else %}
+            <span></span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock main_content %}

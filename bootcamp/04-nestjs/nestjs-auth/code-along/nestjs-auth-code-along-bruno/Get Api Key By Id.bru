@@ -1,0 +1,19 @@
+meta {
+  name: Get Api Key By Id
+  type: http
+  seq: 36
+}
+
+get {
+  url: {{baseUrl}}/api-keys/{{apiKeyId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}

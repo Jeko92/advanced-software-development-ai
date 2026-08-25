@@ -1,0 +1,10 @@
+{
+  "name": "nestjs-restful-design-code-along",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"],
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "http://localhost:3456"
+  },
+  "version": "1"
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Add Comment To Thread
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/threads/1/comments
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "author": "signal_jammer",
+    "body": "Try a low-blue-light theme too, helps more than font choice."
+  }
+}

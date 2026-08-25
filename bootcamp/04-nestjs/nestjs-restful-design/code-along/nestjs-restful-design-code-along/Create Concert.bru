@@ -1,0 +1,26 @@
+meta {
+  name: Create Concert
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/concerts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "The Wall",
+    "artist": "Roger Waters",
+    "venue": "Olympiapark Munich",
+    "date": "2026-11-14T20:00:00.000Z",
+    "ticketPrice": 99.9,
+    "genre": "Rock"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

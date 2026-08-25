@@ -1,0 +1,26 @@
+meta {
+  name: Create Concert (Validation Error)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/concerts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "",
+    "artist": "The Jazz Collective",
+    "venue": "Blue Note",
+    "date": "not-a-date",
+    "ticketPrice": -10,
+    "genre": "polka"
+  }
+}
+
+assert {
+  res.status: eq 400
+}

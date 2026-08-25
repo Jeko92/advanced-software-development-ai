@@ -1,0 +1,30 @@
+meta {
+  name: Create Concert (Session)
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/concerts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Bruno Test Show",
+    "artist": "The Test Fixtures",
+    "venue": "Local Host Arena",
+    "date": "2026-12-25T20:00:00.000Z",
+    "ticketPrice": 40,
+    "genre": "rock"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  bru.setVar("concertId", res.body.id);
+}

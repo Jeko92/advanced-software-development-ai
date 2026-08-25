@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+coverage
+.next
+.turbo
+.cache
+bun.lockb
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+**/.db/**
+*.md

@@ -1,0 +1,12 @@
+{
+  "name": "nestjs-basics-2-code-along",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"],
+  "size": 0.0018711090087890625,
+  "filesCount": 14,
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "http://localhost:3000"
+  },
+  "version": "1"
+}

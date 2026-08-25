@@ -1,0 +1,15 @@
+meta {
+  name: Get Product By Id (Not Found)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/products/999
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

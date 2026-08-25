@@ -1,0 +1,19 @@
+meta {
+  name: Get Quick Games
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/boardgame/quick-games?maxMinutes=90
+  body: none
+  auth: none
+}
+
+params:query {
+  maxMinutes: 90
+}
+
+assert {
+  res.status: eq 200
+}

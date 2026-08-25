@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+
+    <title>Quotes API</title>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body > main {
+        flex: 1;
+      }
+
+      .quotes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        gap: 1rem;
+      }
+
+      .quote-card {
+        margin: 0;
+      }
+
+      .footer-wrapper {
+        text-align: center;
+        font-size: 0.875rem;
+        padding: 1rem 0;
+      }
+
+      .footer-wrapper p {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="container">{% include "partials/_nav.njk" %}</header>
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    {% include "partials/_footer.njk" %}
+  </body>
+</html>

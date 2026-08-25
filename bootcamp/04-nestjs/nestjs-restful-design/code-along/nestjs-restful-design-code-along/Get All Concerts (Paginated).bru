@@ -1,0 +1,16 @@
+meta {
+  name: Get All Concerts (Paginated)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/concerts?page=1&limit=5
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  limit: 5
+}

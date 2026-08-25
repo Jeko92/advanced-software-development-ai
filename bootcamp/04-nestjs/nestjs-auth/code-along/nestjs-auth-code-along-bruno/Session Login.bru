@@ -1,0 +1,22 @@
+meta {
+  name: Session Login
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/auth/session/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "admin12345"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

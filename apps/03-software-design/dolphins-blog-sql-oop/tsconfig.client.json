@@ -1,0 +1,9 @@
+{
+  "extends": "@bootcamp/tsconfig/dom.json",
+  "compilerOptions": {
+    "rootDir": "./src/scripts",
+    "outDir": "./public/js",
+    "declaration": false
+  },
+  "include": ["src/scripts/**/*"]
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Create Room
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/rooms
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Game Night Room"
+  }
+}
+
+vars:post-response {
+  roomId: res.body.id
+}

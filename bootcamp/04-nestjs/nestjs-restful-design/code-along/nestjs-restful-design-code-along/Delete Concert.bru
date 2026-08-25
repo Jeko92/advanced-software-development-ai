@@ -1,0 +1,15 @@
+meta {
+  name: Delete Concert
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/concerts/replace-with-a-real-id
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}

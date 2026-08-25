@@ -1,0 +1,15 @@
+meta {
+  name: Get Thread By Id (Invalid Id)
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/threads/not-a-uuid
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 400
+}

@@ -1,0 +1,61 @@
+{% extends "layouts/_base.njk" %}
+
+{% set headerTitle = "🐬 Dolphins Blog 🐬" %}
+{% set headerSubtitle = "Practicing express, nunjucks, MVC Pattern and co" %}
+{% set headerImage = "/assets/img/home-bg.jpg" %}
+
+{% block main_content %}
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <!-- Post Loop (Renders dynamically according to PAGE_SIZE) -->
+        {% for post in posts %}
+          {% include "partials/_post-preview.njk" %}
+          <hr class="my-4" />
+        {% else %}
+          <p class="text-center text-muted my-5">No posts found.</p>
+        {% endfor %}
+
+        <!-- Dynamic Pagination Controls -->
+        {% if controls.totalPages > 1 %}
+          <nav aria-label="Page navigation" class="my-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Previous Page -->
+              {% if controls.hasPrev %}
+                <a
+                  class="btn btn-primary text-uppercase"
+                  href="/?page={{ controls.page - 1 }}{% if controls.author %}&author={{ controls.author }}{% endif %}{% if controls.sort %}&sort={{ controls.sort }}{% endif %}"
+                >
+                  ← Previous
+                </a>
+              {% else %}
+                <span class="btn btn-secondary text-uppercase disabled"
+                  >← Previous</span
+                >
+              {% endif %}
+
+              <!-- Page Counter -->
+              <span class="text-muted small fw-bold">
+                Page {{ controls.page }} of {{ controls.totalPages }}
+              </span>
+
+              <!-- Next Page -->
+              {% if controls.hasNext %}
+                <a
+                  class="btn btn-primary text-uppercase"
+                  href="/?page={{ controls.page + 1 }}{% if controls.author %}&author={{ controls.author }}{% endif %}{% if controls.sort %}&sort={{ controls.sort }}{% endif %}"
+                >
+                  Next →
+                </a>
+              {% else %}
+                <span class="btn btn-secondary text-uppercase disabled"
+                  >Next →</span
+                >
+              {% endif %}
+            </div>
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock main_content %}

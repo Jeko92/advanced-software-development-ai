@@ -1,0 +1,17 @@
+meta {
+  name: Update Concert
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/concerts/6c271155-5931-4324-b496-3b43bdb290ab
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "ticketPrice": 55
+  }
+}
