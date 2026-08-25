@@ -46,6 +46,8 @@ class UserRepository {
   constructor(private readonly db: DatabaseClient) {}
 
   async findAll(): Promise<unknown[]> {
+    // language=SQLite
+    // noinspection SqlResolve,SqlNoDataSourceInspection
     return this.db.query('SELECT * FROM users');
   }
 }
