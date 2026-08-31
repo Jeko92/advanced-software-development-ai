@@ -22,9 +22,7 @@ export class UserService {
       where: { email: createUserDto.email },
     });
     if (existing) {
-      throw new ConflictException(
-        `Email "${createUserDto.email}" is already taken`,
-      );
+      throw new ConflictException('Email is already taken');
     }
 
     const user = this.userRepository.create(createUserDto);

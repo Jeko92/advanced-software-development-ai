@@ -6,6 +6,7 @@ import { beforeAll, describe, afterAll, it } from 'vitest';
 import { UserController } from './user.controller.ts';
 import { UserService } from './user.service.ts';
 import { User } from './entities/user.entity.ts';
+import { AuthGuard } from '../auth/auth.guard.ts';
 
 describe('UserService (database integration)', () => {
   let app: INestApplication;
@@ -23,7 +24,10 @@ describe('UserService (database integration)', () => {
       ],
       controllers: [UserController],
       providers: [UserService],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     app = module.createNestApplication();
     await app.init();

@@ -6,6 +6,7 @@ import { describe, beforeAll, afterAll, it, vi } from 'vitest';
 import { UserController } from './user.controller.ts';
 import { UserService } from './user.service.ts';
 import { User } from './entities/user.entity.ts';
+import { AuthGuard } from '../auth/auth.guard.ts';
 
 const mockUserRepository = {
   find: vi.fn().mockResolvedValue([{ id: 1, name: 'Alice' }]),
@@ -24,7 +25,10 @@ describe('UserController (integration)', () => {
           useValue: mockUserRepository,
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     app = module.createNestApplication();
     await app.init();
