@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "../../code-along/node_modules",
+    "code-along/test",
+    "dist",
+    "code-along/vitest.setup.ts",
+    "**/*spec.ts"
+  ]
+}

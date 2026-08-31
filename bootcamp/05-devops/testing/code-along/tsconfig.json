@@ -7,6 +7,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "test/**/*", "vitest.setup.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["code-along/src/**/*", "code-along/test/**/*", "vitest.setup.ts"],
+  "exclude": ["../../code-along/node_modules", "dist"]
 }

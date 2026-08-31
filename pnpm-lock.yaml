@@ -2647,7 +2647,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  bootcamp/05-devops/code-along:
+  bootcamp/05-devops/testing/code-along:
     dependencies:
       '@nestjs/common':
         specifier: ^11.2.1
@@ -2691,13 +2691,13 @@ importers:
     devDependencies:
       '@bootcamp/eslint-config':
         specifier: workspace:*
-        version: link:../../../packages/eslint-config
+        version: link:../../../../packages/eslint-config
       '@bootcamp/prettier-config':
         specifier: workspace:*
-        version: link:../../../packages/prettier-config
+        version: link:../../../../packages/prettier-config
       '@bootcamp/tsconfig':
         specifier: workspace:*
-        version: link:../../../packages/tsconfig
+        version: link:../../../../packages/tsconfig
       '@nestjs/cli':
         specifier: ^11.0.24
         version: 11.0.24(@swc/core@1.16.1)(@types/node@26.4.0)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.25)(prettier@3.9.6)(uglify-js@3.19.3)

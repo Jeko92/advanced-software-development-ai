@@ -1,13 +1,13 @@
 # DevOps Testing — Code-Along
 
 A working sandbox for the handouts in
-[`docs/learning/05-devops/devops-testing`](../../../docs/learning/05-devops/devops-testing),
+[`../../../../docs/learning/05-devops/devops-testing`](../../../../docs/learning/05-devops/devops-testing),
 with Vitest and NestJS/TypeORM/Supertest already installed and configured.
 `challenges.md` is intentionally not covered here.
 
 This is a from-scratch code-along: `src/main.ts` and `src/app.module.ts`
-are the only application files. Everything else — `src/vanilla/`,
-`src/user/`, `test/app.e2e-spec.ts` — you write yourself, following the
+are the only application files. Everything else — `src/vanilla`,
+`src/user`, `test/app.e2e-spec.ts` — you write yourself, following the
 handouts.
 
 ## Setup
