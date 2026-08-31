@@ -35,7 +35,7 @@
 | 4.6 NestJS OpenAPI & Swagger              | `bootcamp/04-nestjs/nestjs-swagger`                 | 🟢         |
 | 4.7 Recap project                         | `apps/04-nestjs/`                                   | ⬜         |
 | 5 DevOps                                  | `bootcamp/05-devops`                                | ⬜         |
-| 5.1 DevOps Testing                        | `bootcamp/05-devops/devops-testing`                 | ⬜         |
+| 5.1 DevOps Testing                        | `bootcamp/05-devops/devops-testing`                 | 🟢         |
 | 5.2 DevOps Docker Basics                  | `bootcamp/05-devops/devops-docker-basics`           | ⬜         |
 | 5.3 DevOps Docker Advanced                | `bootcamp/05-devops/devops-docker-advanced`         | ⬜         |
 | 5.4 DevOps CI/CD                          | `bootcamp/05-devops/devops-ci-cd`                   | ⬜         |
