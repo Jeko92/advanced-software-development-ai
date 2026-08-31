@@ -1,6 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UserService } from './user.service.ts';
 import type { User } from './entities/user.entity.ts';
+import { CreateUserDto } from './dto/create-user.dto.ts';
 
 @Controller('users')
 export class UserController {
@@ -11,6 +20,11 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get(':id')
+  getUserById(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.userService.findById(id);
+  }
+
   @Get(':id/name')
   getUserName(@Param('id', ParseIntPipe) id: number): Promise<string> {
     return this.userService.getUserName(id);
@@ -19,5 +33,10 @@ export class UserController {
   @Get('is-adult')
   isAdult(@Query('age', ParseIntPipe) age: number): boolean {
     return this.userService.isAdult(age);
+  }
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 }
