@@ -1,6 +1,7 @@
 node_modules
 .deploy
 dist
+db
 .next
 .turbo
 .cache

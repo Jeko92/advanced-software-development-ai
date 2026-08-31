@@ -8,6 +8,11 @@ build/
 coverage/
 *.tsbuildinfo
 
+# Local data
+*.db
+*.sqlite
+*.sqlite3
+
 # Frameworks & Monorepos
 .next/
 .turbo
