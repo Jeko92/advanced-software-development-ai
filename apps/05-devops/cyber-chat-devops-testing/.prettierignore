@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+coverage
+.next
+.turbo
+.cache
+bun.lockb
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+**/.db/**
+*.md
+# checked-in, auto-generated OpenAPI client (openapi-generator output) —
+# not meant to be reformatted to the project's own style
+client

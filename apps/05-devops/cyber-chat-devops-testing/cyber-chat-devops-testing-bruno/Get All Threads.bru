@@ -1,0 +1,21 @@
+meta {
+  name: Get All Threads
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/threads
+  body: none
+  auth: bearer
+}
+
+assert {
+  res.status: eq 200
+  res.body.meta.page: isDefined
+  res.body.meta.limit: isDefined
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
