@@ -12,6 +12,7 @@ coverage/
 .next/
 .turbo
 out/
+.deploy/
 
 # Environment & Sensitive Files
 .env

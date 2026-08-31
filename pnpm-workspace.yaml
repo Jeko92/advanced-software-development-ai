@@ -8,6 +8,7 @@ packages:
   - 'bootcamp/*/*/*/*'
   - 'packages/*'
   - 'playgrounds/*'
+  - '!**/.deploy/**'
 allowBuilds:
   '@scarf/scarf': false
   '@swc/core': true
