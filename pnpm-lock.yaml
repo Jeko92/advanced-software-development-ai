@@ -919,6 +919,136 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  apps/05-devops/cyber-chat-devops-testing:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.2.1
+        version: 11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2)
+      '@nestjs/config':
+        specifier: ^4.0.4
+        version: 4.0.4(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.2.1
+        version: 11.2.1(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/platform-express@11.2.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/jwt':
+        specifier: ^11.0.2
+        version: 11.0.2(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))
+      '@nestjs/mapped-types':
+        specifier: ^2.1.1
+        version: 2.1.1(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)
+      '@nestjs/passport':
+        specifier: ^11.0.5
+        version: 11.0.5(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(passport@0.7.0)
+      '@nestjs/platform-express':
+        specifier: ^11.2.1
+        version: 11.2.1(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@11.2.1)(supports-color@10.2.2)
+      '@nestjs/swagger':
+        specifier: ^11.4.7
+        version: 11.4.7(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@11.2.1)(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)
+      '@nestjs/typeorm':
+        specifier: ^11.0.3
+        version: 11.0.3(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@11.2.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@1.1.0(better-sqlite3@12.11.1)(pg@8.23.0)(supports-color@10.2.2)(ts-node@10.9.2(@swc/core@1.16.1)(@types/node@26.4.0)(typescript@6.0.3)))
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      better-sqlite3:
+        specifier: ^12.11.1
+        version: 12.11.1
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.15.1
+        version: 0.15.1
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1(supports-color@10.2.2)
+      passport:
+        specifier: ^0.7.0
+        version: 0.7.0
+      passport-jwt:
+        specifier: ^4.0.1
+        version: 4.0.1
+      passport-local:
+        specifier: ^1.0.0
+        version: 1.0.0
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+      typeorm:
+        specifier: ^1.1.0
+        version: 1.1.0(better-sqlite3@12.11.1)(pg@8.23.0)(supports-color@10.2.2)(ts-node@10.9.2(@swc/core@1.16.1)(@types/node@26.4.0)(typescript@6.0.3))
+    devDependencies:
+      '@bootcamp/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@bootcamp/prettier-config':
+        specifier: workspace:*
+        version: link:../../../packages/prettier-config
+      '@bootcamp/tsconfig':
+        specifier: workspace:*
+        version: link:../../../packages/tsconfig
+      '@nestjs/cli':
+        specifier: ^11.0.0
+        version: 11.0.24(@swc/core@1.16.1)(@types/node@26.4.0)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.25)(prettier@3.9.6)(uglify-js@3.19.3)
+      '@nestjs/schematics':
+        specifier: ^11.0.0
+        version: 11.1.0(chokidar@4.0.3)(prettier@3.9.6)(typescript@6.0.3)
+      '@nestjs/testing':
+        specifier: ^11.2.1
+        version: 11.2.1(@nestjs/common@11.2.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@10.2.2))(@nestjs/core@11.2.1)(@nestjs/platform-express@11.2.1)
+      '@swc/core':
+        specifier: ^1.16.1
+        version: 1.16.1
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@types/better-sqlite3':
+        specifier: ^9.6.0
+        version: 9.6.0
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      '@types/node':
+        specifier: ^26.2.0
+        version: 26.4.0
+      '@types/passport-jwt':
+        specifier: ^4.0.1
+        version: 4.0.1
+      '@types/passport-local':
+        specifier: ^1.0.38
+        version: 1.0.38
+      '@types/supertest':
+        specifier: ^7.2.1
+        version: 7.2.1
+      dotenv:
+        specifier: 17.4.2
+        version: 17.4.2
+      globals:
+        specifier: ^17.0.0
+        version: 17.11.0
+      nodemon:
+        specifier: ^3.1.14
+        version: 3.1.14
+      supertest:
+        specifier: ^7.2.2
+        version: 7.2.2(supports-color@10.2.2)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.16.1)(@types/node@26.4.0)(typescript@6.0.3)
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      unplugin-swc:
+        specifier: ^1.5.11
+        version: 1.5.11(@swc/core@1.16.1)(esbuild@0.28.1)(rolldown@1.2.2)(vite@8.2.0(@types/node@26.4.0)(esbuild@0.28.1)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(webpack@5.106.2(@swc/core@1.16.1)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.25)(uglify-js@3.19.3))
+      vitest:
+        specifier: ^4.1.11
+        version: 4.1.11(@types/node@26.4.0)(vite@8.2.0(@types/node@26.4.0)(esbuild@0.28.1)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+
   bootcamp/00-welcome:
     devDependencies:
       '@bootcamp/eslint-config':
@@ -9379,7 +9509,7 @@ snapshots:
 
   '@types/pg@8.23.1':
     dependencies:
-      '@types/node': 22.20.1
+      '@types/node': 26.4.0
       pg-protocol: 1.16.0
       pg-types: 2.2.0
 
@@ -9410,7 +9540,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 22.20.1
+      '@types/node': 26.4.0
       form-data: 4.0.6
 
   '@types/supertest@7.2.1':
@@ -13119,7 +13249,6 @@ snapshots:
       yn: 3.1.1
     optionalDependencies:
       '@swc/core': 1.16.1
-    optional: true
 
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
