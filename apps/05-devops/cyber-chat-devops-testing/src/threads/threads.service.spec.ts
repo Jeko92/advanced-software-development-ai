@@ -122,6 +122,25 @@ describe('ThreadsService', () => {
         author: author.username,
       });
     });
+
+    // challenges.md Task 4 (optional): "Add a unit test to check what
+    // happens if repository.save() throws an unexpected error ... ensure
+    // your service handles it gracefully." addNewThread has no try/catch,
+    // so "handles gracefully" here means the failure propagates as a
+    // rejected promise rather than being swallowed or returning something
+    // bogus - Nest's global exception filter turns that into a 500 at the
+    // HTTP layer.
+    it('propagates the error when the repository fails to save', async () => {
+      const author = makeUser();
+      const dto = { title: 'New thread', body: 'Body text' };
+      const created = { ...dto, authorId: author.id };
+      mockThreadRepository.create.mockReturnValue(created);
+      mockThreadRepository.save.mockRejectedValue(new Error('DB Offline'));
+
+      await expect(
+        service.addNewThread(dto, author.id, author.username),
+      ).rejects.toThrow('DB Offline');
+    });
   });
 
   // challenges.md: "Test that calling remove triggers the repository's
