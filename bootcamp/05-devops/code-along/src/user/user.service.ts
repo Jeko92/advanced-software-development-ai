@@ -10,6 +10,10 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
   isAdult(age: number): boolean {
     return age >= 18;
   }
