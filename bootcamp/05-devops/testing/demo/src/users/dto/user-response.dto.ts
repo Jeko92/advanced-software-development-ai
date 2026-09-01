@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user.entity.ts';
+import { User } from '../user.entity';
 
 /**
  * The public shape of a user.

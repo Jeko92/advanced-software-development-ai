@@ -2,7 +2,6 @@
   "name": "@bootcamp/devops-testing-code-along",
   "version": "1.0.0",
   "description": "Hands-on sandbox for the DevOps Testing handouts: Vitest fundamentals, TDD, and NestJS unit/integration/e2e testing.",
-  "type": "module",
   "scripts": {
     "dev": "nest --env-file=.env start --watch",
     "build": "nest build",

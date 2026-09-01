@@ -3,10 +3,10 @@ import type { INestApplication } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import request from 'supertest';
 import { beforeAll, describe, afterAll, it } from 'vitest';
-import { UserController } from './user.controller.ts';
-import { UserService } from './user.service.ts';
-import { User } from './entities/user.entity.ts';
-import { AuthGuard } from '../auth/auth.guard.ts';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { User } from './entities/user.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 describe('UserService (database integration)', () => {
   let app: INestApplication;

@@ -1,10 +1,6 @@
 {
-  "extends": "@bootcamp/tsconfig/base.json",
+  "extends": "@bootcamp/tsconfig/node.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node10",
-    "verbatimModuleSyntax": false,
-    "baseUrl": "./",
     "outDir": "./dist",
 
     "experimentalDecorators": true,

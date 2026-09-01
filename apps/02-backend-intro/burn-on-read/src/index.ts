@@ -1,9 +1,9 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import nunjucks from 'nunjucks';
-import { getFullYear } from './utils/utils.ts';
-import messages from './routes/messages.route.ts';
-import { initLogger, logger } from './middlewares/loggerMiddleware.ts';
+import { getFullYear } from './utils/utils';
+import messages from './routes/messages.route';
+import { initLogger, logger } from './middlewares/loggerMiddleware';
 
 const app = express();
 const port = process.env['PORT'] || 3333;

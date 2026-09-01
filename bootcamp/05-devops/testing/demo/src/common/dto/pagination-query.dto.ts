@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
-import type { PageRequest } from '../types/page.type.ts';
+import type { PageRequest } from '../types/page.type';
 
 /**
  * Base class for any paginated list endpoint.

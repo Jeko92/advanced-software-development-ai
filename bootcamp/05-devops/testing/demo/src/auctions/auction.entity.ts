@@ -8,9 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import type { Relation } from 'typeorm';
-import { User } from '../users/user.entity.ts';
-import { Offer } from '../offers/offer.entity.ts';
-import { numericTransformer } from '../common/transformers/numeric.transformer.ts';
+import { User } from '../users/user.entity';
+import { Offer } from '../offers/offer.entity';
+import { numericTransformer } from '../common/transformers/numeric.transformer';
 
 /**
  * A listing on DarkBay.

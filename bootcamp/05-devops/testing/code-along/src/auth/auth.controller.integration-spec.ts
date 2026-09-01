@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { beforeAll, describe, afterAll, it } from 'vitest';
-import { AuthModule } from './auth.module.ts';
+import { AuthModule } from './auth.module';
 
 describe('AuthController (integration)', () => {
   let app: INestApplication;

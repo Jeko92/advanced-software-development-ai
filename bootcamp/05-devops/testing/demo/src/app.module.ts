@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configuration } from './config/configuration.ts';
-import { UsersModule } from './users/users.module.ts';
-import { AuthModule } from './auth/auth.module.ts';
-import { AuctionsModule } from './auctions/auctions.module.ts';
-import { OffersModule } from './offers/offers.module.ts';
+import { configuration } from './config/configuration';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { AuctionsModule } from './auctions/auctions.module';
+import { OffersModule } from './offers/offers.module';
 
 @Module({
   imports: [

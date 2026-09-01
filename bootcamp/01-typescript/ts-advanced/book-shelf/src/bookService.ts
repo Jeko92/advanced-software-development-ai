@@ -6,7 +6,7 @@ import type {
   BookUpdatePayload,
   EntityId,
   IsbnParts,
-} from './types/book.ts';
+} from './types/book';
 import rawBooks from './data/books.json' with { type: 'json' };
 
 const books: Book[] = rawBooks.map((book) => ({

@@ -1,13 +1,13 @@
-import type { Book, EntityId } from './types/book.ts';
+import type { Book, EntityId } from './types/book';
 import {
   createBook,
   fetchBook,
   fetchBooks,
   parseIsbn,
   updateBook,
-} from './bookService.ts';
-import { groupBy, merge, pluck } from './collectionUtils.ts';
-import { EventEmitter } from './eventEmitter.ts';
+} from './bookService';
+import { groupBy, merge, pluck } from './collectionUtils';
+import { EventEmitter } from './eventEmitter';
 
 /*******************************************************/
 /* Challenge 1 - BookShelf type layer + service module  */

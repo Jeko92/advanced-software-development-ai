@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RoomsController } from './rooms.controller.ts';
-import { RoomsService } from './rooms.service.ts';
-import { RoomsRepository } from './rooms.repository.ts';
-import { BoardgamesModule } from '../boardgames/boardgames.module.ts';
+import { RoomsController } from './rooms.controller';
+import { RoomsService } from './rooms.service';
+import { RoomsRepository } from './rooms.repository';
+import { BoardgamesModule } from '../boardgames/boardgames.module';
 
 @Module({
   imports: [BoardgamesModule],

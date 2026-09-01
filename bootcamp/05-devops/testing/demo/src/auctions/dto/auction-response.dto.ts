@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserResponseDto } from '../../users/dto/user-response.dto.ts';
-import { Auction } from '../auction.entity.ts';
+import { UserResponseDto } from '../../users/dto/user-response.dto';
+import { Auction } from '../auction.entity';
 
 /**
  * The client-facing shape of an auction.

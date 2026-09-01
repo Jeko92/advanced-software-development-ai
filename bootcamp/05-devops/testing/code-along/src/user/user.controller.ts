@@ -8,10 +8,10 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service.ts';
-import type { User } from './entities/user.entity.ts';
-import { CreateUserDto } from './dto/create-user.dto.ts';
-import { AuthGuard } from '../auth/auth.guard.ts';
+import { UserService } from './user.service';
+import type { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')
 @UseGuards(AuthGuard)

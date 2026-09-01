@@ -4,7 +4,7 @@ import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 import {
   PaginatedResponseDto,
   PaginationMetaDto,
-} from '../dto/paginated-response.dto.ts';
+} from '../dto/paginated-response.dto';
 
 /**
  * Swagger builds its schema from decorator metadata, and TypeScript generics

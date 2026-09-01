@@ -14,13 +14,13 @@ import {
   vi,
 } from 'vitest';
 import request from 'supertest';
-import { ThreadsController } from './threads.controller.ts';
-import { ThreadsService } from './threads.service.ts';
+import { ThreadsController } from './threads.controller';
+import { ThreadsService } from './threads.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Thread } from './entities/threads.entity.ts';
-import { CommentsService } from '../comments/comments.service.ts';
-import { makeUser } from '../test/factories/user.factory.ts';
-import { makeThread, THREAD_ID } from '../test/factories/thread.factory.ts';
+import { Thread } from './entities/threads.entity';
+import { CommentsService } from '../comments/comments.service';
+import { makeUser } from '../test/factories/user.factory';
+import { makeThread, THREAD_ID } from '../test/factories/thread.factory';
 
 const NON_EXISTENT_THREAD_ID = '99999999-9999-4999-8999-999999999999';
 

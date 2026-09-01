@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { UserService } from './user.service.ts';
-import { User } from './entities/user.entity.ts';
+import { UserService } from './user.service';
+import { User } from './entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
 
 const mockUserRepository = {

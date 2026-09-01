@@ -17,15 +17,15 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { AuctionsService } from './auctions.service.ts';
-import { CreateAuctionDto } from './dto/create-auction.dto.ts';
-import { QueryAuctionsDto } from './dto/query-auctions.dto.ts';
-import { AuctionResponseDto } from './dto/auction-response.dto.ts';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard.ts';
-import { CurrentUser } from '../auth/current-user.decorator.ts';
-import { User } from '../users/user.entity.ts';
-import { ApiPaginatedResponse } from '../common/decorators/api-paginated-response.decorator.ts';
-import { PaginatedResponseDto } from '../common/dto/paginated-response.dto.ts';
+import { AuctionsService } from './auctions.service';
+import { CreateAuctionDto } from './dto/create-auction.dto';
+import { QueryAuctionsDto } from './dto/query-auctions.dto';
+import { AuctionResponseDto } from './dto/auction-response.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '../users/user.entity';
+import { ApiPaginatedResponse } from '../common/decorators/api-paginated-response.decorator';
+import { PaginatedResponseDto } from '../common/dto/paginated-response.dto';
 
 /**
  * The HTTP edge of the auctions module.

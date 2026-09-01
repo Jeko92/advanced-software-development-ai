@@ -5,11 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Offer } from './offer.entity.ts';
-import { User } from '../users/user.entity.ts';
-import { CreateOfferDto } from './dto/create-offer.dto.ts';
-import { AuctionsService } from '../auctions/auctions.service.ts';
-import type { Page, PageRequest } from '../common/types/page.type.ts';
+import { Offer } from './offer.entity';
+import { User } from '../users/user.entity';
+import { CreateOfferDto } from './dto/create-offer.dto';
+import { AuctionsService } from '../auctions/auctions.service';
+import type { Page, PageRequest } from '../common/types/page.type';
 
 /**
  * All the bidding rules live here.

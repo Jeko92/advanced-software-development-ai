@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import type { Relation } from 'typeorm';
-import { Auction } from '../auctions/auction.entity.ts';
-import { Offer } from '../offers/offer.entity.ts';
+import { Auction } from '../auctions/auction.entity';
+import { Offer } from '../offers/offer.entity';
 
 /**
  * A registered account.

@@ -18,15 +18,15 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { OffersService } from './offers.service.ts';
-import { CreateOfferDto } from './dto/create-offer.dto.ts';
-import { OfferResponseDto } from './dto/offer-response.dto.ts';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard.ts';
-import { CurrentUser } from '../auth/current-user.decorator.ts';
-import { User } from '../users/user.entity.ts';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.ts';
-import { PaginatedResponseDto } from '../common/dto/paginated-response.dto.ts';
-import { ApiPaginatedResponse } from '../common/decorators/api-paginated-response.decorator.ts';
+import { OffersService } from './offers.service';
+import { CreateOfferDto } from './dto/create-offer.dto';
+import { OfferResponseDto } from './dto/offer-response.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '../users/user.entity';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { PaginatedResponseDto } from '../common/dto/paginated-response.dto';
+import { ApiPaginatedResponse } from '../common/decorators/api-paginated-response.decorator';
 
 /**
  * Offers are nested under the auction they belong to.

@@ -6,9 +6,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
-import { User } from './entities/user.entity.ts';
-import type { CreateUserDto } from './dto/create-user.dto.ts';
-import { UserResponseDto } from './dto/user-response.dto.ts';
+import { User } from './entities/user.entity';
+import type { CreateUserDto } from './dto/create-user.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class UserService {

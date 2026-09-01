@@ -2,9 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersService } from '../users/users.service.ts';
-import { User } from '../users/user.entity.ts';
-import type { JwtPayload } from './jwt-payload.interface.ts';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/user.entity';
+import type { JwtPayload } from './jwt-payload.interface';
 
 /**
  * Turns a bearer token into a `User`.

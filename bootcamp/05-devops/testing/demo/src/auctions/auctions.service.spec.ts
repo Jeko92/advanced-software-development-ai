@@ -1,8 +1,8 @@
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { AuctionsService } from './auctions.service.ts';
+import { AuctionsService } from './auctions.service';
 import { Test } from '@nestjs/testing';
-import { Auction } from './auction.entity.ts';
+import { Auction } from './auction.entity';
 
 const mockAuctionsRepository = {
   findAndCount: vi.fn(),

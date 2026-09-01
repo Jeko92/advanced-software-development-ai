@@ -1,9 +1,9 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.ts';
-import { AuctionStatus } from '../auction-status.enum.ts';
-import type { AuctionQuery } from '../auction-query.type.ts';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { AuctionStatus } from '../auction-status.enum';
+import type { AuctionQuery } from '../auction-query.type';
 
 /**
  * Filters for `GET /auctions`, on top of the inherited `page` and `limit`.

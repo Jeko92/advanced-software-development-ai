@@ -1,17 +1,17 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThanOrEqual, Repository } from 'typeorm';
-import { Thread } from './entities/threads.entity.ts';
-import { CommentsService } from '../comments/comments.service.ts';
-import { CreateThreadDto } from './dto/create-thread.dto.ts';
-import { UpdateThreadDto } from './dto/update-thread.dto.ts';
-import { CreateCommentDto } from '../comments/dto/create-comment.dto.ts';
-import { ThreadResponseDto } from './dto/thread-response.dto.ts';
+import { Thread } from './entities/threads.entity';
+import { CommentsService } from '../comments/comments.service';
+import { CreateThreadDto } from './dto/create-thread.dto';
+import { UpdateThreadDto } from './dto/update-thread.dto';
+import { CreateCommentDto } from '../comments/dto/create-comment.dto';
+import { ThreadResponseDto } from './dto/thread-response.dto';
 import { plainToInstance } from 'class-transformer';
-import { ThreadWithCommentsResponseDto } from './dto/thread-with-comments-response.dto.ts';
-import type { PaginationQueryDto } from '../common/dto/pagination-query.dto.ts';
-import type { UserRole } from '../users/entities/user.entity.ts';
-import { canBypassOwnership } from '../common/utils/authorization.util.ts';
+import { ThreadWithCommentsResponseDto } from './dto/thread-with-comments-response.dto';
+import type { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import type { UserRole } from '../users/entities/user.entity';
+import { canBypassOwnership } from '../common/utils/authorization.util';
 
 @Injectable()
 export class ThreadsService {

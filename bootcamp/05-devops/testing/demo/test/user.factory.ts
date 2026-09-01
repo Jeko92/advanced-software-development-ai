@@ -1,5 +1,5 @@
 const USER_ID = '11111111-1111-4111-8111-111111111111';
-import { User } from '../src/users/user.entity.ts';
+import { User } from '../src/users/user.entity';
 
 export const makeUser = (overrides: Partial<User> = {}): User => ({
   id: USER_ID,

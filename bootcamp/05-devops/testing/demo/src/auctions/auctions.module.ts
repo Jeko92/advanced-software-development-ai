@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auction } from './auction.entity.ts';
-import { AuctionsService } from './auctions.service.ts';
-import { AuctionsController } from './auctions.controller.ts';
+import { Auction } from './auction.entity';
+import { AuctionsService } from './auctions.service';
+import { AuctionsController } from './auctions.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Auction])],

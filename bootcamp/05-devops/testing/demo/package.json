@@ -2,7 +2,6 @@
   "name": "@bootcamp/devops-testing-demo-dark-bay",
   "version": "0.0.1",
   "description": "DarkBay auction API — NestJS, TypeORM, SQLite",
-  "type": "module",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

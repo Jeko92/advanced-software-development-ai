@@ -1,6 +1,6 @@
-import type { Comment } from '../../comments/entities/comments.entity.ts';
-import { makeUser, USER_ID } from './user.factory.ts';
-import { makeThread, THREAD_ID } from './thread.factory.ts';
+import type { Comment } from '../../comments/entities/comments.entity';
+import { makeUser, USER_ID } from './user.factory';
+import { makeThread, THREAD_ID } from './thread.factory';
 
 export const COMMENT_ID = '33333333-3333-4333-8333-333333333333';
 

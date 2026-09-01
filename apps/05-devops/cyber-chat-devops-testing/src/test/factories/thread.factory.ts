@@ -1,5 +1,5 @@
-import type { Thread } from '../../threads/entities/threads.entity.ts';
-import { makeUser, USER_ID } from './user.factory.ts';
+import type { Thread } from '../../threads/entities/threads.entity';
+import { makeUser, USER_ID } from './user.factory';
 
 export const THREAD_ID = '22222222-2222-4222-8222-222222222222';
 

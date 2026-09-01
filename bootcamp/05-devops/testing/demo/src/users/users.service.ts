@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { User } from './user.entity.ts';
+import { User } from './user.entity';
 
 /** Cost factor for bcrypt. Higher is slower to crack — and slower to log in. */
 const BCRYPT_ROUNDS = 10;

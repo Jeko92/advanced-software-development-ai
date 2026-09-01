@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { ThreadsService } from './threads.service.ts';
-import { Thread } from './entities/threads.entity.ts';
-import { CommentsService } from '../comments/comments.service.ts';
-import { makeThread } from '../test/factories/thread.factory.ts';
-import { makeUser } from '../test/factories/user.factory.ts';
+import { ThreadsService } from './threads.service';
+import { Thread } from './entities/threads.entity';
+import { CommentsService } from '../comments/comments.service';
+import { makeThread } from '../test/factories/thread.factory';
+import { makeUser } from '../test/factories/user.factory';
 
 const mockThreadRepository = {
   findAndCount: vi.fn(),

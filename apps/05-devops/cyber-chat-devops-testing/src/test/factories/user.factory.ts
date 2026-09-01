@@ -1,4 +1,4 @@
-import type { User } from '../../users/entities/user.entity.ts';
+import type { User } from '../../users/entities/user.entity';
 
 export const USER_ID = '11111111-1111-4111-8111-111111111111';
 

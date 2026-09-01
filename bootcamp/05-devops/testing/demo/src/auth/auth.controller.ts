@@ -5,10 +5,10 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { AuthService } from './auth.service.ts';
-import { RegisterDto } from './dto/register.dto.ts';
-import { LoginDto } from './dto/login.dto.ts';
-import { AuthResponseDto } from './dto/auth-response.dto.ts';
+import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 @ApiTags('auth')
 @Controller('auth')

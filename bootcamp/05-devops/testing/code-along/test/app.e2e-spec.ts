@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { type INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { describe, beforeAll, afterAll, it, expect } from 'vitest';
-import { AppModule } from '../src/app.module.ts';
+import { AppModule } from '../src/app.module';
 
 describe('App (e2e)', () => {
   let app: INestApplication;

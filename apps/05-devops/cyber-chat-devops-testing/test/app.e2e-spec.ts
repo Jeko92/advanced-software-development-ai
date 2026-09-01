@@ -5,16 +5,16 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import request from 'supertest';
 import { describe, beforeAll, afterAll, it, expect } from 'vitest';
-import { AppController } from '../src/app.controller.ts';
-import { AppService } from '../src/app.service.ts';
-import { ThreadsModule } from '../src/threads/threads.module.ts';
-import { CommentsModule } from '../src/comments/comments.module.ts';
-import { UsersModule } from '../src/users/users.module.ts';
-import AuthModule from '../src/auth/auth.module.ts';
-import { JwtAuthGuard } from '../src/auth/jwt-auth.guard.ts';
-import { Thread } from '../src/threads/entities/threads.entity.ts';
-import { Comment } from '../src/comments/entities/comments.entity.ts';
-import { User } from '../src/users/entities/user.entity.ts';
+import { AppController } from '../src/app.controller';
+import { AppService } from '../src/app.service';
+import { ThreadsModule } from '../src/threads/threads.module';
+import { CommentsModule } from '../src/comments/comments.module';
+import { UsersModule } from '../src/users/users.module';
+import AuthModule from '../src/auth/auth.module';
+import { JwtAuthGuard } from '../src/auth/jwt-auth.guard';
+import { Thread } from '../src/threads/entities/threads.entity';
+import { Comment } from '../src/comments/entities/comments.entity';
+import { User } from '../src/users/entities/user.entity';
 
 // Distinct, validly-shaped UUID for the "not found" case - ParseUUIDPipe
 // 400s on a malformed id, so an arbitrary string like 'missing-id' would

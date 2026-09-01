@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateDiscount } from './cart.ts';
+import { calculateDiscount } from './cart';
 
 describe('calculateDiscount', () => {
   it('applies a standard 10% discount correctly', () => {

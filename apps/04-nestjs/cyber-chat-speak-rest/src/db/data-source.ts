@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
-import { Thread } from '../threads/entities/threads.entity.ts';
-import { Comment } from '../comments/entities/comments.entity.ts';
+import { Thread } from '../threads/entities/threads.entity';
+import { Comment } from '../comments/entities/comments.entity';
 
 config({ quiet: true });
 

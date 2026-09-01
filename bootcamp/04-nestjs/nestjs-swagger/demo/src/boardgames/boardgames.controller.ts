@@ -6,10 +6,10 @@ import {
   ParseIntPipe,
   SerializeOptions,
 } from '@nestjs/common';
-import { BoardgamesService } from './boardgames.service.ts';
-import { Boardgame } from './entities/boardgame.entity.ts';
+import { BoardgamesService } from './boardgames.service';
+import { Boardgame } from './entities/boardgame.entity';
 import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
-import { BoardgameResponseDto } from './dtos/boardgameResponse.dto.ts';
+import { BoardgameResponseDto } from './dtos/boardgameResponse.dto';
 
 @Controller('boardgames')
 export class BoardgamesController {

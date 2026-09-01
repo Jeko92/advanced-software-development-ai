@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import type { LoginDto } from './dto/login.dto.ts';
+import type { LoginDto } from './dto/login.dto';
 
 const FIXTURE_USER = { username: 'alice', password: 'secret' };
 

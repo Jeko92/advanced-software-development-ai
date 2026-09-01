@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateLateFee } from './library.ts';
+import { calculateLateFee } from './library';
 
 describe('calculateLateFee', () => {
   it('charges 2 per day for overdue books', () => {

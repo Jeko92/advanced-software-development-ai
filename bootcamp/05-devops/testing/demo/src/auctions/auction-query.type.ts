@@ -1,4 +1,4 @@
-import { AuctionStatus } from './auction-status.enum.ts';
+import { AuctionStatus } from './auction-status.enum';
 
 /**
  * The filters `AuctionsService.findAll` understands.

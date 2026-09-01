@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserResponseDto } from '../../users/dto/user-response.dto.ts';
-import { Offer } from '../offer.entity.ts';
+import { UserResponseDto } from '../../users/dto/user-response.dto';
+import { Offer } from '../offer.entity';
 
 /**
  * The client-facing shape of a bid.

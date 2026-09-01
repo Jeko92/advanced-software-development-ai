@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { CommentsService } from './comments.service.ts';
-import { Comment } from './entities/comments.entity.ts';
-import { makeComment } from '../test/factories/comment.factory.ts';
-import { makeUser } from '../test/factories/user.factory.ts';
-import { THREAD_ID } from '../test/factories/thread.factory.ts';
+import { CommentsService } from './comments.service';
+import { Comment } from './entities/comments.entity';
+import { makeComment } from '../test/factories/comment.factory';
+import { makeUser } from '../test/factories/user.factory';
+import { THREAD_ID } from '../test/factories/thread.factory';
 
 const mockCommentRepository = {
   create: vi.fn(),

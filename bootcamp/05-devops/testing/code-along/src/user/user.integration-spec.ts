@@ -3,10 +3,10 @@ import type { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import request from 'supertest';
 import { describe, beforeAll, afterAll, it, vi } from 'vitest';
-import { UserController } from './user.controller.ts';
-import { UserService } from './user.service.ts';
-import { User } from './entities/user.entity.ts';
-import { AuthGuard } from '../auth/auth.guard.ts';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { User } from './entities/user.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 const mockUserRepository = {
   find: vi.fn().mockResolvedValue([{ id: 1, name: 'Alice' }]),

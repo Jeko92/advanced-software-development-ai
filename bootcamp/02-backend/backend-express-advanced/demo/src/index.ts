@@ -1,9 +1,9 @@
 import express, { type Request, type Response } from 'express';
 import nunjucks from 'nunjucks';
-import colors from './routes/color.route.ts';
-import blog from './routes/blog.route.ts';
-import { ensureLogFile, logger } from './middlewares/loggerMiddleware.ts';
-import { authenticate } from './auth/auth-mock.ts';
+import colors from './routes/color.route';
+import blog from './routes/blog.route';
+import { ensureLogFile, logger } from './middlewares/loggerMiddleware';
+import { authenticate } from './auth/auth-mock';
 import cors from 'cors';
 
 const app = express();

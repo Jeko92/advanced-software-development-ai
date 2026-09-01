@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import type { Relation } from 'typeorm';
-import { Auction } from '../auctions/auction.entity.ts';
-import { User } from '../users/user.entity.ts';
-import { numericTransformer } from '../common/transformers/numeric.transformer.ts';
+import { Auction } from '../auctions/auction.entity';
+import { User } from '../users/user.entity';
+import { numericTransformer } from '../common/transformers/numeric.transformer';
 
 /**
  * A single bid.

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity.ts';
-import { UsersService } from './users.service.ts';
+import { User } from './user.entity';
+import { UsersService } from './users.service';
 
 /**
  * Owns everything about accounts. It exports `UsersService` so the auth module

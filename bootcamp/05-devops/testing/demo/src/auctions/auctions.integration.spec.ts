@@ -3,11 +3,11 @@ import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { afterAll, beforeAll, describe, it } from 'vitest';
-import { Auction } from './auction.entity.ts';
+import { Auction } from './auction.entity';
 import request from 'supertest';
-import { AuctionsModule } from './auctions.module.ts';
-import { Offer } from '../offers/offer.entity.ts';
-import { User } from '../users/user.entity.ts';
+import { AuctionsModule } from './auctions.module';
+import { Offer } from '../offers/offer.entity';
+import { User } from '../users/user.entity';
 import { DataSource } from 'typeorm';
 
 describe('AuctionController and AuctionService Integration', () => {

@@ -8,12 +8,12 @@ import {
   Repository,
 } from 'typeorm';
 import type { FindOptionsWhere } from 'typeorm';
-import { Auction } from './auction.entity.ts';
-import { User } from '../users/user.entity.ts';
-import { CreateAuctionDto } from './dto/create-auction.dto.ts';
-import { AuctionStatus } from './auction-status.enum.ts';
-import type { Page, PageRequest } from '../common/types/page.type.ts';
-import type { AuctionQuery } from './auction-query.type.ts';
+import { Auction } from './auction.entity';
+import { User } from '../users/user.entity';
+import { CreateAuctionDto } from './dto/create-auction.dto';
+import { AuctionStatus } from './auction-status.enum';
+import type { Page, PageRequest } from '../common/types/page.type';
+import type { AuctionQuery } from './auction-query.type';
 
 /** How long a listing runs when the seller does not say. */
 const DEFAULT_DURATION_DAYS = 3;

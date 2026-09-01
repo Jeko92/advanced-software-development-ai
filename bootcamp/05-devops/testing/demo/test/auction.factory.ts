@@ -1,5 +1,5 @@
-import { Auction } from '../src/auctions/auction.entity.ts';
-import { makeUser } from './user.factory.ts';
+import { Auction } from '../src/auctions/auction.entity';
+import { makeUser } from './user.factory';
 
 export const SELLER_ID = '11111111-1111-4111-8111-111111111111';
 export const AUCTION_ID = '22222222-2222-4222-8222-222222222222';

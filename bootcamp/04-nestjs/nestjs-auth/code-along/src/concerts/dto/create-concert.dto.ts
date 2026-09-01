@@ -6,7 +6,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { CONCERT_GENRES, type ConcertGenre } from '../concert-genres.ts';
+import { CONCERT_GENRES, type ConcertGenre } from '../concert-genres';
 
 export class CreateConcertDto {
   @IsString()
