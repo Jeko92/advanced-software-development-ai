@@ -47,7 +47,7 @@ export class UsersService {
   findByEmailWithPassword(email: string): Promise<User | null> {
     return this.usersRepository.findOne({
       where: { email },
-      select: ['id', 'email', 'passwordHash', 'createdAt'],
+      select: { id: true, email: true, passwordHash: true, createdAt: true },
     });
   }
 

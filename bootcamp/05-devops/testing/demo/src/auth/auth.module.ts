@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import type { StringValue } from 'ms';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from '../users/users.module.ts';
 import { AuthController } from './auth.controller.ts';
@@ -24,7 +25,10 @@ import { JwtStrategy } from './jwt.strategy.ts';
           'dev-only-secret-change-me',
         ),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '1d'),
+          expiresIn: configService.get<string>(
+            'JWT_EXPIRES_IN',
+            '1d',
+          ) as StringValue,
         },
       }),
     }),
