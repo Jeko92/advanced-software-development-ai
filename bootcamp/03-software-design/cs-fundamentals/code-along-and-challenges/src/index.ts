@@ -1,1 +1,1 @@
-import './playground.ts';
+import './playground';

@@ -7,7 +7,7 @@ import type {
   EntityId,
   IsbnParts,
 } from './types/book';
-import rawBooks from './data/books.json' with { type: 'json' };
+import rawBooks from './data/books.json';
 
 const books: Book[] = rawBooks.map((book) => ({
   ...book,

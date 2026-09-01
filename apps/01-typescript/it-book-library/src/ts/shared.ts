@@ -1,4 +1,4 @@
-import type { BookList } from './types.js';
+import type { BookList } from './types';
 
 const FAVORITES_KEY = 'it_book_library_favorites';
 

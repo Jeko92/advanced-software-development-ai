@@ -1,10 +1,10 @@
-import type { BookDetail } from './types.js';
+import type { BookDetail } from './types';
 import {
   apiPath,
   getFavoriteIsbns,
   toggleFavorite,
   updateHeaderFavoritesBadge,
-} from './shared.js';
+} from './shared';
 
 const titleEl = document.getElementById('book-title') as HTMLSpanElement;
 const abstractEL = document.getElementById(

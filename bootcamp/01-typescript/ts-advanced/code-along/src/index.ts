@@ -250,8 +250,13 @@ const fetchBooks = (): Promise<ApiBook[]> => {
 
 console.log('******* Promise<T> *******');
 console.log('Fetching books...');
-const fetchedBooks = await fetchBooks();
-console.log('Fetched books (after a fake delay):', fetchedBooks);
+
+async function loadBooks(): Promise<void> {
+  const fetchedBooks = await fetchBooks();
+  console.log('Fetched books (after a fake delay):', fetchedBooks);
+}
+
+void loadBooks();
 
 const featured: ReadonlyArray<ApiBook> = Object.freeze([
   { id: 1, title: 'Clean Code', author: 'Robert C. Martin' },

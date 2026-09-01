@@ -1,14 +1,14 @@
-import { DoublyNode, Node } from './node.ts';
-import { LinkedList } from './singly-linked-list.ts';
-import { DoublyLinkedList } from './doubly-linked-list.ts';
-import { TreeNode } from './general-tree.ts';
-import { BinaryTreeNode } from './binary-tree.ts';
-import { BinarySearchTree } from './binary-search-tree.ts';
-import { Stack } from './stack.ts';
-import { BubbleSorter } from './bubble-sort.ts';
-import { InsertionSort } from './insertion-sort.ts';
-import { MergeSort } from './merge-sort.ts';
-import { TimSort } from './timsort.ts';
+import { DoublyNode, Node } from './node';
+import { LinkedList } from './singly-linked-list';
+import { DoublyLinkedList } from './doubly-linked-list';
+import { TreeNode } from './general-tree';
+import { BinaryTreeNode } from './binary-tree';
+import { BinarySearchTree } from './binary-search-tree';
+import { Stack } from './stack';
+import { BubbleSorter } from './bubble-sort';
+import { InsertionSort } from './insertion-sort';
+import { MergeSort } from './merge-sort';
+import { TimSort } from './timsort';
 
 /*==========================================================*/
 /*                      EXAMPLES                            */

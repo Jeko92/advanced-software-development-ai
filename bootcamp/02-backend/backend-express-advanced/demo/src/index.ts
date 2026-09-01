@@ -17,27 +17,35 @@ nunjucks.configure('src/views', {
 
 app.set('view engine', 'njk');
 
-await ensureLogFile();
+async function bootstrap(): Promise<void> {
+  await ensureLogFile();
 
-app.use(cors());
-app.use(express.static('public'));
-app.use(logger);
+  app.use(cors());
+  app.use(express.static('public'));
+  app.use(logger);
 
-app.use('/colors', colors);
-app.use('/blog', blog);
+  app.use('/colors', colors);
+  app.use('/blog', blog);
 
-app.get('/', (_req: Request, res: Response) => {
-  res.render('home.njk', { title: 'Home' });
-});
+  app.get('/', (_req: Request, res: Response) => {
+    res.render('home.njk', { title: 'Home' });
+  });
 
-app.get('/api/greeting/:name', authenticate, (req: Request, res: Response) => {
-  res.json({ message: `Hello, ${req.params['name']}!` });
-});
+  app.get(
+    '/api/greeting/:name',
+    authenticate,
+    (req: Request, res: Response) => {
+      res.json({ message: `Hello, ${req.params['name']}!` });
+    },
+  );
 
-app.get('/greeting/Joe', (_req: Request, res: Response) => {
-  res.render('greeting-joe.njk', { title: 'Greeting Joe' });
-});
+  app.get('/greeting/Joe', (_req: Request, res: Response) => {
+    res.render('greeting-joe.njk', { title: 'Greeting Joe' });
+  });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+void bootstrap();

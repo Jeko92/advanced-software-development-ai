@@ -82,7 +82,12 @@ console.log('mp3Listing:', mp3Listing);
 
 type RType = Promise<Media>;
 const rTypeExample: RType = Promise.resolve(pinkFloydVinyl);
-console.log('rTypeExample resolves to:', await rTypeExample);
+
+async function logRTypeExample(): Promise<void> {
+  console.log('rTypeExample resolves to:', await rTypeExample);
+}
+
+void logRTypeExample();
 
 type MediaWithoutStorageData = Omit<Media, 'price' | 'stock'>;
 const mediaWithoutStorageData: MediaWithoutStorageData = {
