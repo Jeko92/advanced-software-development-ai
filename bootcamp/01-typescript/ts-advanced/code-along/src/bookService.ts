@@ -1,4 +1,4 @@
-import type { Book, BookCreatePayload, ApiResponse } from './types/book.ts';
+import type { Book, BookCreatePayload, ApiResponse } from './types/book';
 
 export const createBook = (
   payload: BookCreatePayload,

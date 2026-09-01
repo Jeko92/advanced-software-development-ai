@@ -584,6 +584,6 @@ console.log('******* @types/node *******');
 const appEnv: string | undefined = process.env['APP_ENV'];
 console.log('APP_ENV:', appEnv ?? '(not set)');
 
-const filePath = path.join(import.meta.dirname, 'data', 'volunteers.json');
+const filePath = path.join(__dirname, 'data', 'volunteers.json');
 const volunteersRaw = fs.readFileSync(filePath, 'utf8');
 console.log('Volunteers loaded from disk:', JSON.parse(volunteersRaw));

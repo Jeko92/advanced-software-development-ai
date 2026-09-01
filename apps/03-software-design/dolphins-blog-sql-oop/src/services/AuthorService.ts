@@ -1,5 +1,5 @@
-import type { IAuthorRepository } from '../repositories/IAuthorRepository.ts';
-import type { Author } from '../entities/Author.ts';
+import type { IAuthorRepository } from '../repositories/IAuthorRepository';
+import type { Author } from '../entities/Author';
 
 // Thin pass-through — no extra business logic beyond the DB calls, but
 // still worth having, for symmetry and so the controller never talks to a

@@ -1,7 +1,7 @@
-import type { Region } from '../types/types.ts';
-import { getDB } from '../db/database.ts';
+import type { Region } from '../types/types';
+import { getDB } from '../db/database';
 import type { Database } from 'sqlite';
-import { sanitizePostContent, slugify } from '../utils/utils.ts';
+import { sanitizePostContent, slugify } from '../utils/utils';
 
 // image_url is borrowed from the region's own first trail so cards have a
 // picture without needing a separate image field on the region itself.
