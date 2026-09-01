@@ -135,10 +135,14 @@ class TimeoutError extends Error {
   readonly time = 10;
 }
 
-try {
+function doCoolStuff(): void {
   // cool stuff
 
   throw new Error('test');
+}
+
+try {
+  doCoolStuff();
 } catch (rawError) {
   if (rawError instanceof TimeoutError) {
     // try fetch the data again
