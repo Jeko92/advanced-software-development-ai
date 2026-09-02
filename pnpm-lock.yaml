@@ -2647,6 +2647,29 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  bootcamp/05-devops/docker-advanced/code-along: {}
+
+  bootcamp/05-devops/docker-advanced/scoreboard-service:
+    devDependencies:
+      '@bootcamp/eslint-config':
+        specifier: workspace:*
+        version: link:../../../../packages/eslint-config
+      '@bootcamp/prettier-config':
+        specifier: workspace:*
+        version: link:../../../../packages/prettier-config
+      '@bootcamp/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../packages/tsconfig
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.23.12
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   bootcamp/05-devops/docker-basics/code-along:
     dependencies:
       '@nestjs/common':
