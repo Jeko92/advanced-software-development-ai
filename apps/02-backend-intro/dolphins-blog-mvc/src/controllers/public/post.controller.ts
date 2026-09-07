@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { formatDate } from '../../utils/utils.ts';
-import { getPostWithNeighbors } from '../../models/post.model.ts';
+import { formatDate } from '../../utils/utils';
+import { getPostWithNeighbors } from '../../models/post.model';
 
 const postController = async (req: Request, res: Response) => {
   const slug = Array.isArray(req.params['slug'])

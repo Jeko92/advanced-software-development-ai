@@ -343,11 +343,7 @@ class PricingService {
 // ---- State Machine: Order lifecycle -------------------------------------------
 
 type OrderLifecycleState =
-  | 'pending'
-  | 'paid'
-  | 'shipped'
-  | 'delivered'
-  | 'cancelled';
+  'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
 type OrderLifecycleEvent = 'pay' | 'ship' | 'deliver' | 'cancel';
 
 const orderLifecycleTransitions: Record<

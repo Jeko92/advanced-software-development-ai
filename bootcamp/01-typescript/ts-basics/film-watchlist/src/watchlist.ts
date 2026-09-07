@@ -1,5 +1,5 @@
-import type { Film, Playlist } from './types.ts';
-import { formatFilm, getUnwatched } from './types.ts';
+import type { Film, Playlist } from './types';
+import { formatFilm, getUnwatched } from './types';
 
 const films: Film[] = [
   { id: 1, title: 'Arrival', year: '2016', watched: true, rating: 5 },

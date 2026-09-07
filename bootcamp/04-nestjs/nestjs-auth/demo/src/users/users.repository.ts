@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
-import { type PublicUser, type User } from './users.interface.ts';
-import { type UserPayload } from './users.dto.ts';
+import { type PublicUser, type User } from './users.interface';
+import { type UserPayload } from './users.dto';
 
 @Injectable()
 export class UsersRepository {

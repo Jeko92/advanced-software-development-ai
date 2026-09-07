@@ -26,7 +26,7 @@ Examples:
 "DIGEST" --> ["D", "I", "E", "T"]
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function moreZeros(s: string): string[] {
   const result: string[] = [];

@@ -11,10 +11,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ConcertsService } from './concerts.service.ts';
-import { CreateConcertDto } from './dto/create-concert.dto.ts';
-import { UpdateConcertDto } from './dto/update-concert.dto.ts';
-import { PaginationQueryDto } from './dto/pagination-query.dto.ts';
+import { ConcertsService } from './concerts.service';
+import { CreateConcertDto } from './dto/create-concert.dto';
+import { UpdateConcertDto } from './dto/update-concert.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
 @Controller('concerts')
 export class ConcertsController {

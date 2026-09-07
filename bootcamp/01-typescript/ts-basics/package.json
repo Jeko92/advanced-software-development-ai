@@ -2,7 +2,6 @@
   "name": "@bootcamp/ts-basics",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "dev": "tsx ./scripts/run.ts",
     "build": "tsc --build tsconfig.build.json",

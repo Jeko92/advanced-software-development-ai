@@ -1,7 +1,7 @@
 import { type SessionData, Store } from 'express-session';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Session } from './entities/session.entity.ts';
+import { Session } from './entities/session.entity';
 import type { Repository } from 'typeorm';
 
 @Injectable()

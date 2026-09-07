@@ -6,7 +6,7 @@
 // ' longest 'slide down'. Let's say that the 'slide down' is a sum of consecutive numbers from the top to the bottom
 // of the pyramid. As you can see, the longest 'slide down' is 3 + 7 + 4 + 9 = 23
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function longestSlideDown(a: number[][]): number {
   const pyramid = a.map((row) => [...row]);

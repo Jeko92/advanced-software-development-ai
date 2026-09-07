@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { BoardgamesService } from './boardgames.service.ts';
+import { BoardgamesService } from './boardgames.service';
 
 @Controller('boardgames')
 export class BoardgamesController {

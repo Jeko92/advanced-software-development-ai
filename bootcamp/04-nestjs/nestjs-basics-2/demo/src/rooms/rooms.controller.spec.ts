@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RoomsController } from './rooms.controller.ts';
-import { RoomsService } from './rooms.service.ts';
-import { RoomsRepository } from './rooms.repository.ts';
-import { BoardgamesRepository } from '../boardgames/boardgames.repository.ts';
+import { RoomsController } from './rooms.controller';
+import { RoomsService } from './rooms.service';
+import { RoomsRepository } from './rooms.repository';
+import { BoardgamesRepository } from '../boardgames/boardgames.repository';
 
 describe('RoomsController', () => {
   let controller: RoomsController;

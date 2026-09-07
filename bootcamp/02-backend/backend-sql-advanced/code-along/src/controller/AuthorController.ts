@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import * as authorModel from '../models/authorModel.ts';
+import * as authorModel from '../models/authorModel';
 
 export async function getAllAuthors(_req: Request, res: Response) {
   try {

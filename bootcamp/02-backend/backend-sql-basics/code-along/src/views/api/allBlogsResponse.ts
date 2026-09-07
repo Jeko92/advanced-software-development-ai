@@ -1,4 +1,4 @@
-import type { BlogEntry } from '../../models/blogModel.ts';
+import type { BlogEntry } from '../../models/blogModel';
 
 type AllBlogsResponse = {
   info: {

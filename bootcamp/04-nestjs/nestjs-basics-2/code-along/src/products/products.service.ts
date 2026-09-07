@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { type Product, PRODUCTS } from './entities/product.entity.ts';
-import { UsersService } from '../users/users.service.ts';
+import { type Product, PRODUCTS } from './entities/product.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ProductsService {

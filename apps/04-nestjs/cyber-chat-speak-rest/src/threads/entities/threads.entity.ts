@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import type { Comment } from '../../comments/entities/comments.entity.ts';
+import type { Comment } from '../../comments/entities/comments.entity';
 
 @Entity('threads')
 export class Thread {
