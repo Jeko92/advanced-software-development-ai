@@ -16,10 +16,13 @@
 # Stage 1: build
 FROM node:26-alpine AS builder
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# node:26 no longer ships corepack bundled (Node deprecated and removed it
+# from the default install around Node 22+), so `corepack enable` fails
+# with "corepack: not found" here - install pnpm directly instead, pinned
+# to the version this workspace uses (see root package.json's
+# "packageManager" field).
 ENV CI=true
-RUN corepack enable
+RUN npm install -g pnpm@11.20.0
 
 WORKDIR /repo
 
