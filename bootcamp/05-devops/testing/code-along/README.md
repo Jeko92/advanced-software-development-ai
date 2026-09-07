@@ -58,11 +58,3 @@ empty right now.
   supports the synchronous `better-sqlite3` driver, so wherever a handout
   says `type: 'sqlite'`, use `type: 'better-sqlite3'` instead. Same
   in-memory technique (`database: ':memory:'`), different driver key.
-
-## If you get stuck
-
-`.solutions/` holds a complete, previously-verified version of everything
-described above (`vanilla/`, `user/`, `app.module.ts`, `test/app.e2e-spec.ts`) —
-it's excluded from lint/typecheck/test so it won't interfere with your own
-code. Try not to peek until you've actually hit a wall; ask first if you'd
-rather talk through the problem than see the answer.
