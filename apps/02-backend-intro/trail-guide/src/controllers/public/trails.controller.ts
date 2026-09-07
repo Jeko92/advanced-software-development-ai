@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { countTrails, getAllTrails } from '../../models/trails.model';
-import { attachTagsToTrails } from '../../models/tags.model';
-import { getAllRegions } from '../../models/regions.model';
+import { countTrails, getAllTrails } from '../../models/trails.model.ts';
+import { attachTagsToTrails } from '../../models/tags.model.ts';
+import { getAllRegions } from '../../models/regions.model.ts';
 
 const trailsController = async (
   req: Request,

@@ -7,13 +7,13 @@ import {
   Request,
 } from '@nestjs/common';
 import type { Request as ExpressRequest } from 'express';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import type { User } from '../users/entities/user.entity';
+import { AuthService } from './auth.service.ts';
+import { LoginDto } from './dto/login.dto.ts';
+import type { User } from '../users/entities/user.entity.ts';
 import { AuthGuard } from '@nestjs/passport';
-import { Public } from '../common/decorators/public.decorator';
-import { GoogleAuthGuard } from './google-auth.guard';
-import { GithubAuthGuard } from './github-auth.guard';
+import { Public } from '../common/decorators/public.decorator.ts';
+import { GoogleAuthGuard } from './google-auth.guard.ts';
+import { GithubAuthGuard } from './github-auth.guard.ts';
 
 export interface RequestWithUser extends ExpressRequest {
   user: Omit<User, 'password'>;

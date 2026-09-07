@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
-import { Thread } from '../threads/entities/threads.entity';
-import { Comment } from '../comments/entities/comments.entity';
-import { User } from '../users/entities/user.entity';
+import { Thread } from '../threads/entities/threads.entity.ts';
+import { Comment } from '../comments/entities/comments.entity.ts';
+import { User } from '../users/entities/user.entity.ts';
 
 config({ quiet: true });
 

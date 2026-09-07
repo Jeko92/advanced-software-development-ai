@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Boardgame } from '../../boardgames/entities/boardgame.entity';
+import { Boardgame } from '../../boardgames/entities/boardgame.entity.ts';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('rooms')

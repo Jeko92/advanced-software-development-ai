@@ -9,8 +9,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import type { Product } from './entities/product.entity';
+import { ProductsService } from './products.service.ts';
+import type { Product } from './entities/product.entity.ts';
 
 @Controller('products')
 export class ProductsController {

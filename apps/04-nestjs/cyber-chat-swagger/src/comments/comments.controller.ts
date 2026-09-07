@@ -19,10 +19,10 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { CommentsService } from './comments.service';
-import { CommentResponseDto } from './dto/comment-response.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
-import type { RequestWithUser } from '../common/types/request-with-user';
+import { CommentsService } from './comments.service.ts';
+import { CommentResponseDto } from './dto/comment-response.dto.ts';
+import { UpdateCommentDto } from './dto/update-comment.dto.ts';
+import type { RequestWithUser } from '../common/types/request-with-user.ts';
 
 @ApiBearerAuth()
 @Controller('comments')

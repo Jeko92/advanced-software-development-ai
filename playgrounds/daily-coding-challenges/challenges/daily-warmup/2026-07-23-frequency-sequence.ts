@@ -5,7 +5,7 @@ with a number representing the number of times that character occurs in s/$s and
 with the character(s) sep/$sep.
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function freqSeq(str: string, sep: string): string {
   return str

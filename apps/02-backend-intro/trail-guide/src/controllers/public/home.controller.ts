@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { getAllTrails } from '../../models/trails.model';
-import { attachTagsToTrails } from '../../models/tags.model';
-import type { TrailWithRegion } from '../../types/types';
+import { getAllTrails } from '../../models/trails.model.ts';
+import { attachTagsToTrails } from '../../models/tags.model.ts';
+import type { TrailWithRegion } from '../../types/types.ts';
 
 const homeController = async (
   _req: Request,

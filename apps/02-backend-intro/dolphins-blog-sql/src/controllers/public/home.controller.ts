@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { formatDate } from '../../utils/utils';
-import { loadPosts, slugify } from '../../models/post.model';
-import type { Post } from '../../models/post.model';
+import { formatDate } from '../../utils/utils.ts';
+import { loadPosts, slugify } from '../../models/post.model.ts';
+import type { Post } from '../../models/post.model.ts';
 
 // Change this number to 2, 3, 4, or whatever size you want per page!
 const PAGE_SIZE = Number(process.env['PAGE_SIZE']) || 2;

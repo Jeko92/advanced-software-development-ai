@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Room } from './entities/room.entity';
+import { Room } from './entities/room.entity.ts';
 import { Repository } from 'typeorm';
-import { Boardgame } from '../boardgames/entities/boardgame.entity';
+import { Boardgame } from '../boardgames/entities/boardgame.entity.ts';
 
 @Injectable()
 export class RoomsService {

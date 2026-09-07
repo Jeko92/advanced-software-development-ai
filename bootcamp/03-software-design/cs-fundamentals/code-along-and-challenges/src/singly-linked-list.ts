@@ -16,7 +16,7 @@
  *
  * Try it against a small sequence of values and log the result at each step.
  */
-import { Node } from './node';
+import { Node } from './node.ts';
 
 export class LinkedList<T> {
   head: Node<T> | null = null;

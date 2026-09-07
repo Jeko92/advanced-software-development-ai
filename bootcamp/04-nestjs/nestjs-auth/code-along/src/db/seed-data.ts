@@ -1,5 +1,5 @@
-import type { UserRoleType } from '../users/entities/user.entity';
-import type { ConcertGenre } from '../concerts/concert-genres';
+import type { UserRoleType } from '../users/entities/user.entity.ts';
+import type { ConcertGenre } from '../concerts/concert-genres.ts';
 
 export type Quote = {
   id: number;

@@ -1,4 +1,4 @@
-import { ThreadResponseDto } from './thread-response.dto';
+import { ThreadResponseDto } from './thread-response.dto.ts';
 import { ApiProperty } from '@nestjs/swagger';
 
 class PaginationMetaDto {

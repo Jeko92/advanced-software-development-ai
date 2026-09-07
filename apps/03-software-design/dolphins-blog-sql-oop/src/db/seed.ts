@@ -11,14 +11,10 @@ const seedFilePath = path.join(process.cwd(), 'db', 'seeddb.sql');
 
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-async function main(): Promise<void> {
-  const db = await open({ filename: dbPath, driver: sqlite3.Database });
-  const seedSql = fs.readFileSync(seedFilePath, 'utf-8');
+const db = await open({ filename: dbPath, driver: sqlite3.Database });
+const seedSql = fs.readFileSync(seedFilePath, 'utf-8');
 
-  await db.exec(seedSql);
-  await db.close();
+await db.exec(seedSql);
+await db.close();
 
-  console.log(`Seeded ${dbPath} from ${seedFilePath}`);
-}
-
-void main();
+console.log(`Seeded ${dbPath} from ${seedFilePath}`);

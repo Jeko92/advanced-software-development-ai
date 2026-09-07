@@ -1,7 +1,7 @@
 import express from 'express';
 import nunjucks from 'nunjucks';
-import colors from './routes/color.route';
-import blog from './routes/blog.route';
+import colors from './routes/color.route.ts';
+import blog from './routes/blog.route.ts';
 
 const app = express();
 

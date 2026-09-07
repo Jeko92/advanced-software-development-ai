@@ -24,7 +24,11 @@
 import assert from 'node:assert';
 
 type DocumentState =
-  'draft' | 'under_review' | 'approved' | 'rejected' | 'published';
+  | 'draft'
+  | 'under_review'
+  | 'approved'
+  | 'rejected'
+  | 'published';
 
 type DocumentEvent = 'submit' | 'approve' | 'reject' | 'revise' | 'publish';
 
@@ -96,7 +100,10 @@ function main(): void {
 
   // Calling publish() from draft throws an illegal-transition error.
   const doc3 = new DocumentWorkflow();
-  assert.throws(() => doc3.publish(), /Illegal transition: publish from draft/);
+  assert.throws(
+    () => doc3.publish(),
+    /Illegal transition: publish from draft/,
+  );
   console.log(
     'Test passed: publish() from draft throws an illegal-transition error',
   );

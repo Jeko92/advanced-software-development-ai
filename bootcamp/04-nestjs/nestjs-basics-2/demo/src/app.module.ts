@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { BoardgamesModule } from './boardgames/boardgames.module';
-import { RoomsModule } from './rooms/rooms.module';
+import { AppController } from './app.controller.ts';
+import { AppService } from './app.service.ts';
+import { BoardgamesModule } from './boardgames/boardgames.module.ts';
+import { RoomsModule } from './rooms/rooms.module.ts';
 
 @Module({
   controllers: [AppController],

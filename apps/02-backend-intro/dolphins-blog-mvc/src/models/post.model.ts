@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { access, readFile, writeFile, mkdir } from 'node:fs/promises';
 
 export interface Post {
@@ -16,6 +17,9 @@ export interface PostWithNeighbors {
   previousPost: Post | null;
   nextPost: Post | null;
 }
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const POSTS_DIR = path.join(__dirname, '..', 'data');
 const POSTS_FILE = path.join(POSTS_DIR, 'posts.json');

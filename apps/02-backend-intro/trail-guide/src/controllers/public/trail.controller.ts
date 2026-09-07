@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import { getAllTrails, getTrailBySlug } from '../../models/trails.model';
-import { getTagsForTrail } from '../../models/tags.model';
-import type { TrailViewModel } from '../../types/types';
-import { formatDate } from '../../utils/utils';
+import { getAllTrails, getTrailBySlug } from '../../models/trails.model.ts';
+import { getTagsForTrail } from '../../models/tags.model.ts';
+import type { TrailViewModel } from '../../types/types.ts';
+import { formatDate } from '../../utils/utils.ts';
 
 const trailController = async (
   req: Request<{ slug: string }>,

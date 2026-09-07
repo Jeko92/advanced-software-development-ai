@@ -21,11 +21,11 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserResponseDto } from './dto/user-response.dto';
-import type { RequestWithUser } from '../common/types/request-with-user';
+import { UsersService } from './users.service.ts';
+import { CreateUserDto } from './dto/create-user.dto.ts';
+import { UpdateUserDto } from './dto/update-user.dto.ts';
+import { UserResponseDto } from './dto/user-response.dto.ts';
+import type { RequestWithUser } from '../common/types/request-with-user.ts';
 
 @ApiBearerAuth()
 @Controller('users')

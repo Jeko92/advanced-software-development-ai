@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { AuthorService } from '../../services/AuthorService';
+import type { AuthorService } from '../../services/AuthorService.ts';
 
 export class AdminAuthorController {
   constructor(private readonly authorService: AuthorService) {}

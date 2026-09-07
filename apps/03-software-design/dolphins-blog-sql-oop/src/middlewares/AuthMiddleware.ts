@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { AuthService } from '../services/AuthService';
+import type { AuthService } from '../services/AuthService.ts';
 
 export class AuthMiddleware {
   constructor(private readonly authService: AuthService) {}

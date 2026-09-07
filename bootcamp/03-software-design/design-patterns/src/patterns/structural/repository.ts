@@ -107,7 +107,10 @@ async function demonstrateRepository(
   console.log('findById(1) ->', found);
 
   const byArtist = await repo.findByArtist('Debussy');
-  console.log(`findByArtist(Debussy) -> ${byArtist.length} track(s)`, byArtist);
+  console.log(
+    `findByArtist(Debussy) -> ${byArtist.length} track(s)`,
+    byArtist,
+  );
 
   const missing = await repo.findById('does-not-exist');
   console.log('findById(does-not-exist) ->', missing);

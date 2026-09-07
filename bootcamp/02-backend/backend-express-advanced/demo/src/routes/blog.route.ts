@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express';
 import { marked } from 'marked';
 import { readdir, readFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { authenticate } from '../auth/auth-mock';
+import { authenticate } from '../auth/auth-mock.ts';
 
 const BLOG_DIR = path.join(process.cwd(), 'blog');
 const SLUG_PATTERN = /^[a-z0-9-]+$/i;

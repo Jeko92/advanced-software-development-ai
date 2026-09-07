@@ -15,7 +15,7 @@ The sum of the lengths of these intervals is 7. Since [1, 4] and [3, 5] overlap,
 which has a length of 4.
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function sumIntervals(a: [number, number][]): number {
   if (a.length === 0) {

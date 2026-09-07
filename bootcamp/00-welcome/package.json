@@ -2,6 +2,7 @@
   "name": "@bootcamp/welcome",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc",

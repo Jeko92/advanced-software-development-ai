@@ -2,6 +2,7 @@
   "name": "@bootcamp/backend-express-advanced-demo",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "tsx --watch --env-file=.env src/index.ts",
     "build": "tsc",

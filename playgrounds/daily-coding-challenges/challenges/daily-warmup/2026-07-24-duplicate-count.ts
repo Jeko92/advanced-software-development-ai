@@ -10,7 +10,7 @@ Example
 "ABBA" -> 2 # 'A' and 'B' each occur twice
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function duplicateCount(text: string): number {
   return new Set(

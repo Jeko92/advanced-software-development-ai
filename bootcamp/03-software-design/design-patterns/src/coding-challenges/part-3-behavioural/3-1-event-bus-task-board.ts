@@ -100,14 +100,10 @@ function main(): void {
 
   assert.strictEqual(slackNotifier.messagesSent.length, 1);
   assert.ok(slackNotifier.messagesSent[0]?.includes('Task 1 moved to done'));
-  console.log(
-    'Test passed: SlackNotifier reacted only to the move-to-done event',
-  );
+  console.log('Test passed: SlackNotifier reacted only to the move-to-done event');
 
   assert.strictEqual(analyticsTracker.createdCount, 2);
-  console.log(
-    'Test passed: AnalyticsTracker counted exactly the created tasks',
-  );
+  console.log('Test passed: AnalyticsTracker counted exactly the created tasks');
 
   console.log(
     '🎉 All three subscribers reacted independently — TaskBoardBus never knew any of them existed',

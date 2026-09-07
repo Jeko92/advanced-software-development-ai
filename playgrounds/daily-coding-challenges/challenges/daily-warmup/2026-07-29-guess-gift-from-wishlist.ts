@@ -26,7 +26,7 @@ var presents = [
 guessGifts(wishlist, presents); // must return ["Toy Car", "Mini Puzzle"]
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 interface WishlistItem {
   name: string;

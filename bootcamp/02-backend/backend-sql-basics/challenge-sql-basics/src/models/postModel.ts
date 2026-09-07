@@ -1,5 +1,5 @@
-import { getDB } from '../db/database';
-import { sql } from '../db/sql';
+import { getDB } from '../db/database.ts';
+import { sql } from '../db/sql.ts';
 
 export type Post = {
   id: number;

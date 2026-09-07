@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateQuoteDto } from './dto/create-quote.dto';
-import { UpdateQuoteDto } from './dto/update-quote.dto';
+import { CreateQuoteDto } from './dto/create-quote.dto.ts';
+import { UpdateQuoteDto } from './dto/update-quote.dto.ts';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
-import { Quote } from './entities/quote.entity';
+import { Quote } from './entities/quote.entity.ts';
 import { plainToInstance } from 'class-transformer';
-import { QuoteResponseDto } from './dto/quote-response.dto';
+import { QuoteResponseDto } from './dto/quote-response.dto.ts';
 
 @Injectable()
 export class QuotesService {

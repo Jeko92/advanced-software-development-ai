@@ -10,7 +10,7 @@ Example Output
 ["Open", "Open", "Senior", "Open", "Open", "Senior"]
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function openOrSenior(data: number[][]): string[] {
   const membershipCategory: string[] = [];

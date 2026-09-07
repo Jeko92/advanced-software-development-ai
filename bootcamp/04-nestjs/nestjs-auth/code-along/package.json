@@ -2,6 +2,7 @@
   "name": "@bootcamp/nestjs-auth-code-along",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

@@ -6,8 +6,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Thread } from '../../threads/entities/threads.entity';
-import { User } from '../../users/entities/user.entity';
+import { Thread } from '../../threads/entities/threads.entity.ts';
+import { User } from '../../users/entities/user.entity.ts';
 
 @Entity('comments')
 export class Comment {

@@ -130,11 +130,7 @@ async function demonstrateUserService(
 ): Promise<void> {
   console.log(`\n=== ${label} ===`);
 
-  const alice: User = {
-    id: '1',
-    username: 'alice',
-    email: 'alice@example.com',
-  };
+  const alice: User = { id: '1', username: 'alice', email: 'alice@example.com' };
   const bob: User = { id: '2', username: 'bob', email: 'bob@example.com' };
 
   await service.registerUser(alice);

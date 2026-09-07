@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import type { User } from '../users/entities/user.entity';
-import { compareSecret } from '../common/utils/hash.util';
+import { UsersService } from '../users/users.service.ts';
+import type { User } from '../users/entities/user.entity.ts';
+import { compareSecret } from '../common/utils/hash.util.ts';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

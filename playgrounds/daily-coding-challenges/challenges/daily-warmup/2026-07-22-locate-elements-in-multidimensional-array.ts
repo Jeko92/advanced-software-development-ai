@@ -10,7 +10,7 @@ locate(['a','b',['c','d',['e']]],'a'); // should return true
 locate(['a','b',['c','d',['e']]],'f'); // should return false
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 type NestedArray = (unknown | NestedArray)[];
 

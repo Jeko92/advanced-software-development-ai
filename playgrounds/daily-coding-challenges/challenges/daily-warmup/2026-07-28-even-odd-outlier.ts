@@ -10,7 +10,7 @@ Should return: 11 (the only odd number)
 Should return: 160 (the only even number)
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function findOutlier(a: number[]): number {
   const evens = a.filter((n) => n % 2 === 0);

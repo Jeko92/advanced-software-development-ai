@@ -7,7 +7,6 @@
     "lib": ["ESNext", "DOM"],
     "types": ["node"],
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": false,
     "strict": true
   },
   "include": ["**/*.ts"],

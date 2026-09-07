@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import * as postModel from '../models/postModel';
-import { closeDB } from '../db/database';
+import * as postModel from '../models/postModel.ts';
+import { closeDB } from '../db/database.ts';
 
 export async function getAllPosts(_req: Request, res: Response) {
   const posts = await postModel.getAllPosts();

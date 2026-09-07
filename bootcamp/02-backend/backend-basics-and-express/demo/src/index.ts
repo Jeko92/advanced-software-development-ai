@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllColors, getColorById, getRandomColor } from './colorService';
+import { getAllColors, getColorById, getRandomColor } from './colorService.ts';
 const app = express();
 
 app.get('/', (_req, res) => {

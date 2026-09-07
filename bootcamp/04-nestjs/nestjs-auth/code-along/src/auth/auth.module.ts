@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service.ts';
+import { AuthController } from './auth.controller.ts';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersModule } from '../users/users.module';
-import { LocalStrategy } from './local.strategy';
-import { JwtStrategy } from './jwt.strategy';
-import { GoogleStrategy } from './google.strategy';
-import { GithubStrategy } from './github.strategy';
+import { UsersModule } from '../users/users.module.ts';
+import { LocalStrategy } from './local.strategy.ts';
+import { JwtStrategy } from './jwt.strategy.ts';
+import { GoogleStrategy } from './google.strategy.ts';
+import { GithubStrategy } from './github.strategy.ts';
 
 const jwtSecret = process.env['JWT_SECRET'];
 if (!jwtSecret) {

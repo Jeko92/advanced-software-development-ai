@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { loadPosts } from '../../models/post.model';
+import { loadPosts } from '../../models/post.model.ts';
 
 /**
  * GET /api/posts/random

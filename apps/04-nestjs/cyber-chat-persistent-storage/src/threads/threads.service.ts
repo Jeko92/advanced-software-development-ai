@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Thread } from './entities/threads.entity';
-import { type Comment } from '../comments/entities/comments.entity';
-import { CommentsService } from '../comments/comments.service';
+import { Thread } from './entities/threads.entity.ts';
+import { type Comment } from '../comments/entities/comments.entity.ts';
+import { CommentsService } from '../comments/comments.service.ts';
 
 @Injectable()
 export class ThreadsService {

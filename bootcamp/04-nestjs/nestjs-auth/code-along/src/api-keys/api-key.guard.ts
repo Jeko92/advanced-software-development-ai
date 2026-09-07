@@ -4,7 +4,7 @@ import {
   type CanActivate,
   type ExecutionContext,
 } from '@nestjs/common';
-import { ApiKeysService } from './api-keys.service';
+import { ApiKeysService } from './api-keys.service.ts';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {

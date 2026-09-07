@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { marked } from 'marked';
-import { getAllPosts, getPostBySlug } from '../models/blog.model';
+import { getAllPosts, getPostBySlug } from '../models/blog.model.ts';
 
 export async function listPosts(_req: Request, res: Response) {
   const posts = await getAllPosts();

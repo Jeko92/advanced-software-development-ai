@@ -5,8 +5,8 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common';
-import { CommentsService } from './comments.service';
-import { type Comment } from './entities/comments.entity';
+import { CommentsService } from './comments.service.ts';
+import { type Comment } from './entities/comments.entity.ts';
 
 @Controller('comments')
 export class CommentsController {

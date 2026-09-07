@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { AuthService } from '../../services/AuthService';
+import type { AuthService } from '../../services/AuthService.ts';
 
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

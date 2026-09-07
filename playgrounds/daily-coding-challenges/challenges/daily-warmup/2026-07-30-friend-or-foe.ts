@@ -6,7 +6,7 @@ Ex: Input = ["Ryan", "Kieran", "Jason", "Yous"], Output = ["Ryan", "Yous"]
 Note: keep the original order of the names in the output.
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function friend(friends: string[]): string[] {
   return friends.filter((name) => name.length === 4);

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { BoardgameResponseDto } from '../../boardgames/dtos/boardgameResponse.dto';
+import { BoardgameResponseDto } from '../../boardgames/dtos/boardgameResponse.dto.ts';
 
 export class RoomResponseDto {
   @ApiProperty({ format: 'uuid' })

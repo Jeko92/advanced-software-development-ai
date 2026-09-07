@@ -2,8 +2,8 @@ import { Injectable, type ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import type { Request as ExpressRequest } from 'express';
-import { IS_PUBLIC_KEY } from '../common/decorators/public.decorator';
-import type { UserRoleType } from '../users/entities/user.entity';
+import { IS_PUBLIC_KEY } from '../common/decorators/public.decorator.ts';
+import type { UserRoleType } from '../users/entities/user.entity.ts';
 
 export interface RequestWithJwtUser extends ExpressRequest {
   user: {

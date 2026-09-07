@@ -1,6 +1,6 @@
-import { Boardgame } from '../boardgames/entities/boardgame.entity';
-import { AppDataSource } from './data-source';
-import { boardgames } from './seed-data';
+import { Boardgame } from '../boardgames/entities/boardgame.entity.ts';
+import { AppDataSource } from './data-source.ts';
+import { boardgames } from './seed-data.ts';
 
 (async () => {
   const ds = await AppDataSource.initialize();

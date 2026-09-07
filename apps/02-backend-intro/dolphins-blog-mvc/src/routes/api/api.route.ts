@@ -3,7 +3,7 @@ import {
   getLatestPost,
   getPostStats,
   getRandomPost,
-} from '../../controllers/api/api.controllers';
+} from '../../controllers/api/api.controllers.ts';
 
 const apiRoute: Router = Router();
 

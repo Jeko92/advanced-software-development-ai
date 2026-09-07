@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import trailController from '../../controllers/public/trail.controller';
-import trailsController from '../../controllers/public/trails.controller';
+import trailController from '../../controllers/public/trail.controller.ts';
+import trailsController from '../../controllers/public/trails.controller.ts';
 
 const trails: Router = Router();
 

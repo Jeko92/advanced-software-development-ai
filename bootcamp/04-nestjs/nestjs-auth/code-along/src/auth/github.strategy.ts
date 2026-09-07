@@ -1,7 +1,7 @@
 import { Strategy, type Profile } from 'passport-github2';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../users/users.service.ts';
 
 interface GithubEmail {
   email: string;
@@ -20,7 +20,11 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     });
   }
 
-  async validate(accessToken: string, _refreshToken: string, profile: Profile) {
+  async validate(
+    accessToken: string,
+    _refreshToken: string,
+    profile: Profile,
+  ) {
     const email = await this.resolvePrimaryEmail(accessToken, profile);
     if (!email) throw new Error('GitHub profile had no public email');
     return this.usersService.findOrCreateByEmail(email);

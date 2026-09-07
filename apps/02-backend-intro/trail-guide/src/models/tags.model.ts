@@ -1,5 +1,5 @@
-import type { Tag } from '../types/types';
-import { getDB } from '../db/database';
+import type { Tag } from '../types/types.ts';
+import { getDB } from '../db/database.ts';
 import type { Database } from 'sqlite';
 
 export async function getAllTags(): Promise<Tag[]> {

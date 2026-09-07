@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { quotes, type Quote } from './quotes';
+import { quotes, type Quote } from './quotes.ts';
 
 @Injectable()
 export class AppService {
