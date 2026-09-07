@@ -4,7 +4,7 @@ services:
       context: ../../../..
       dockerfile: bootcamp/05-devops/docker-advanced/scoreboard-service/Dockerfile
     ports:
-      - "${PORT}:3000"
+      - '${PORT}:3000'
     environment:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
