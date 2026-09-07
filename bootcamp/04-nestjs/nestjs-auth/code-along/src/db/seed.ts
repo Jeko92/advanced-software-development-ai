@@ -1,10 +1,10 @@
-import { hashSecret } from '../common/utils/hash.util.ts';
-import { AppDataSource } from './data-source.ts';
-import { quotes, users, concerts } from './seed-data.ts';
-import { Quote } from '../quotes/entities/quote.entity.ts';
-import { User } from '../users/entities/user.entity.ts';
-import { Concert } from '../concerts/entities/concert.entity.ts';
-import { ApiKey } from '../api-keys/entities/api-key.entity.ts';
+import { hashSecret } from '../common/utils/hash.util';
+import { AppDataSource } from './data-source';
+import { quotes, users, concerts } from './seed-data';
+import { Quote } from '../quotes/entities/quote.entity';
+import { User } from '../users/entities/user.entity';
+import { Concert } from '../concerts/entities/concert.entity';
+import { ApiKey } from '../api-keys/entities/api-key.entity';
 
 (async () => {
   const ds = await AppDataSource.initialize();

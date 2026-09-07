@@ -7,10 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { QuotesService } from './quotes.service.ts';
-import { CreateQuoteDto } from './dto/create-quote.dto.ts';
-import { UpdateQuoteDto } from './dto/update-quote.dto.ts';
-import { Public } from '../common/decorators/public.decorator.ts';
+import { QuotesService } from './quotes.service';
+import { CreateQuoteDto } from './dto/create-quote.dto';
+import { UpdateQuoteDto } from './dto/update-quote.dto';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('quotes')
 export class QuotesController {

@@ -5,7 +5,7 @@ input: "abccdefee"
 output: "cceee"
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function onlyDuplicates(s: string): string {
   const frequency: Record<string, number> = {};

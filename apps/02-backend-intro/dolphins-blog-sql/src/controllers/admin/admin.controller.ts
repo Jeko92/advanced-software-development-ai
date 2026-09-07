@@ -8,12 +8,12 @@ import {
   updatePost,
   deletePost,
   type Post,
-} from '../../models/post.model.ts';
+} from '../../models/post.model';
 import {
   getSlugParam,
   sanitizePostContent,
   formatDate,
-} from '../../utils/utils.ts';
+} from '../../utils/utils';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'src/assets/img/post-bg');
 

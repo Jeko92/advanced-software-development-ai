@@ -1,4 +1,4 @@
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function elevator(left: number, right: number, call: number): string {
   return Math.abs(left - call) < Math.abs(right - call) ? 'left' : 'right';

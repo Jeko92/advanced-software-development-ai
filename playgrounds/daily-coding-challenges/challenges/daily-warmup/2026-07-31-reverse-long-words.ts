@@ -4,7 +4,7 @@ five or more letter words reversed (Just like the name of this Kata). Strings pa
 only letters and spaces. Spaces will be included only when more than one word is present.
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function spinWords(s: string): string {
   return s

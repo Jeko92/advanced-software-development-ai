@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { RoomsRepository } from './rooms.repository.ts';
-import { BoardgamesRepository } from '../boardgames/boardgames.repository.ts';
+import { RoomsRepository } from './rooms.repository';
+import { BoardgamesRepository } from '../boardgames/boardgames.repository';
 
 @Injectable()
 export class RoomsService {

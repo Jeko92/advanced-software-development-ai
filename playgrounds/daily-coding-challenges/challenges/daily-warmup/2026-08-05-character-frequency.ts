@@ -1,7 +1,7 @@
 // The main idea is to count all the occuring characters(UTF-8) in string. If you have string like this aba then
 // the result should be { 'a': 2, 'b': 1 }. What if the string is empty ? Then the result should be empty object literal { }
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function count(s: string): Record<string, number> {
   const frequency: Record<string, number> = {};

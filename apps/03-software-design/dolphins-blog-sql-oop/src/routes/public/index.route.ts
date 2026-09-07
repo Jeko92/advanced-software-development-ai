@@ -1,16 +1,16 @@
 import { Router } from 'express';
 
-import type { HomeController } from '../../controllers/public/HomeController.ts';
-import type { PostController } from '../../controllers/public/PostController.ts';
-import type { AboutController } from '../../controllers/public/AboutController.ts';
-import type { ContactController } from '../../controllers/public/ContactController.ts';
-import type { ExamplePostController } from '../../controllers/public/ExamplePostController.ts';
+import type { HomeController } from '../../controllers/public/HomeController';
+import type { PostController } from '../../controllers/public/PostController';
+import type { AboutController } from '../../controllers/public/AboutController';
+import type { ContactController } from '../../controllers/public/ContactController';
+import type { ExamplePostController } from '../../controllers/public/ExamplePostController';
 
-import { createHomeRoute } from './home.route.ts';
-import { createPostRoute } from './post.route.ts';
-import { createAboutRoute } from './about.route.ts';
-import { createContactRoute } from './contact.route.ts';
-import { createExamplePostRoute } from './example-post.route.ts';
+import { createHomeRoute } from './home.route';
+import { createPostRoute } from './post.route';
+import { createAboutRoute } from './about.route';
+import { createContactRoute } from './contact.route';
+import { createExamplePostRoute } from './example-post.route';
 
 export function createPublicRoutes(
   homeController: HomeController,

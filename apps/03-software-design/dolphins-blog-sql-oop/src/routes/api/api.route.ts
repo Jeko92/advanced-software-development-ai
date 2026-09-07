@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import type { ApiPostController } from '../../controllers/api/ApiPostController.ts';
-import type { AuthMiddleware } from '../../middlewares/AuthMiddleware.ts';
+import type { ApiPostController } from '../../controllers/api/ApiPostController';
+import type { AuthMiddleware } from '../../middlewares/AuthMiddleware';
 
 export function createApiRoute(
   apiPostController: ApiPostController,

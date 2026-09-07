@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import type { HomeController } from '../../controllers/public/HomeController.ts';
+import type { HomeController } from '../../controllers/public/HomeController';
 
 export function createHomeRoute(homeController: HomeController): Router {
   const router: Router = Router();
