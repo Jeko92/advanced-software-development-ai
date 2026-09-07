@@ -12,13 +12,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ConcertsService } from './concerts.service';
-import { CreateConcertDto } from './dto/create-concert.dto';
-import { UpdateConcertDto } from './dto/update-concert.dto';
-import { PaginationQueryDto } from './dto/pagination-query.dto';
-import { Public } from '../common/decorators/public.decorator';
-import { SessionAuthGuard } from '../auth/session/session-auth.guard';
-import { IsAdminGuard } from '../common/guards/is-admin.guard';
+import { ConcertsService } from './concerts.service.ts';
+import { CreateConcertDto } from './dto/create-concert.dto.ts';
+import { UpdateConcertDto } from './dto/update-concert.dto.ts';
+import { PaginationQueryDto } from './dto/pagination-query.dto.ts';
+import { Public } from '../common/decorators/public.decorator.ts';
+import { SessionAuthGuard } from '../auth/session/session-auth.guard.ts';
+import { IsAdminGuard } from '../common/guards/is-admin.guard.ts';
 
 @Controller('concerts')
 export class ConcertsController {

@@ -1,13 +1,13 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Comment } from './entities/comments.entity';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
-import { CommentResponseDto } from './dto/comment-response.dto';
+import { Comment } from './entities/comments.entity.ts';
+import { CreateCommentDto } from './dto/create-comment.dto.ts';
+import { UpdateCommentDto } from './dto/update-comment.dto.ts';
+import { CommentResponseDto } from './dto/comment-response.dto.ts';
 import { plainToInstance } from 'class-transformer';
-import type { UserRole } from '../users/entities/user.entity';
-import { canBypassOwnership } from '../common/utils/authorization.util';
+import type { UserRole } from '../users/entities/user.entity.ts';
+import { canBypassOwnership } from '../common/utils/authorization.util.ts';
 
 @Injectable()
 export class CommentsService {

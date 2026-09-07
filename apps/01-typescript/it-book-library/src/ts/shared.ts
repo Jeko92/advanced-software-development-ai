@@ -1,4 +1,4 @@
-import type { BookList } from './types';
+import type { BookList } from './types.js';
 
 const FAVORITES_KEY = 'it_book_library_favorites';
 
@@ -88,15 +88,11 @@ const MOCK_BOOKS: BookList = [
   },
 ];
 
-async function fetchAllBooksFromApi(): Promise<BookList> {
-  const response = await fetch(API_URL);
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-  return await response.json();
-}
-
 export async function fetchAllBooks(): Promise<BookList> {
   try {
-    return await fetchAllBooksFromApi();
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
   } catch (error) {
     console.warn('Could not connect to API, using mock data instead:', error);
     return MOCK_BOOKS;

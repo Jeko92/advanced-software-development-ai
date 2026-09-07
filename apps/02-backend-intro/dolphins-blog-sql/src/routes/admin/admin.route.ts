@@ -6,13 +6,13 @@ import {
   getEditPostForm,
   updatePostHandler,
   deletePostHandler,
-} from '../../controllers/admin/admin.controller';
+} from '../../controllers/admin/admin.controller.ts';
 import {
   getAdminAuthors,
   createAuthorHandler,
   deleteAuthorHandler,
-} from '../../controllers/admin/authors.controller';
-import { upload } from '../../middlewares/upload';
+} from '../../controllers/admin/authors.controller.ts';
+import { upload } from '../../middlewares/upload.ts';
 
 const adminRoute: Router = Router();
 

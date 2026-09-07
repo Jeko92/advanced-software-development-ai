@@ -2,6 +2,7 @@
   "name": "@bootcamp/ts-advanced-playground",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",

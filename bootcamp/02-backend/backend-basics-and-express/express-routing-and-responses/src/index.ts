@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from 'express';
-import { books } from './data';
+import { books } from './data.ts';
 
 const app = express();
 const port = 3000;

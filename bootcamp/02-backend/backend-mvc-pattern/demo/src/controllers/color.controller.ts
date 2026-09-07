@@ -3,7 +3,7 @@ import {
   getAllColors,
   getColorById,
   getRandomColor,
-} from '../models/color.model';
+} from '../models/color.model.ts';
 
 export function listColors(_req: Request, res: Response) {
   const colors = getAllColors();

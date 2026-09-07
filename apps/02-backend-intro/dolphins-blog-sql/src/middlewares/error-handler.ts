@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
-import { UploadValidationError } from './upload';
+import { UploadValidationError } from './upload.ts';
 
 /**
  * Central error handler. Must be registered last, after every router — see

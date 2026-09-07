@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import type { UserRole } from '../users/entities/user.entity';
+import type { UserRole } from '../users/entities/user.entity.ts';
 
 type JwtPayload = {
   sub: string;

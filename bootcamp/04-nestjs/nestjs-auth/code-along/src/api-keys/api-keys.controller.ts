@@ -7,9 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ApiKeysService } from './api-keys.service';
-import { CreateApiKeyDto } from './dto/create-api-key.dto';
-import { UpdateApiKeyDto } from './dto/update-api-key.dto';
+import { ApiKeysService } from './api-keys.service.ts';
+import { CreateApiKeyDto } from './dto/create-api-key.dto.ts';
+import { UpdateApiKeyDto } from './dto/update-api-key.dto.ts';
 
 @Controller('api-keys')
 export class ApiKeysController {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BoardgamesRepository } from './boardgames.repository';
+import { BoardgamesRepository } from './boardgames.repository.ts';
 
 @Injectable()
 export class BoardgamesService {

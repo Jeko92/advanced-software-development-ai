@@ -1,5 +1,5 @@
-import { formatOrder, isInStock, orderTotal } from './online-shop';
-import type { Category, Customer, Order, Product } from './types';
+import { formatOrder, isInStock, orderTotal } from './online-shop.ts';
+import type { Category, Customer, Order, Product } from './types.ts';
 
 const electronics: Category = {
   name: 'Electronics',

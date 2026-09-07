@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import * as blogModel from '../models/blogModel';
-import type { BlogEntrySearchFilters } from '../models/blogModel';
-import allBlogsResponse from '../views/api/allBlogsResponse';
+import * as blogModel from '../models/blogModel.ts';
+import type { BlogEntrySearchFilters } from '../models/blogModel.ts';
+import allBlogsResponse from '../views/api/allBlogsResponse.ts';
 
 export async function getAllBlogs(_req: Request, res: Response) {
   try {

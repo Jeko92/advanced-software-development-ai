@@ -2,6 +2,7 @@
   "name": "@bootcamp/cyber-chat-persistent-storage",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

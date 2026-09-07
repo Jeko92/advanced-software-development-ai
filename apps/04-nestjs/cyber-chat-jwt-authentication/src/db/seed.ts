@@ -1,9 +1,9 @@
-import { AppDataSource } from './data-source';
-import { THREADS_SEED, COMMENTS_SEED, USERS_SEED } from './seed-data';
-import { Thread } from '../threads/entities/threads.entity';
-import { Comment } from '../comments/entities/comments.entity';
-import { User } from '../users/entities/user.entity';
-import { hashSecret } from '../common/utils/hash.util';
+import { AppDataSource } from './data-source.ts';
+import { THREADS_SEED, COMMENTS_SEED, USERS_SEED } from './seed-data.ts';
+import { Thread } from '../threads/entities/threads.entity.ts';
+import { Comment } from '../comments/entities/comments.entity.ts';
+import { User } from '../users/entities/user.entity.ts';
+import { hashSecret } from '../common/utils/hash.util.ts';
 
 (async () => {
   const ds = await AppDataSource.initialize();

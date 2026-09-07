@@ -1,5 +1,5 @@
 import express, { type Router } from 'express';
-import * as APIController from '../controller/APIController';
+import * as APIController from '../controller/APIController.ts';
 
 const APIRouter: Router = express.Router();
 

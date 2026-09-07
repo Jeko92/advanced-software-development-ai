@@ -60,9 +60,7 @@ export class BinaryTreeNode<T> {
       return true;
     }
 
-    return (
-      (this.left?.find(value) ?? false) || (this.right?.find(value) ?? false)
-    );
+    return (this.left?.find(value) ?? false) || (this.right?.find(value) ?? false);
   }
 
   // remove: node / leaf
@@ -78,12 +76,11 @@ export class BinaryTreeNode<T> {
     }
 
     return (
-      (this.left?.remove(value) ?? false) ||
-      (this.right?.remove(value) ?? false)
+      (this.left?.remove(value) ?? false) || (this.right?.remove(value) ?? false)
     );
   }
 
-  // height: number of edges from this node down to its deepest leaf
+  // height: number of edges from this node down to its deepest leaf 
   height(): number {
     const leftHeight = this.left ? this.left.height() : -1;
     const rightHeight = this.right ? this.right.height() : -1;
