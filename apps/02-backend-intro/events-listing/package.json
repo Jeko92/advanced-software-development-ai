@@ -2,7 +2,6 @@
   "name": "@bootcamp/events-listing",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",

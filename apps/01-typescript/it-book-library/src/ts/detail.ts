@@ -1,10 +1,10 @@
-import type { BookDetail } from './types.js';
+import type { BookDetail } from './types';
 import {
   apiPath,
   getFavoriteIsbns,
   toggleFavorite,
   updateHeaderFavoritesBadge,
-} from './shared.js';
+} from './shared';
 
 const titleEl = document.getElementById('book-title') as HTMLSpanElement;
 const abstractEL = document.getElementById(
@@ -79,6 +79,26 @@ function renderBookDetail(book: BookDetail): void {
   });
 }
 
+async function fetchBook(isbn: string): Promise<BookDetail> {
+  const response = await fetch(apiPath('.db/books.json'));
+
+  if (!response.ok) {
+    throw new Error(`Failed to load books (Status: ${response.status})`);
+  }
+
+  const books: BookDetail[] = await response.json();
+  const book = books.find((b) => b.isbn === isbn);
+
+  if (!book) {
+    throw new Error(`No book found with ISBN: ${isbn}`);
+  }
+
+  // Build the cover path from the ISBN, since it's not guaranteed to be in the JSON
+  book.cover = apiPath(`.db/book-images/${isbn}.png`);
+
+  return book;
+}
+
 async function fetchBookDetail(): Promise<void> {
   updateHeaderFavoritesBadge();
   const isbn = getIsbnFromUrl();
@@ -89,22 +109,7 @@ async function fetchBookDetail(): Promise<void> {
   }
 
   try {
-    const response = await fetch(apiPath('.db/books.json'));
-
-    if (!response.ok) {
-      throw new Error(`Failed to load books (Status: ${response.status})`);
-    }
-
-    const books: BookDetail[] = await response.json();
-    const book = books.find((b) => b.isbn === isbn);
-
-    if (!book) {
-      throw new Error(`No book found with ISBN: ${isbn}`);
-    }
-
-    // Build the cover path from the ISBN, since it's not guaranteed to be in the JSON
-    book.cover = apiPath(`.db/book-images/${isbn}.png`);
-
+    const book = await fetchBook(isbn);
     renderBookDetail(book);
   } catch (error) {
     console.error('Error fetching book details:', error);

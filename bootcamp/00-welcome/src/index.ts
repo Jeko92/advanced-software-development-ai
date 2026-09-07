@@ -1,3 +1,7 @@
 const challenge = process.argv[2];
 
-await import(`./challenge-${challenge}.ts`);
+async function main(): Promise<void> {
+  await import(`./challenge-${challenge}.ts`);
+}
+
+void main();

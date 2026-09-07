@@ -4,7 +4,7 @@ import {
   type CanActivate,
   type ExecutionContext,
 } from '@nestjs/common';
-import { AuthService } from '../../auth/auth.service.ts';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class BasicAuthGuard implements CanActivate {
@@ -15,7 +15,9 @@ export class BasicAuthGuard implements CanActivate {
     const authHeader = request.headers['authorization'];
 
     if (!authHeader || !authHeader.toLowerCase().startsWith('basic ')) {
-      throw new UnauthorizedException('Missing or invalid Authorization header');
+      throw new UnauthorizedException(
+        'Missing or invalid Authorization header',
+      );
     }
 
     const decoded = Buffer.from(authHeader.slice(6), 'base64').toString(

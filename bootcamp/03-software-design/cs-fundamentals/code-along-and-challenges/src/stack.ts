@@ -1,4 +1,4 @@
-import { LinkedList } from './singly-linked-list.ts';
+import { LinkedList } from './singly-linked-list';
 
 export class Stack<T> {
   private list: LinkedList<T>;

@@ -1,11 +1,11 @@
-import type { BookList } from './types.js';
+import type { BookList } from './types';
 import {
   fetchAllBooks,
   getFavoriteIsbns,
   toggleFavorite,
   updateHeaderFavoritesBadge,
   populatePublisherSelect,
-} from './shared.js';
+} from './shared';
 
 const bookListTable = document.getElementById('book-list') as HTMLTableElement;
 const searchTitleInput = document.getElementById('search') as HTMLInputElement;

@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import adminRoute from './admin.route.ts';
-import { requireAdminAny, ADMIN_PASS } from '../../middleware/auth.ts';
+import adminRoute from './admin.route';
+import { requireAdminAny, ADMIN_PASS } from '../../middleware/auth';
 
 const adminRoutes: Router = Router();
 

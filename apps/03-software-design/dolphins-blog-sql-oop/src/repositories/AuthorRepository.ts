@@ -1,6 +1,6 @@
-import Database from '../db/Databse.ts';
-import type { IAuthorRepository } from './IAuthorRepository.ts';
-import type { Author } from '../entities/Author.ts';
+import Database from '../db/Databse';
+import type { IAuthorRepository } from './IAuthorRepository';
+import type { Author } from '../entities/Author';
 
 export class AuthorRepository implements IAuthorRepository {
   constructor(private readonly database: Database) {}

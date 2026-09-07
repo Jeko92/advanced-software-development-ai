@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import * as blogModel from '../models/blogModel.ts';
-import allBlogsResponse from '../views/api/allBlogsResponse.ts';
-import { closeDatabase } from '../db/database.ts';
+import * as blogModel from '../models/blogModel';
+import allBlogsResponse from '../views/api/allBlogsResponse';
+import { closeDatabase } from '../db/database';
 
 export async function getAllBlogs(_req: Request, res: Response) {
   const blogs = await blogModel.getAllBlogsPostings();

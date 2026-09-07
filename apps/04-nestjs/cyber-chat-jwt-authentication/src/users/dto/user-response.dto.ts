@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import type { UserRole } from '../entities/user.entity.ts';
+import type { UserRole } from '../entities/user.entity';
 
 export class UserResponseDto {
   @Expose()

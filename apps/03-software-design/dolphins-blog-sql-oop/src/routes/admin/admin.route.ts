@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import type { AdminPostController } from '../../controllers/admin/AdminPostController.ts';
-import type { AdminAuthorController } from '../../controllers/admin/AdminAuthorController.ts';
-import type { UploadMiddleware } from '../../middlewares/UploadMiddleware.ts';
+import type { AdminPostController } from '../../controllers/admin/AdminPostController';
+import type { AdminAuthorController } from '../../controllers/admin/AdminAuthorController';
+import type { UploadMiddleware } from '../../middlewares/UploadMiddleware';
 
 export function createAdminRoute(
   adminPostController: AdminPostController,

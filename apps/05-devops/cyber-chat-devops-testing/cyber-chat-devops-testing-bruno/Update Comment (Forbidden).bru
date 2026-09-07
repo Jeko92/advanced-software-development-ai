@@ -1,0 +1,25 @@
+meta {
+  name: Update Comment (Forbidden)
+  type: http
+  seq: 16
+}
+
+patch {
+  url: {{baseUrl}}/comments/{{commentId}}
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "body": "Hijacked by an intruder"
+  }
+}
+
+assert {
+  res.status: eq 403
+}
+
+auth:bearer {
+  token: {{intruderToken}}
+}

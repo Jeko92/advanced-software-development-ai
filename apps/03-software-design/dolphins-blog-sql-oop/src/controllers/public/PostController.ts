@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { formatDate } from '../../utils/utils.ts';
-import type { PostService } from '../../services/PostService.ts';
+import { formatDate } from '../../utils/utils';
+import type { PostService } from '../../services/PostService';
 
 export class PostController {
   constructor(private readonly postService: PostService) {}

@@ -6,7 +6,7 @@ import {
   readMessage,
   sanitizeMessage,
   storeMessage,
-} from '../utils/utils.ts';
+} from '../utils/utils';
 
 const messages: Router = Router();
 

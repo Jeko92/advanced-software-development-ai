@@ -3,7 +3,7 @@
 // Change case of every character, ie. lower case to upper case, upper case to lower case.
 // Reverse the order of words from the input.
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function stringTransformer(s: string): string {
   return s

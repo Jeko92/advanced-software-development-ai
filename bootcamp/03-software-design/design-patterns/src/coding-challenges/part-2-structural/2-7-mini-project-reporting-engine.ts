@@ -134,10 +134,7 @@ async function main(): Promise<void> {
   ]);
   const testEngine = new ReportEngine(testRepo, new CsvFormatter());
 
-  const csvReport = await testEngine.generateReport(
-    '2024-01-01',
-    '2024-01-31',
-  );
+  const csvReport = await testEngine.generateReport('2024-01-01', '2024-01-31');
   console.log(csvReport);
 
   assert.strictEqual(

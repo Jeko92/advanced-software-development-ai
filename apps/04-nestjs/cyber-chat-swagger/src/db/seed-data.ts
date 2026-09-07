@@ -1,4 +1,4 @@
-import type { UserRole } from '../users/entities/user.entity.ts';
+import type { UserRole } from '../users/entities/user.entity';
 
 export interface ThreadSeed {
   title: string;

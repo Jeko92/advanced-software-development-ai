@@ -1,0 +1,19 @@
+meta {
+  name: Delete Auth User
+  type: http
+  seq: 32
+}
+
+delete {
+  url: {{baseUrl}}/users/{{authUserId}}
+  body: none
+  auth: bearer
+}
+
+assert {
+  res.status: eq 204
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

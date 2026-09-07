@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RoomsService } from './rooms.service.ts';
-import { RoomsRepository } from './rooms.repository.ts';
-import { BoardgamesRepository } from '../boardgames/boardgames.repository.ts';
+import { RoomsService } from './rooms.service';
+import { RoomsRepository } from './rooms.repository';
+import { BoardgamesRepository } from '../boardgames/boardgames.repository';
 
 describe('RoomsService', () => {
   let service: RoomsService;

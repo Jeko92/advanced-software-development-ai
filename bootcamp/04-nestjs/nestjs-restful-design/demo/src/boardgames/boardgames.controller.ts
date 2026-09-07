@@ -5,8 +5,8 @@ import {
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
-import { BoardgamesService } from './boardgames.service.ts';
-import { Boardgame } from './entities/boardgame.entity.ts';
+import { BoardgamesService } from './boardgames.service';
+import { Boardgame } from './entities/boardgame.entity';
 
 @Controller('boardgames')
 export class BoardgamesController {

@@ -13,16 +13,16 @@ import {
   Query,
   Request,
 } from '@nestjs/common';
-import { ThreadsService } from './threads.service.ts';
-import { CreateThreadDto } from './dto/create-thread.dto.ts';
-import { UpdateThreadDto } from './dto/update-thread.dto.ts';
-import { ThreadResponseDto } from './dto/thread-response.dto.ts';
-import { ThreadWithCommentsResponseDto } from './dto/thread-with-comments-response.dto.ts';
-import { CreateCommentDto } from '../comments/dto/create-comment.dto.ts';
-import { CommentResponseDto } from '../comments/dto/comment-response.dto.ts';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.ts';
-import { ParseDatePipe } from '../common/pipes/parse-date.pipe.ts';
-import type { RequestWithUser } from '../common/types/request-with-user.ts';
+import { ThreadsService } from './threads.service';
+import { CreateThreadDto } from './dto/create-thread.dto';
+import { UpdateThreadDto } from './dto/update-thread.dto';
+import { ThreadResponseDto } from './dto/thread-response.dto';
+import { ThreadWithCommentsResponseDto } from './dto/thread-with-comments-response.dto';
+import { CreateCommentDto } from '../comments/dto/create-comment.dto';
+import { CommentResponseDto } from '../comments/dto/comment-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { ParseDatePipe } from '../common/pipes/parse-date.pipe';
+import type { RequestWithUser } from '../common/types/request-with-user';
 
 @Controller('threads')
 export class ThreadsController {

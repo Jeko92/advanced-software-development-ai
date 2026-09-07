@@ -1,33 +1,33 @@
-import Database from './db/Databse.ts';
-import { App } from './core/App.ts';
+import Database from './db/Databse';
+import { App } from './core/App';
 
-import { PostRepository } from './repositories/PostRepository.ts';
-import { AuthorRepository } from './repositories/AuthorRepository.ts';
+import { PostRepository } from './repositories/PostRepository';
+import { AuthorRepository } from './repositories/AuthorRepository';
 
-import { PostService } from './services/PostService.ts';
-import { AuthorService } from './services/AuthorService.ts';
-import { AuthService } from './services/AuthService.ts';
-import { ImageStorageService } from './services/ImageStorageService.ts';
+import { PostService } from './services/PostService';
+import { AuthorService } from './services/AuthorService';
+import { AuthService } from './services/AuthService';
+import { ImageStorageService } from './services/ImageStorageService';
 
-import { ErrorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware.ts';
-import { AuthMiddleware } from './middlewares/AuthMiddleware.ts';
-import { UploadMiddleware } from './middlewares/UploadMiddleware.ts';
+import { ErrorHandlerMiddleware } from './middlewares/ErrorHandlerMiddleware';
+import { AuthMiddleware } from './middlewares/AuthMiddleware';
+import { UploadMiddleware } from './middlewares/UploadMiddleware';
 
-import { HomeController } from './controllers/public/HomeController.ts';
-import { PostController } from './controllers/public/PostController.ts';
-import { AboutController } from './controllers/public/AboutController.ts';
-import { ContactController } from './controllers/public/ContactController.ts';
-import { ExamplePostController } from './controllers/public/ExamplePostController.ts';
+import { HomeController } from './controllers/public/HomeController';
+import { PostController } from './controllers/public/PostController';
+import { AboutController } from './controllers/public/AboutController';
+import { ContactController } from './controllers/public/ContactController';
+import { ExamplePostController } from './controllers/public/ExamplePostController';
 
-import { AdminPostController } from './controllers/admin/AdminPostController.ts';
-import { AdminAuthorController } from './controllers/admin/AdminAuthorController.ts';
-import { AuthController } from './controllers/admin/AuthController.ts';
+import { AdminPostController } from './controllers/admin/AdminPostController';
+import { AdminAuthorController } from './controllers/admin/AdminAuthorController';
+import { AuthController } from './controllers/admin/AuthController';
 
-import { ApiPostController } from './controllers/api/ApiPostController.ts';
+import { ApiPostController } from './controllers/api/ApiPostController';
 
-import { createPublicRoutes } from './routes/public/index.route.ts';
-import { createAdminRoutes } from './routes/admin/index.route.ts';
-import { createApiRoute } from './routes/api/api.route.ts';
+import { createPublicRoutes } from './routes/public/index.route';
+import { createAdminRoutes } from './routes/admin/index.route';
+import { createApiRoute } from './routes/api/api.route';
 
 async function main(): Promise<void> {
   // Infrastructure

@@ -1,8 +1,8 @@
 import { Controller, Get, Query, Res } from '@nestjs/common';
 import type { Response } from 'express';
 import nunjucks from 'nunjucks';
-import { AppService } from './app.service.ts';
-import type { Quote } from './quotes.ts';
+import { AppService } from './app.service';
+import type { Quote } from './quotes';
 
 @Controller()
 export class AppController {

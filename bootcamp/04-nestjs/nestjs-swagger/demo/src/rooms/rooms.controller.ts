@@ -7,15 +7,15 @@ import {
   Post,
   SerializeOptions,
 } from '@nestjs/common';
-import { RoomsService } from './rooms.service.ts';
-import { RoomResponseDto } from './dtos/roomResponse.dto.ts';
-import { CreateRoomDto } from './dtos/createRoom.dto.ts';
+import { RoomsService } from './rooms.service';
+import { RoomResponseDto } from './dtos/roomResponse.dto';
+import { CreateRoomDto } from './dtos/createRoom.dto';
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { Room } from './entities/room.entity.ts';
+import { Room } from './entities/room.entity';
 
 @Controller('rooms')
 export class RoomsController {

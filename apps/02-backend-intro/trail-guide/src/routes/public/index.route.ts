@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import home from './home.route.ts';
-import about from './about.route.ts';
-import contact from './contact.route.ts';
-import regions from './regions.route.ts';
-import trails from './trails.route.ts';
+import home from './home.route';
+import about from './about.route';
+import contact from './contact.route';
+import regions from './regions.route';
+import trails from './trails.route';
 
 const publicRoutes: Router = Router();
 

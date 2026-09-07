@@ -179,7 +179,9 @@ function main(): void {
   security.transition('armed');
   assert.strictEqual(security.getState(), 'armed');
 
-  console.log('\n--- Hot day while armed: HVAC reacts, security stays armed ---');
+  console.log(
+    '\n--- Hot day while armed: HVAC reacts, security stays armed ---',
+  );
   bus.emit({ type: 'temperature.high', celsius: 28 });
   assert.strictEqual(security.getState(), 'armed');
 

@@ -8,8 +8,8 @@ import {
   Controller,
   NotFoundException,
 } from '@nestjs/common';
-import { UsersService } from './users.service.ts';
-import type { User } from './entities/user.entity.ts';
+import { UsersService } from './users.service';
+import type { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {

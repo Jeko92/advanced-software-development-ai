@@ -1,7 +1,7 @@
 // Take an array and remove every second element out of that array. Always keep the first element and
 // start removing with the next element.
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function removeEveryOther(ar: unknown[]): unknown[] {
   // your code here

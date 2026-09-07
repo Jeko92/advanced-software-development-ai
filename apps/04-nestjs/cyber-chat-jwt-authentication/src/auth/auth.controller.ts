@@ -7,12 +7,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from './auth.service.ts';
-import { LoginDto } from './dto/login.dto.ts';
-import { CreateUserDto } from '../users/dto/create-user.dto.ts';
-import { UsersService } from '../users/users.service.ts';
-import { Public } from '../common/decorators/public.decorator.ts';
-import type { RequestWithUser } from '../common/types/request-with-user.ts';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UsersService } from '../users/users.service';
+import { Public } from '../common/decorators/public.decorator';
+import type { RequestWithUser } from '../common/types/request-with-user';
 
 @Controller('auth')
 export class AuthController {

@@ -2,7 +2,6 @@
   "name": "@bootcamp/quote-api",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",

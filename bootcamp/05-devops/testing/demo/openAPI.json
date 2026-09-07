@@ -1,0 +1,504 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterDto" }
+            }
+          }
+        },
+        "responses": {
+          "409": { "description": "That email address is already registered." }
+        },
+        "summary": "Create an account and receive a token",
+        "tags": ["auth"]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginDto" }
+            }
+          }
+        },
+        "responses": {
+          "401": { "description": "Email or password did not match." }
+        },
+        "summary": "Exchange credentials for a token",
+        "tags": ["auth"]
+      }
+    },
+    "/auctions": {
+      "get": {
+        "operationId": "AuctionsController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number, starting at 1.",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Only auctions that are still open, or only those that have ended.",
+            "schema": {
+              "example": "open",
+              "enum": ["open", "closed"],
+              "type": "string"
+            }
+          },
+          {
+            "name": "min-price",
+            "required": false,
+            "in": "query",
+            "description": "Lowest current price to include.",
+            "schema": { "minimum": 0, "example": 10, "type": "number" }
+          },
+          {
+            "name": "max-price",
+            "required": false,
+            "in": "query",
+            "description": "Highest current price to include.",
+            "schema": { "minimum": 0, "example": 500, "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of results plus its pagination metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/AuctionResponseDto"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMetaDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Browse auctions with filtering and pagination",
+        "tags": ["auctions"]
+      },
+      "post": {
+        "operationId": "AuctionsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateAuctionDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AuctionResponseDto" }
+              }
+            }
+          },
+          "401": { "description": "Missing or invalid bearer token." }
+        },
+        "security": [{ "bearer": [] }],
+        "summary": "List a new auction (authenticated)",
+        "tags": ["auctions"]
+      }
+    },
+    "/auctions/{id}": {
+      "get": {
+        "operationId": "AuctionsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AuctionResponseDto" }
+              }
+            }
+          },
+          "404": { "description": "No auction with that id." }
+        },
+        "summary": "Fetch a single auction",
+        "tags": ["auctions"]
+      }
+    },
+    "/auctions/{auctionId}/offers": {
+      "get": {
+        "operationId": "OffersController_findByAuction",
+        "parameters": [
+          {
+            "name": "auctionId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number, starting at 1.",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of results plus its pagination metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/OfferResponseDto"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMetaDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "description": "No auction with that id." }
+        },
+        "summary": "List the bid history for an auction",
+        "tags": ["offers"]
+      },
+      "post": {
+        "operationId": "OffersController_create",
+        "parameters": [
+          {
+            "name": "auctionId",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateOfferDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OfferResponseDto" }
+              }
+            }
+          },
+          "401": { "description": "Missing or invalid bearer token." },
+          "403": { "description": "You cannot bid on your own auction." },
+          "404": { "description": "No auction with that id." },
+          "409": {
+            "description": "The auction has closed, or the bid does not beat the current price."
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "summary": "Place a bid on an auction (authenticated)",
+        "tags": ["offers"]
+      }
+    }
+  },
+  "info": {
+    "title": "DarkBay API",
+    "description": "An auction API. Browsing is public; listing an item and placing a bid require a bearer token from `POST /auth/login`.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "description": "Paste the `accessToken` returned by /auth/login."
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address used to log in. Must not already be registered.",
+            "format": "email",
+            "example": "seller@darkbay.dev"
+          },
+          "password": {
+            "type": "string",
+            "description": "Plaintext password. Stored only as a bcrypt hash.",
+            "minLength": 8,
+            "maxLength": 72,
+            "example": "correct-horse-battery"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "seller@darkbay.dev"
+          },
+          "password": { "type": "string", "example": "correct-horse-battery" }
+        },
+        "required": ["email", "password"]
+      },
+      "PaginationMetaDto": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "number",
+            "description": "Total number of items matching the filters.",
+            "example": 42
+          },
+          "totalPages": {
+            "type": "number",
+            "description": "Total number of pages available.",
+            "example": 5
+          },
+          "page": {
+            "type": "number",
+            "description": "The page that was returned.",
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "description": "The page size that was applied.",
+            "example": 10
+          }
+        },
+        "required": ["totalItems", "totalPages", "page", "limit"]
+      },
+      "PaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": { "type": "array", "items": { "type": "string" } },
+          "meta": { "$ref": "#/components/schemas/PaginationMetaDto" }
+        },
+        "required": ["data", "meta"]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "3f1c2b7e-9a4d-4f61-8b2a-7c5d1e0f9a33"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "seller@darkbay.dev"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-08-29T10:15:00.000Z"
+          }
+        },
+        "required": ["id", "email", "createdAt"]
+      },
+      "AuctionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b7d3a9f1-4c2e-4a88-9f01-2d6e5b4c3a10"
+          },
+          "title": {
+            "type": "string",
+            "example": "Vintage mechanical keyboard"
+          },
+          "description": {
+            "type": "string",
+            "example": "Cherry MX Blue switches, 1987, lightly yellowed keycaps."
+          },
+          "startingPrice": {
+            "type": "number",
+            "description": "The seller’s opening ask.",
+            "example": 49.99
+          },
+          "currentPrice": {
+            "type": "number",
+            "description": "Highest accepted bid so far, or the starting price if there are none.",
+            "example": 62.5
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-09-15T18:00:00.000Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-08-29T10:15:00.000Z"
+          },
+          "seller": { "$ref": "#/components/schemas/UserResponseDto" }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "startingPrice",
+          "currentPrice",
+          "endDate",
+          "createdAt",
+          "seller"
+        ]
+      },
+      "CreateAuctionDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Short headline for the listing.",
+            "maxLength": 120,
+            "example": "Vintage mechanical keyboard"
+          },
+          "description": {
+            "type": "string",
+            "description": "Condition, provenance, whatever a bidder needs to know.",
+            "example": "Cherry MX Blue switches, 1987, lightly yellowed keycaps."
+          },
+          "startingPrice": {
+            "type": "number",
+            "description": "Opening ask. The first bid must exceed this amount.",
+            "minimum": 0.01,
+            "example": 49.99
+          },
+          "endDate": {
+            "type": "string",
+            "description": "When bidding closes, as an ISO 8601 timestamp. Defaults to three days from now.",
+            "format": "date-time",
+            "example": "2026-09-15T18:00:00.000Z"
+          }
+        },
+        "required": ["title", "description", "startingPrice"]
+      },
+      "OfferResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "9c4e1b02-77aa-4c31-8de5-1f0b3a2c6d94"
+          },
+          "amount": { "type": "number", "example": 62.5 },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-08-29T11:02:33.000Z"
+          },
+          "auctionId": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b7d3a9f1-4c2e-4a88-9f01-2d6e5b4c3a10"
+          },
+          "bidder": { "$ref": "#/components/schemas/UserResponseDto" }
+        },
+        "required": ["id", "amount", "createdAt", "auctionId", "bidder"]
+      },
+      "CreateOfferDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Bid amount. Must strictly exceed the auction’s current price.",
+            "minimum": 0.01,
+            "example": 62.5
+          }
+        },
+        "required": ["amount"]
+      }
+    }
+  }
+}
