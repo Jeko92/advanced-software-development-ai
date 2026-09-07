@@ -5,8 +5,8 @@ import {
   updateBlogEntry,
   deleteBlogEntry,
   loadPostsWithAuthors,
-} from '../../models/post.model.ts';
-import type { Post } from '../../models/post.model.ts';
+} from '../../models/post.model';
+import type { Post } from '../../models/post.model';
 
 /**
  * GET /api/posts/random

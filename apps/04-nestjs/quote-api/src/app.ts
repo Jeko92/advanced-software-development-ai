@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { join } from 'node:path';
 import nunjucks from 'nunjucks';
-import { AppModule } from './app.module.ts';
+import { AppModule } from './app.module';
 
-const projectRoot = join(import.meta.dirname, '..');
+const projectRoot = join(__dirname, '..');
 const viewsDir = join(projectRoot, 'src', 'views');
 const port = process.env['PORT'] ?? 3232;
 

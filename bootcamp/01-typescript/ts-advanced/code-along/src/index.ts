@@ -250,8 +250,13 @@ const fetchBooks = (): Promise<ApiBook[]> => {
 
 console.log('******* Promise<T> *******');
 console.log('Fetching books...');
-const fetchedBooks = await fetchBooks();
-console.log('Fetched books (after a fake delay):', fetchedBooks);
+
+async function loadBooks(): Promise<void> {
+  const fetchedBooks = await fetchBooks();
+  console.log('Fetched books (after a fake delay):', fetchedBooks);
+}
+
+void loadBooks();
 
 const featured: ReadonlyArray<ApiBook> = Object.freeze([
   { id: 1, title: 'Clean Code', author: 'Robert C. Martin' },
@@ -584,6 +589,6 @@ console.log('******* @types/node *******');
 const appEnv: string | undefined = process.env['APP_ENV'];
 console.log('APP_ENV:', appEnv ?? '(not set)');
 
-const filePath = path.join(import.meta.dirname, 'data', 'volunteers.json');
+const filePath = path.join(__dirname, 'data', 'volunteers.json');
 const volunteersRaw = fs.readFileSync(filePath, 'utf8');
 console.log('Volunteers loaded from disk:', JSON.parse(volunteersRaw));

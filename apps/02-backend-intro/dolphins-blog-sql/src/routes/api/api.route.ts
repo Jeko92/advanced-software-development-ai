@@ -7,8 +7,8 @@ import {
   createBlogEntryHandler,
   updateBlogEntryHandler,
   deleteBlogEntryHandler,
-} from '../../controllers/api/api.controllers.ts';
-import { requireAdminApi } from '../../middlewares/auth.ts';
+} from '../../controllers/api/api.controllers';
+import { requireAdminApi } from '../../middlewares/auth';
 
 const apiRoute: Router = Router();
 

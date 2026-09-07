@@ -26,7 +26,7 @@ import {
   PostgresTrackRepository,
   type Track,
   type TrackRepository,
-} from './repository.ts';
+} from './repository';
 
 class PlayerService {
   constructor(

@@ -2,7 +2,6 @@
   "name": "@bootcamp/nestjs-basics-2-demo",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "bun --env-file=.env dist/main.js",

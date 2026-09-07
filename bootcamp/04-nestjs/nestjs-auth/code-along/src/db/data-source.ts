@@ -1,10 +1,10 @@
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
-import { User } from '../users/entities/user.entity.ts';
-import { Quote } from '../quotes/entities/quote.entity.ts';
-import { Session } from '../auth/session/entities/session.entity.ts';
-import { Concert } from '../concerts/entities/concert.entity.ts';
-import { ApiKey } from '../api-keys/entities/api-key.entity.ts';
+import { User } from '../users/entities/user.entity';
+import { Quote } from '../quotes/entities/quote.entity';
+import { Session } from '../auth/session/entities/session.entity';
+import { Concert } from '../concerts/entities/concert.entity';
+import { ApiKey } from '../api-keys/entities/api-key.entity';
 
 config({ quiet: true });
 

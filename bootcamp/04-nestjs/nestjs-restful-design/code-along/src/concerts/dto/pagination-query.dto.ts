@@ -1,6 +1,6 @@
 import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CONCERT_GENRES, type ConcertGenre } from '../concert-genres.ts';
+import { CONCERT_GENRES, type ConcertGenre } from '../concert-genres';
 
 export class PaginationQueryDto {
   @IsOptional()

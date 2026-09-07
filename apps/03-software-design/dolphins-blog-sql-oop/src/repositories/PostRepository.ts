@@ -1,6 +1,6 @@
-import Database from '../db/Databse.ts';
-import type { IPostRepository } from './IPostRepository.ts';
-import { slugify, type Post, type PostWithAuthor } from '../entities/Post.ts';
+import Database from '../db/Databse';
+import type { IPostRepository } from './IPostRepository';
+import { slugify, type Post, type PostWithAuthor } from '../entities/Post';
 
 export class PostRepository implements IPostRepository {
   constructor(private readonly database: Database) {}

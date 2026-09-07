@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import regionsController from '../../controllers/public/regions.controller.ts';
-import regionController from '../../controllers/public/region.controller.ts';
+import regionsController from '../../controllers/public/regions.controller';
+import regionController from '../../controllers/public/region.controller';
 
 const regions: Router = Router();
 

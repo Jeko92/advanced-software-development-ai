@@ -2,7 +2,6 @@
   "name": "@bootcamp/nestjs-auth-demo",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

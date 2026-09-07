@@ -1,4 +1,4 @@
-import type { Post, PostWithAuthor } from '../entities/Post.ts';
+import type { Post, PostWithAuthor } from '../entities/Post';
 
 export interface IPostRepository {
   loadPosts(): Promise<Post[]>;

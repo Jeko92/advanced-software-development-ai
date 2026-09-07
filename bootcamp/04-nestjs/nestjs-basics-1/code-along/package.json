@@ -15,7 +15,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "@nestjs/common": "^11.2.1",
     "@nestjs/core": "^11.2.1",

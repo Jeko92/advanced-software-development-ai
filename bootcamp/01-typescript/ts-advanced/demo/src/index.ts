@@ -3,7 +3,7 @@
 // utility types
 // generics
 
-import type { Media, mediaType } from './types.ts';
+import type { Media, mediaType } from './types';
 
 type Timestamped = {
   createdAt: Date;
@@ -82,7 +82,12 @@ console.log('mp3Listing:', mp3Listing);
 
 type RType = Promise<Media>;
 const rTypeExample: RType = Promise.resolve(pinkFloydVinyl);
-console.log('rTypeExample resolves to:', await rTypeExample);
+
+async function logRTypeExample(): Promise<void> {
+  console.log('rTypeExample resolves to:', await rTypeExample);
+}
+
+void logRTypeExample();
 
 type MediaWithoutStorageData = Omit<Media, 'price' | 'stock'>;
 const mediaWithoutStorageData: MediaWithoutStorageData = {
@@ -130,10 +135,14 @@ class TimeoutError extends Error {
   readonly time = 10;
 }
 
-try {
+function doCoolStuff(): void {
   // cool stuff
 
   throw new Error('test');
+}
+
+try {
+  doCoolStuff();
 } catch (rawError) {
   if (rawError instanceof TimeoutError) {
     // try fetch the data again

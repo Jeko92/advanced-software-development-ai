@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from './users.repository.ts';
-import { type PublicUser, type User } from './users.interface.ts';
-import { type UserPayload } from './users.dto.ts';
-import { isValidEmail } from '../common/email.util.ts';
+import { UsersRepository } from './users.repository';
+import { type PublicUser, type User } from './users.interface';
+import { type UserPayload } from './users.dto';
+import { isValidEmail } from '../common/email.util';
 
 @Injectable()
 export class UsersService {

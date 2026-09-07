@@ -1,5 +1,5 @@
 {
-  "extends": ["@bootcamp/tsconfig/node.json", "@bootcamp/tsconfig/dom.json"],
+  "extends": ["@bootcamp/tsconfig/dom.json", "@bootcamp/tsconfig/node.json"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist"

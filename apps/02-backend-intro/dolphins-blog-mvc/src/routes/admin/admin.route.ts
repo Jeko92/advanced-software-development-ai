@@ -6,8 +6,8 @@ import {
   getEditPostForm,
   updatePostHandler,
   deletePostHandler,
-} from '../../controllers/admin/admin.controller.ts';
-import { upload } from '../../middlewares/upload.ts';
+} from '../../controllers/admin/admin.controller';
+import { upload } from '../../middlewares/upload';
 
 const adminRoute: Router = Router();
 

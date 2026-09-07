@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Boardgame } from './entities/boardgame.entity.ts';
+import { Boardgame } from './entities/boardgame.entity';
 import { LessThanOrEqual, Like, Repository } from 'typeorm';
-import type { CreateBoardgameDto } from './dto/create-boardgame.dto.ts';
+import type { CreateBoardgameDto } from './dto/create-boardgame.dto';
 
 @Injectable()
 export class BoardgameService {

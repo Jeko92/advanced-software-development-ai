@@ -1,10 +1,7 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import type { BlogEntry } from '../types/blog.js';
-import { slugifyTitle } from './slug.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import type { BlogEntry } from '../types/blog';
+import { slugifyTitle } from './slug';
 
 export interface BlogPost extends BlogEntry {
   slug: string;

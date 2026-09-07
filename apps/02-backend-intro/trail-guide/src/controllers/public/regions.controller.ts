@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { getAllRegions } from '../../models/regions.model.ts';
-import type { Region } from '../../types/types.ts';
+import { getAllRegions } from '../../models/regions.model';
+import type { Region } from '../../types/types';
 
 const regionsController = async (
   _req: Request,

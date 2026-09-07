@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { PostService } from '../../services/PostService.ts';
+import type { PostService } from '../../services/PostService';
 
 export class HomeController {
   constructor(private readonly postService: PostService) {}
