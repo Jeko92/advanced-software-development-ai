@@ -1,4 +1,4 @@
-import type { UserRole } from '../../users/entities/user.entity.ts';
+import type { UserRole } from '../../users/entities/user.entity';
 
 const ROLES_THAT_BYPASS_OWNERSHIP: readonly UserRole[] = ['editor', 'admin'];
 

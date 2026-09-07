@@ -1,11 +1,11 @@
-import type { IPostRepository } from '../repositories/IPostRepository.ts';
+import type { IPostRepository } from '../repositories/IPostRepository';
 import {
   slugify,
   type Post,
   type PostWithAuthor,
   type PostWithNeighbors,
-} from '../entities/Post.ts';
-import { sanitizePostContent, formatDate } from '../utils/utils.ts';
+} from '../entities/Post';
+import { sanitizePostContent, formatDate } from '../utils/utils';
 
 // Change this number to 2, 3, 4, or whatever size you want per page!
 const PAGE_SIZE = Number(process.env['PAGE_SIZE']) || 2;

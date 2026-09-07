@@ -1,0 +1,14 @@
+.git
+.turbo
+.env
+.env.example
+coverage
+test
+src
+*.md
+db/*.db
+vitest.config.ts
+vitest.config.e2e.ts
+vitest.setup.ts
+tsconfig.json
+tsconfig.build.json

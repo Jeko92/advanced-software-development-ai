@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { BoardGame } from '../data.ts';
+import type { BoardGame } from '../data';
 
 type Room = {
   id: string;

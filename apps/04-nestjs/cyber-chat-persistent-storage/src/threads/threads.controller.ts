@@ -7,9 +7,9 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ThreadsService } from './threads.service.ts';
-import { type Thread } from './entities/threads.entity.ts';
-import { type Comment } from '../comments/entities/comments.entity.ts';
+import { ThreadsService } from './threads.service';
+import { type Thread } from './entities/threads.entity';
+import { type Comment } from '../comments/entities/comments.entity';
 
 type ThreadWithComments = Thread & { comments: Comment[] };
 

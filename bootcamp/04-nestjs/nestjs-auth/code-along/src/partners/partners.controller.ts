@@ -1,9 +1,9 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ConcertsService } from '../concerts/concerts.service.ts';
-import { QuotesService } from '../quotes/quotes.service.ts';
-import { Public } from '../common/decorators/public.decorator.ts';
-import { ApiKeyGuard } from '../api-keys/api-key.guard.ts';
-import { PaginationQueryDto } from '../concerts/dto/pagination-query.dto.ts';
+import { ConcertsService } from '../concerts/concerts.service';
+import { QuotesService } from '../quotes/quotes.service';
+import { Public } from '../common/decorators/public.decorator';
+import { ApiKeyGuard } from '../api-keys/api-key.guard';
+import { PaginationQueryDto } from '../concerts/dto/pagination-query.dto';
 
 @Controller('partners')
 export class PartnersController {

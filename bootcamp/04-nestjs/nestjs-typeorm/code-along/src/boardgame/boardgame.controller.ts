@@ -9,11 +9,11 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { BoardgameService } from './boardgame.service.ts';
-import { CreateBoardgameDto } from './dto/create-boardgame.dto.ts';
-import { UpdatePlaytimeDto } from './dto/update-playtime.dto.ts';
-import { BoardgameIdParamDto } from './dto/boardgame-id.param.dto.ts';
-import { Boardgame } from './entities/boardgame.entity.ts';
+import { BoardgameService } from './boardgame.service';
+import { CreateBoardgameDto } from './dto/create-boardgame.dto';
+import { UpdatePlaytimeDto } from './dto/update-playtime.dto';
+import { BoardgameIdParamDto } from './dto/boardgame-id.param.dto';
+import { Boardgame } from './entities/boardgame.entity';
 
 @Controller('boardgame')
 export class BoardgameController {

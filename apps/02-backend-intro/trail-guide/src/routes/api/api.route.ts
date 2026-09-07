@@ -5,13 +5,13 @@ import {
   createTrailApiController,
   patchTrailApiController,
   deleteTrailApiController,
-} from '../../controllers/api/api.trail.controller.ts';
+} from '../../controllers/api/api.trail.controller';
 import {
   getRegionsController,
   getTrailsByRegionIdController,
-} from '../../controllers/api/api.region.controller.ts';
-import { apiKeyHandler } from '../../middleware/api-key.ts';
-import { rateLimitHandler } from '../../middleware/rate-limit.ts';
+} from '../../controllers/api/api.region.controller';
+import { apiKeyHandler } from '../../middleware/api-key';
+import { rateLimitHandler } from '../../middleware/rate-limit';
 
 const apiRoute: Router = Router();
 

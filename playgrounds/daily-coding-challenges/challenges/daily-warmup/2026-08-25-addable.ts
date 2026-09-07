@@ -9,7 +9,7 @@ add(1)(2)(3)(4)(5); // 15
 and so on.
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function add(n: number) {
   const fn = (y: number) => add(n + y);

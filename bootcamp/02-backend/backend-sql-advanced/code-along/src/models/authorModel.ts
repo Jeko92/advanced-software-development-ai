@@ -1,4 +1,4 @@
-import { getDB } from '../db/database.ts';
+import { getDB } from '../db/database';
 
 export type Author = {
   id: number;

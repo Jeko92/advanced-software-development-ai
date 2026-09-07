@@ -12,7 +12,7 @@ validISBN10('1234554321') ; should return true
 validISBN10('1234512345') ; should return false
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function validISBN10(isbn: string): boolean {
   if (isbn.length !== 10) {

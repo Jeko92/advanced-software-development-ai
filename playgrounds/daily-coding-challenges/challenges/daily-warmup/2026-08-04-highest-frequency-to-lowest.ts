@@ -6,7 +6,7 @@ solve([2,3,5,3,7,9,5,3,7]) = [3,3,3,5,5,7,7,2,9]
 --we sort by highest frequency to lowest frequency.
 */
 
-import { test } from '@/test.ts';
+import { test } from '@/test';
 
 function solve(arr: number[]): number[] {
   const frequency = new Map<number, number>();

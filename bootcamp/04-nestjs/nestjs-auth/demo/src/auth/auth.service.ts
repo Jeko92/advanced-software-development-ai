@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service.ts';
+import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
-import { type PublicUser } from '../users/users.interface.ts';
+import { type PublicUser } from '../users/users.interface';
 
 export type AuthenticatedUser = PublicUser;
 

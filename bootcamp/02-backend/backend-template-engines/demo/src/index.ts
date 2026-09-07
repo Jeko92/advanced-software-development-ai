@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from 'express';
-import { getAllColors, getColorById, getRandomColor } from './colorService.ts';
+import { getAllColors, getColorById, getRandomColor } from './colorService';
 import nunjucks from 'nunjucks';
 
 const app = express();

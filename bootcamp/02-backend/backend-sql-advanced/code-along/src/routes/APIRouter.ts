@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as APIController from '../controller/APIController.ts';
-import * as AuthorController from '../controller/AuthorController.ts';
+import * as APIController from '../controller/APIController';
+import * as AuthorController from '../controller/AuthorController';
 
 const APIRouter: Router = Router();
 

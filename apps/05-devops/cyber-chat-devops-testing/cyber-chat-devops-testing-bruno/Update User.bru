@@ -1,0 +1,27 @@
+meta {
+  name: Update User
+  type: http
+  seq: 28
+}
+
+patch {
+  url: {{baseUrl}}/users/{{userId}}
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "username": "packet_sorcerer_the_second"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.username: eq packet_sorcerer_the_second
+  res.body.passwordHash: isUndefined
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

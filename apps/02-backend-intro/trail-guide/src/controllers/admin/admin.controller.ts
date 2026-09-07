@@ -6,19 +6,19 @@ import {
   getTrailById,
   getTrailsByRegionId,
   updateTrail,
-} from '../../models/trails.model.ts';
-import { formatDate, sanitizePostContent } from '../../utils/utils.ts';
+} from '../../models/trails.model';
+import { formatDate, sanitizePostContent } from '../../utils/utils';
 import {
   addRegion,
   deleteRegion,
   getAllRegions,
-} from '../../models/regions.model.ts';
+} from '../../models/regions.model';
 import {
   getAllTags,
   getTagsForTrail,
   setTagsForTrail,
-} from '../../models/tags.model.ts';
-import type { Difficulty } from '../../types/types.ts';
+} from '../../models/tags.model';
+import type { Difficulty } from '../../types/types';
 
 // Checkbox inputs sharing one name come through as a single string when
 // only one is checked, an array when several are, or missing entirely when

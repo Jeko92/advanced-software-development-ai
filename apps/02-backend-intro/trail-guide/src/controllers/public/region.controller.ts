@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { getAllRegions, getRegionBySlug } from '../../models/regions.model.ts';
-import { getTrailsByRegionId } from '../../models/trails.model.ts';
-import { attachTagsToTrails } from '../../models/tags.model.ts';
+import { getAllRegions, getRegionBySlug } from '../../models/regions.model';
+import { getTrailsByRegionId } from '../../models/trails.model';
+import { attachTagsToTrails } from '../../models/tags.model';
 
 const regionController = async (
   req: Request<{ slug: string }>,

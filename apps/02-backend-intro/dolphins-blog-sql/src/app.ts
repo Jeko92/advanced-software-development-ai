@@ -2,18 +2,15 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
-import { fileURLToPath } from 'node:url';
-import publicRoutes from './routes/public/index.route.ts';
-import adminRoutes from './routes/admin/index.route.ts';
-import apiRoutes from './routes/api/index.route.ts';
-import { connectDB } from './db/database.ts';
-import { COOKIE_SECRET } from './middlewares/auth.ts';
-import { errorHandler } from './middlewares/error-handler.ts';
+import publicRoutes from './routes/public/index.route';
+import adminRoutes from './routes/admin/index.route';
+import apiRoutes from './routes/api/index.route';
+import { connectDB } from './db/database';
+import { COOKIE_SECRET } from './middlewares/auth';
+import { errorHandler } from './middlewares/error-handler';
 
 const app = express();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
 const viewsDir = path.join(projectRoot, 'src', 'views');

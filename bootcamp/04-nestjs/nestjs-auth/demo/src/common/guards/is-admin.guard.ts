@@ -4,7 +4,7 @@ import {
   type ExecutionContext,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { isPublicHandler } from './is-public.util.ts';
+import { isPublicHandler } from './is-public.util';
 
 @Injectable()
 export class IsAdminGuard implements CanActivate {

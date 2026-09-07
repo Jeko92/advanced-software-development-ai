@@ -1,7 +1,7 @@
-import { AppDataSource } from './data-source.ts';
-import { THREADS_SEED, COMMENTS_SEED } from './seed-data.ts';
-import { Thread } from '../threads/entities/threads.entity.ts';
-import { Comment } from '../comments/entities/comments.entity.ts';
+import { AppDataSource } from './data-source';
+import { THREADS_SEED, COMMENTS_SEED } from './seed-data';
+import { Thread } from '../threads/entities/threads.entity';
+import { Comment } from '../comments/entities/comments.entity';
 
 (async () => {
   const ds = await AppDataSource.initialize();

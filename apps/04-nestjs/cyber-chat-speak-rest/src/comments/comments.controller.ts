@@ -8,8 +8,8 @@ import {
   Param,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { CommentsService } from './comments.service.ts';
-import { CommentResponseDto } from './dto/comment-response.dto.ts';
+import { CommentsService } from './comments.service';
+import { CommentResponseDto } from './dto/comment-response.dto';
 
 @Controller('comments')
 export class CommentsController {

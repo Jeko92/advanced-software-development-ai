@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Concert } from './entities/concert.entity.ts';
+import { Concert } from './entities/concert.entity';
 import { Repository } from 'typeorm';
-import type { UpdateConcertDto } from './dto/update-concert.dto.ts';
-import type { CreateConcertDto } from './dto/create-concert.dto.ts';
+import type { UpdateConcertDto } from './dto/update-concert.dto';
+import type { CreateConcertDto } from './dto/create-concert.dto';
 import { plainToInstance } from 'class-transformer';
-import { ConcertResponseDto } from './dto/concert-response.dto.ts';
-import type { PaginationQueryDto } from './dto/pagination-query.dto.ts';
+import { ConcertResponseDto } from './dto/concert-response.dto';
+import type { PaginationQueryDto } from './dto/pagination-query.dto';
 
 @Injectable()
 export class ConcertsService {

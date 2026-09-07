@@ -7,10 +7,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Request as ExpressRequest } from 'express';
-import { Public } from '../../common/decorators/public.decorator.ts';
-import { SessionAuthGuard } from './session-auth.guard.ts';
-import { AuthService } from '../auth.service.ts';
-import { LoginDto } from '../dto/login.dto.ts';
+import { Public } from '../../common/decorators/public.decorator';
+import { SessionAuthGuard } from './session-auth.guard';
+import { AuthService } from '../auth.service';
+import { LoginDto } from '../dto/login.dto';
 
 @Controller('auth/session')
 export class SessionAuthController {

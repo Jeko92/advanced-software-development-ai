@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
-import { Boardgame } from './boardgame/entities/boardgame.entity.ts';
+import { Boardgame } from './boardgame/entities/boardgame.entity';
 
 config({ quiet: true });
 

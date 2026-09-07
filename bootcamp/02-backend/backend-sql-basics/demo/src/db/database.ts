@@ -1,7 +1,7 @@
 import { Database, open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import path from 'node:path';
-import { sql } from './sql.ts';
+import { sql } from './sql';
 
 const DB_FILE = process.env['DB_PATH']
   ? path.resolve(process.env['DB_PATH'])

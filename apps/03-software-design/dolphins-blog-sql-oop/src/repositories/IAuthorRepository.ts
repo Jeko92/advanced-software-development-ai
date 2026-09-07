@@ -1,4 +1,4 @@
-import type { Author } from '../entities/Author.ts';
+import type { Author } from '../entities/Author';
 
 export interface IAuthorRepository {
   loadAuthors(): Promise<Author[]>;

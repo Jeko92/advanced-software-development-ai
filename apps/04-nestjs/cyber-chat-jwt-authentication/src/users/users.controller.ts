@@ -11,10 +11,10 @@ import {
   HttpStatus,
   Request,
 } from '@nestjs/common';
-import { UsersService } from './users.service.ts';
-import { CreateUserDto } from './dto/create-user.dto.ts';
-import { UpdateUserDto } from './dto/update-user.dto.ts';
-import type { RequestWithUser } from '../common/types/request-with-user.ts';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import type { RequestWithUser } from '../common/types/request-with-user';
 
 @Controller('users')
 export class UsersController {

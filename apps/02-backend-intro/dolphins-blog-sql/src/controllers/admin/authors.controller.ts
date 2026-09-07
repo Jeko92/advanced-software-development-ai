@@ -3,7 +3,7 @@ import {
   loadAuthors,
   createAuthor,
   deleteAuthor,
-} from '../../models/author.model.ts';
+} from '../../models/author.model';
 
 export async function getAdminAuthors(
   _req: Request,

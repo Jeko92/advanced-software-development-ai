@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BoardgamesController } from './boardgames.controller.ts';
-import { BoardgamesService } from './boardgames.service.ts';
-import { BoardgamesRepository } from './boardgames.repository.ts';
+import { BoardgamesController } from './boardgames.controller';
+import { BoardgamesService } from './boardgames.service';
+import { BoardgamesRepository } from './boardgames.repository';
 
 describe('BoardgamesController', () => {
   let controller: BoardgamesController;

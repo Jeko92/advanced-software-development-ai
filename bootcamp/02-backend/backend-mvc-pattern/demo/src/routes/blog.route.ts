@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listPosts, showPost } from '../controllers/blog.controller.ts';
+import { listPosts, showPost } from '../controllers/blog.controller';
 
 const blog: Router = Router();
 

@@ -7,12 +7,9 @@ import {
   getTrailById,
   getTrailBySlug,
   updateTrail,
-} from '../../models/trails.model.ts';
-import {
-  attachTagsToTrails,
-  getTagsForTrail,
-} from '../../models/tags.model.ts';
-import { prepareTrailData } from '../admin/admin.controller.ts';
+} from '../../models/trails.model';
+import { attachTagsToTrails, getTagsForTrail } from '../../models/tags.model';
+import { prepareTrailData } from '../admin/admin.controller';
 
 export const getTrailsController = async (
   req: Request,

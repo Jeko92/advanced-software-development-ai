@@ -1,0 +1,19 @@
+meta {
+  name: Get User By Id (Not Found)
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{baseUrl}}/users/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: bearer
+}
+
+assert {
+  res.status: eq 404
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

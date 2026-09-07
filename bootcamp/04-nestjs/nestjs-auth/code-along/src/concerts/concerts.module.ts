@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConcertsService } from './concerts.service.ts';
-import { ConcertsController } from './concerts.controller.ts';
+import { ConcertsService } from './concerts.service';
+import { ConcertsController } from './concerts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Concert } from './entities/concert.entity.ts';
-import { UsersModule } from '../users/users.module.ts';
-import { SessionAuthGuard } from '../auth/session/session-auth.guard.ts';
+import { Concert } from './entities/concert.entity';
+import { UsersModule } from '../users/users.module';
+import { SessionAuthGuard } from '../auth/session/session-auth.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Concert]), UsersModule],
