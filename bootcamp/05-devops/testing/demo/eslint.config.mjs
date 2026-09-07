@@ -1,7 +1,7 @@
 import { baseConfig } from '@bootcamp/eslint-config';
 
 export default [
-  { ignores: ['**/dist/**', '.solutions/**'] },
+  { ignores: ['**/dist/**'] },
   ...baseConfig,
   {
     languageOptions: {
@@ -9,7 +9,6 @@ export default [
         projectService: {
           allowDefaultProject: [
             'eslint.config.mjs',
-            'prettier.config.mjs',
             'vitest.config.ts',
             'vitest.config.e2e.ts',
           ],

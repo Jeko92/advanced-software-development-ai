@@ -1,6 +1,8 @@
 {
-  "name": "@bootcamp/devops-docker-basics-scoreboard-service",
+  "name": "@bootcamp/devops-docker-advanced-code-along",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
