@@ -2,6 +2,7 @@
   "name": "@bootcamp/trail-guide",
   "version": "1.0.0",
   "description": "trail-guide project which is second recap-project of the neufische's Advanced Sopftware Devlopment with AI Bootcamp",
+  "type": "module",
   "keywords": [
     "Express",
     "MVC",

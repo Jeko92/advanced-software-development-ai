@@ -1,10 +1,10 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ConcertsService } from '../concerts/concerts.service';
-import { QuotesService } from '../quotes/quotes.service';
-import { Public } from '../common/decorators/public.decorator';
-import { UsersService } from '../users/users.service';
-import { IsAdminGuard } from '../common/guards/is-admin.guard';
-import { BasicAuthGuard } from '../common/guards/basic-auth.guard';
+import { ConcertsService } from '../concerts/concerts.service.ts';
+import { QuotesService } from '../quotes/quotes.service.ts';
+import { Public } from '../common/decorators/public.decorator.ts';
+import { UsersService } from '../users/users.service.ts';
+import { IsAdminGuard } from '../common/guards/is-admin.guard.ts';
+import { BasicAuthGuard } from '../common/guards/basic-auth.guard.ts';
 
 @Controller('admin')
 export class AdminController {

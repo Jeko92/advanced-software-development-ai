@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { getAllRegions, getRegionBySlug } from '../../models/regions.model';
-import { getTrailsByRegionId } from '../../models/trails.model';
+import { getAllRegions, getRegionBySlug } from '../../models/regions.model.ts';
+import { getTrailsByRegionId } from '../../models/trails.model.ts';
 
 export const getRegionsController = async (
   _req: Request,

@@ -4,7 +4,7 @@ import {
   getAllColorsJson,
   getRandomColorJson,
   getColorByIdJson,
-} from '../controllers/color.controller';
+} from '../controllers/color.controller.ts';
 
 const colors: Router = Router();
 

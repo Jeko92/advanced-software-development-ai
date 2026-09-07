@@ -10,7 +10,7 @@ Examples
 [4, 3, 1, 5, 6]   -->  [[1, 3], [3, 5], [4, 6]]
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function differenceOfTwo(arr: number[]): number[][] {
   let sorted = [...arr].sort((a, b) => a - b);

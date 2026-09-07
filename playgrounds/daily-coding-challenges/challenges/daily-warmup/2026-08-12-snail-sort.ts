@@ -8,7 +8,7 @@ array = [[1,2,3],
 snail(array) #=> [1,2,3,6,9,8,7,4,5]
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function snail(a: number[][]): number[] {
   const result: number[] = [];

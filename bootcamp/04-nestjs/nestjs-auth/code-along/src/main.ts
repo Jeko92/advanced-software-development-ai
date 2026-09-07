@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
-import { TypeormSessionStore } from './auth/session/typeorm-session.store';
+import { AppModule } from './app.module.ts';
+import { TypeormSessionStore } from './auth/session/typeorm-session.store.ts';
 import session from 'express-session';
 
 async function bootstrap() {

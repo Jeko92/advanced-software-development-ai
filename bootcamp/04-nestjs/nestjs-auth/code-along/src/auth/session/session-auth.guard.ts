@@ -4,7 +4,7 @@ import {
   type CanActivate,
   type ExecutionContext,
 } from '@nestjs/common';
-import { UsersService } from '../../users/users.service';
+import { UsersService } from '../../users/users.service.ts';
 
 @Injectable()
 export class SessionAuthGuard implements CanActivate {

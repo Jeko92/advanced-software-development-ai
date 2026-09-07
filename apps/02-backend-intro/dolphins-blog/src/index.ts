@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from 'express';
 import nunjucks from 'nunjucks';
-import { getBlogEntries, getPostWithNeighbors } from './utils/blog';
+import { getBlogEntries, getPostWithNeighbors } from './utils/blog.js';
 
 const app = express();
 const port = 3000;

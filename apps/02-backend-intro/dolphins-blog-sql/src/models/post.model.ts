@@ -1,4 +1,4 @@
-import { getDB } from '../db/database';
+import { getDB } from '../db/database.ts';
 
 export interface Post {
   id?: number;

@@ -2,6 +2,7 @@
   "name": "@bootcamp/backend-basics-express-setup",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",

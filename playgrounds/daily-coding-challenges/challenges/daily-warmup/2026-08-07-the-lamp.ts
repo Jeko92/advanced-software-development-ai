@@ -8,7 +8,7 @@ Define another instance method called state that will return "The lamp is on." i
 otherwise.
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 class Lamp {
   color: string;

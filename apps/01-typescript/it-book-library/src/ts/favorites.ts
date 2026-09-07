@@ -1,11 +1,11 @@
-import type { BookList } from './types';
+import type { BookList } from './types.js';
 import {
   getFavoriteIsbns,
   removeFavorite,
   updateHeaderFavoritesBadge,
   populatePublisherSelect,
   fetchAllBooks,
-} from './shared';
+} from './shared.js';
 
 const favTable = document.getElementById('favorites-list') as HTMLTableElement;
 const headingCountEl = document.getElementById(

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConcertsModule } from './concerts/concerts.module';
+import { AppController } from './app.controller.ts';
+import { AppService } from './app.service.ts';
+import { ConcertsModule } from './concerts/concerts.module.ts';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

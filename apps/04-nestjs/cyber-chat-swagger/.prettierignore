@@ -11,6 +11,3 @@ package-lock.json
 yarn.lock
 **/.db/**
 *.md
-# checked-in, auto-generated OpenAPI client (openapi-generator output) —
-# not meant to be reformatted to the project's own style
-client

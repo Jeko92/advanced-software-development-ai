@@ -2,7 +2,7 @@
 // we get 3, 5, 6 and 9. The sum of these multiples is 23.
 // Finish the solution so that it returns the sum of all the multiples of 3 or 5 below the number passed in.
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function solution(n: number): number {
   return Array.from({ length: n }, (_, index) => index)

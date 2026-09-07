@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Minimal demo for TypeScript Advanced Setup: tsx",
+  "type": "module",
   "engines": {
     "node": ">=22"
   },

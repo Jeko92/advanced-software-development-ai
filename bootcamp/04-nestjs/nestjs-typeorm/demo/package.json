@@ -2,6 +2,7 @@
   "name": "@bootcamp/nestjs-typeorm-demo",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "bun --env-file=.env dist/main.js",

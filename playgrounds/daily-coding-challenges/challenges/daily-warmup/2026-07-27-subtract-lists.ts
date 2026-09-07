@@ -4,7 +4,7 @@ and returns the result. It should remove all values from list a, which are prese
 array_diff([1,2],[1]) == [2]
 */
 
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function array_diff(a: number[], b: number[]): number[] {
   let result = [...a];

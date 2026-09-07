@@ -1,5 +1,5 @@
-import { InsertionSort } from './insertion-sort';
-import { MergeSort } from './merge-sort';
+import { InsertionSort } from './insertion-sort.ts';
+import { MergeSort } from './merge-sort.ts';
 
 export class TimSort {
   private readonly runSize: number;

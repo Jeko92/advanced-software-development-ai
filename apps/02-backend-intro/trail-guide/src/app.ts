@@ -2,17 +2,20 @@ import express, { type Request, type Response } from 'express';
 import nunjucks from 'nunjucks';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
-import publicRoutes from './routes/public/index.route';
-import { closeDB, connectDB } from './db/database';
+import { fileURLToPath } from 'node:url';
+import publicRoutes from './routes/public/index.route.ts';
+import { closeDB, connectDB } from './db/database.ts';
 import cors from 'cors';
-import { logger } from './middleware/logger-middleware';
-import { errorHandler } from './middleware/error-middleware';
-import { COOKIE_SECRET } from './middleware/auth';
-import adminRoutes from './routes/admin/index.route';
-import apiRoutes from './routes/api/index.route';
+import { logger } from './middleware/logger-middleware.ts';
+import { errorHandler } from './middleware/error-middleware.ts';
+import { COOKIE_SECRET } from './middleware/auth.ts';
+import adminRoutes from './routes/admin/index.route.ts';
+import apiRoutes from './routes/api/index.route.ts';
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
 const viewsDir = path.join(projectRoot, 'src', 'views');

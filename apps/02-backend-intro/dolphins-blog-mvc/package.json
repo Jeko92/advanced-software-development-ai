@@ -2,6 +2,7 @@
   "name": "@bootcamp/dolphins-blog-mvc",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "pnpm run build:client && tsx --watch --env-file=.env src/app.ts",
     "build": "tsc && pnpm run build:client",

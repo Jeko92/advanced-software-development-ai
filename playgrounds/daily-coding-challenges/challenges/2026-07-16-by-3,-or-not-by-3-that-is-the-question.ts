@@ -1,4 +1,4 @@
-import { test } from '@/test';
+import { test } from '@/test.ts';
 
 function divisibleByThree(str: string): boolean {
   return Number(str) % 3 === 0;

@@ -1,4 +1,4 @@
-import { colors, type Color } from '../data/colors';
+import { colors, type Color } from '../data/colors.ts';
 
 export function getAllColors(): Color[] {
   return colors;

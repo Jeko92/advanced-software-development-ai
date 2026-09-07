@@ -2,9 +2,10 @@ import express, { type Express, type Router } from 'express';
 import nunjucks from 'nunjucks';
 import cookieParser from 'cookie-parser';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import type { ErrorHandlerMiddleware } from '../middlewares/ErrorHandlerMiddleware';
-import type { AuthService } from '../services/AuthService';
+import type { ErrorHandlerMiddleware } from '../middlewares/ErrorHandlerMiddleware.ts';
+import type { AuthService } from '../services/AuthService.ts';
 
 export class App {
   readonly expressApp: Express;
@@ -24,6 +25,8 @@ export class App {
   }
 
   private configureViews(): void {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     const srcDir = path.resolve(__dirname, '..');
     const viewsDir = path.join(srcDir, 'views');
 
@@ -40,6 +43,8 @@ export class App {
   }
 
   private configureMiddlewares(): void {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     const srcDir = path.resolve(__dirname, '..');
 
     const assetsDir = path.join(srcDir, 'assets');

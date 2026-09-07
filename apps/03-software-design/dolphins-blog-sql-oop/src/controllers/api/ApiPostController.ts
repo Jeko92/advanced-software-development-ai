@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import type { PostService } from '../../services/PostService';
-import type { Post } from '../../entities/Post';
+import type { PostService } from '../../services/PostService.ts';
+import type { Post } from '../../entities/Post.ts';
 
 const SAFE_FILENAME_PATTERN = /^[A-Za-z0-9._-]+$/;
 

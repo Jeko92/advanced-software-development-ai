@@ -1,7 +1,7 @@
-import type { Difficulty, Trail, TrailWithRegion } from '../types/types';
-import { getDB } from '../db/database';
+import type { Difficulty, Trail, TrailWithRegion } from '../types/types.ts';
+import { getDB } from '../db/database.ts';
 import type { Database } from 'sqlite';
-import { sanitizePostContent, slugify } from '../utils/utils';
+import { sanitizePostContent, slugify } from '../utils/utils.ts';
 
 export interface TrailFilters {
   regionSlug?: string;

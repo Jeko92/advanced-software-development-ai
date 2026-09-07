@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
-import type { PostService } from '../../services/PostService';
-import type { ImageStorageService } from '../../services/ImageStorageService';
-import type { Post } from '../../entities/Post';
-import { getSlugParam, formatDate } from '../../utils/utils';
+import type { PostService } from '../../services/PostService.ts';
+import type { ImageStorageService } from '../../services/ImageStorageService.ts';
+import type { Post } from '../../entities/Post.ts';
+import { getSlugParam, formatDate } from '../../utils/utils.ts';
 
 export class AdminPostController {
   constructor(

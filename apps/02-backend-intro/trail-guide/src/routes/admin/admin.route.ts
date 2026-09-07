@@ -6,7 +6,7 @@ import {
   getEditTrailForm,
   getNewTrailForm,
   updateTrailController,
-} from '../../controllers/admin/admin.controller';
+} from '../../controllers/admin/admin.controller.ts';
 
 const adminRoute: Router = Router();
 

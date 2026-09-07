@@ -2,6 +2,7 @@
   "name": "@bootcamp/nestjs-restful-design-code-along",
   "version": "1.0.0",
   "description": "Concerts REST API code-along for the NestJS RESTful Design session",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

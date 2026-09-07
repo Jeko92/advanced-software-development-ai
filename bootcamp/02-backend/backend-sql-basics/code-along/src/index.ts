@@ -1,6 +1,6 @@
 import express from 'express';
-import APIRouter from './routes/APIRouter';
-import { connectDB, closeDB } from './db/database';
+import APIRouter from './routes/APIRouter.ts';
+import { connectDB, closeDB } from './db/database.ts';
 
 const app = express();
 const port = process.env['PORT'] || 3000;
@@ -8,15 +8,11 @@ const port = process.env['PORT'] || 3000;
 app.use(express.static('public'));
 app.use('/api', APIRouter);
 
-async function bootstrap(): Promise<void> {
-  await connectDB();
+await connectDB();
 
-  app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
-  });
-}
-
-void bootstrap();
+app.listen(port, () => {
+  console.log(`Example app listening on port http://localhost:${port}`);
+});
 
 async function handleShutdown(signalName: string): Promise<void> {
   console.log(`Received signal: ${signalName}`);

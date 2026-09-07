@@ -1,5 +1,5 @@
-import { getDatabase } from '../db/database';
-import { sql } from '../db/sql';
+import { getDatabase } from '../db/database.ts';
+import { sql } from '../db/sql.ts';
 
 export type BlogPosting = {
   id: number;

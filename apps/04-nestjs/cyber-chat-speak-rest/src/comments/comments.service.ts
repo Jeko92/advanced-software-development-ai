@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Comment } from './entities/comments.entity';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { CommentResponseDto } from './dto/comment-response.dto';
+import { Comment } from './entities/comments.entity.ts';
+import { CreateCommentDto } from './dto/create-comment.dto.ts';
+import { CommentResponseDto } from './dto/comment-response.dto.ts';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()

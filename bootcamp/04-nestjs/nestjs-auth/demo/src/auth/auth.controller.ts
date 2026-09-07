@@ -1,8 +1,8 @@
 import { Controller, Post, UseGuards, Body, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { type AuthenticatedUser, AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { Public } from '../common/decorators/public.decorator';
+import { type AuthenticatedUser, AuthService } from './auth.service.ts';
+import { LoginDto } from './dto/login.dto.ts';
+import { Public } from '../common/decorators/public.decorator.ts';
 
 type AuthenticatedRequest = Request & {
   user: AuthenticatedUser;

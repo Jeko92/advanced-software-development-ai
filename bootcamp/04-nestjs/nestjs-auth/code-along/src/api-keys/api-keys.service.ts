@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateApiKeyDto } from './dto/create-api-key.dto';
-import { UpdateApiKeyDto } from './dto/update-api-key.dto';
-import { ApiKey } from './entities/api-key.entity';
+import { CreateApiKeyDto } from './dto/create-api-key.dto.ts';
+import { UpdateApiKeyDto } from './dto/update-api-key.dto.ts';
+import { ApiKey } from './entities/api-key.entity.ts';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
-import { hashSecret, compareSecret } from '../common/utils/hash.util';
+import { hashSecret, compareSecret } from '../common/utils/hash.util.ts';
 import { plainToInstance } from 'class-transformer';
-import { CreatedApiKeyResponseDto } from './dto/created-api-key-response.dto';
-import { ApiKeyResponseDto } from './dto/api-key-response.dto';
+import { CreatedApiKeyResponseDto } from './dto/created-api-key-response.dto.ts';
+import { ApiKeyResponseDto } from './dto/api-key-response.dto.ts';
 
 @Injectable()
 export class ApiKeysService {
