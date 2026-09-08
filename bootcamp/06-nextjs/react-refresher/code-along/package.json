@@ -1,0 +1,32 @@
+{
+  "name": "@bootcamp/nextjs-react-refresher-code-along",
+  "version": "1.0.0",
+  "description": "A React fundamentals refresher ahead of the Next.js module in the neuefische Advanced Software Development with AI bootcamp.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc -b",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.4",
+    "globals": "^17.0.0",
+    "vite": "^8.2.0"
+  }
+}
