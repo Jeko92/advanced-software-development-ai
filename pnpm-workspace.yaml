@@ -1,6 +1,7 @@
 packages:
   - 'apps/0[1-8]-*'
   - 'apps/0[1-8]-*/*'
+  - 'apps/0[1-8]-*/*/*'
   - 'apps/00-side-projects/*'
   - 'bootcamp/*'
   - 'bootcamp/*/*'
@@ -17,5 +18,6 @@ allowBuilds:
   better-sqlite3: true
   esbuild: true
   protobufjs: false
+  sharp: false
   sqlite3: true
   unrs-resolver: false
