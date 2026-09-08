@@ -68,7 +68,7 @@ body {
 
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: var(--heading), sans-serif;
   font-weight: 500;
   color: var(--text-h);
 }
@@ -97,7 +97,7 @@ p {
 
 code,
 .counter {
-  font-family: var(--mono);
+  font-family: var(--mono), monospace;
   display: inline-flex;
   border-radius: 4px;
   color: var(--text-h);
