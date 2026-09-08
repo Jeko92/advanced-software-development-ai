@@ -1,11 +1,7 @@
 name: DevOps CI/CD Code-Along - CD
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'bootcamp/05-devops/ci-cd/code-along/**'
-      - '.github/workflows/devops-ci-cd-code-along-cd.yml'
+  workflow_dispatch:
 
 jobs:
   deploy:

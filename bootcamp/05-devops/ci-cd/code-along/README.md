@@ -61,8 +61,11 @@ other bootcamp module:
 - [`devops-ci-cd-code-along-ci.yml`](../../../../.github/workflows/devops-ci-cd-code-along-ci.yml) -
   lints, tests, and builds on every push and PR.
 - [`devops-ci-cd-code-along-cd.yml`](../../../../.github/workflows/devops-ci-cd-code-along-cd.yml) -
-  builds and pushes a Docker image, then triggers a Render redeploy, on
-  every push to `main`.
+  builds and pushes a Docker image, then triggers a Render redeploy.
+  Deliberately **manual only** (`workflow_dispatch`, not `push`) - a
+  deploy on every commit to `main` isn't wanted here, so this is run by
+  hand from the Actions tab ("Run workflow", branch `main`) or via
+  `gh workflow run devops-ci-cd-code-along-cd.yml --ref main`.
 
 The CD workflow needs three repository secrets under
 **Settings → Secrets and variables → Actions**:
