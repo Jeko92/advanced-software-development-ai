@@ -1,7 +1,7 @@
 import styles from './page.module.css';
 import { getAllDeliveries } from '@/lib/services/deliveryService';
 
-export const Home = async () => {
+const Home = async () => {
   const deliveries = await getAllDeliveries();
   const [firstDelivery] = deliveries;
 
