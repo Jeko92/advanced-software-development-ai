@@ -1,6 +1,6 @@
 import styles from './page.module.css';
 
-export const Home = async () => {
+const Home = async () => {
   return (
     <div className={styles['page']}>
       <main className={styles['main']}>
