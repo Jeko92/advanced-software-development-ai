@@ -3,7 +3,7 @@ import Image from 'next/image';
 export const HomePage = () => {
   return (
     <div>
-      <h1>Kiki's Delivery Service</h1>
+      <h1>Kiki&apos;s Delivery Service</h1>
       <p>Fast, reliable deliveries across the city.</p>
       <Image
         src="/kiki.webp"

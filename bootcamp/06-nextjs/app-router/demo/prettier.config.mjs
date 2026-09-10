@@ -1,5 +1,7 @@
 import baseConfig from '@bootcamp/prettier-config' with { type: 'json' };
 
-export default {
+const prettierConfig = {
   ...baseConfig,
 };
+
+export default prettierConfig;

@@ -5,16 +5,12 @@ const cherryBomb = Cherry_Bomb_One({
   subsets: ['latin'],
 });
 
-const RootLayout = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className={cherryBomb.className}>
       <body>
         <header>
-          <h1>Kiki's Delivery Service</h1>
+          <h1>Kiki&apos;s Delivery Service</h1>
         </header>
         {children}
       </body>

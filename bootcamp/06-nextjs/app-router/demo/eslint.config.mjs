@@ -1,10 +1,14 @@
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import { baseConfig } from '@bootcamp/eslint-config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
 
-export default [
+const eslintConfig = [
   { ignores: ['**/.next/**'] },
   ...baseConfig,
+  ...nextVitals,
+  ...nextTs,
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
@@ -31,3 +35,5 @@ export default [
     },
   },
 ];
+
+export default eslintConfig;
