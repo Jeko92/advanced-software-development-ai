@@ -1,4 +1,4 @@
-name: coffee-shop
+name: coffee-shop-app-router
 services:
   db:
     image: postgres:17

@@ -2,9 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-The menu service currently reads from an in-memory fixtures array
-(`src/db/fixtures.ts`), not a database — see "Database" below. No
-Postgres container is required to run the app as-is.
+No Postgres container is required — see "Database" below.
 
 From the repo root, run the development server:
 
@@ -16,13 +14,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Database
 
-`src/db/data-source.ts` and `src/db/entities/menuItem.ts` set up a
-TypeORM `DataSource` for Postgres (via `compose.yaml`), but nothing in
-`src/services/menuService.ts` currently calls `getDB()` — it imports
-`menuItems` straight from `src/db/fixtures.ts` and returns that
-in-memory array. The TypeORM scaffolding is unused, dead code as it
-stands; the data is mocked. If you want a real Postgres instance
-available anyway (e.g. to build on this scaffolding):
+The menu service reads from an in-memory array (`src/db/fixtures.ts`).
+`src/db/data-source.ts` sets up a TypeORM `DataSource` for Postgres,
+but nothing calls it — it's unused scaffolding. To run a real Postgres
+instance anyway:
 
 ```bash
 cp .env.example .env

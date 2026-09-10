@@ -1,4 +1,4 @@
-name: coffee-shop
+name: coffee-shop-server-vs-client
 services:
   db:
     image: postgres:17
