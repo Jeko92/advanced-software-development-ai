@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="No photo available">
+  <rect width="960" height="720" fill="#f2ece5" />
+  <g fill="none" stroke="#b09b83" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 300h300v130a110 110 0 0 1-110 110H410a110 110 0 0 1-110-110z" />
+    <path d="M600 340h50a70 70 0 0 1 0 140h-50" />
+    <path d="M280 600h400" />
+    <path d="M390 240c0-30 30-30 30-60s-30-30-30-60" />
+    <path d="M480 240c0-30 30-30 30-60s-30-30-30-60" />
+  </g>
+</svg>
