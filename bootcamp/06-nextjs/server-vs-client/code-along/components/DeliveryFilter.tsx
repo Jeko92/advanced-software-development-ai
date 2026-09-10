@@ -19,7 +19,9 @@ export const DeliveryFilter = ({ deliveries }: { deliveries: Delivery[] }) => {
     <div>
       <select
         value={status}
-        onChange={(e) => setStatus(e.target.value as Delivery['status'] | 'all')}
+        onChange={(e) =>
+          setStatus(e.target.value as Delivery['status'] | 'all')
+        }
       >
         <option value="all">All</option>
         {statuses.map((s) => (
