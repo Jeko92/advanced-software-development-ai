@@ -1,11 +1,9 @@
 node_modules
 dist
-build
 coverage
 .next
 .turbo
 next-env.d.ts
-.cache
 bun.lockb
 pnpm-lock.yaml
 package-lock.json
