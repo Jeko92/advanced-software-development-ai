@@ -25,3 +25,5 @@ allowBuilds:
   sqlite3: true
   unrs-resolver: false
   workerd: false
+minimumReleaseAgeExclude:
+  - lucide-react@1.44.0
