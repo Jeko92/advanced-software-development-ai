@@ -6,6 +6,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "incremental": true,
+    "rewriteRelativeImportExtensions": false,
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"]

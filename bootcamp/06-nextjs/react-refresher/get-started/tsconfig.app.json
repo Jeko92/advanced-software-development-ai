@@ -5,7 +5,8 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "rewriteRelativeImportExtensions": false
   },
   "include": ["src"]
 }
