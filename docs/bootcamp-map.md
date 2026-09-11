@@ -26,19 +26,25 @@
 | 3.1 Programming Paradigms                 | `bootcamp/03-software-design/programming-paradigms` | 🟢         |
 | 3.2 CS fundamentals                       | `bootcamp/03-software-design/cs-fundamentals`       | 🟢         |
 | 3.3 Design Patterns                       | `bootcamp/03-software-design/design-patterns`       | 🟢         |
-| 4 NestJS                                  | `bootcamp/04-nestjs`                                | ⬜         |
+| 4 NestJS                                  | `bootcamp/04-nestjs`                                | 🟢         |
 | 4.1 NestJS Basics 1                       | `bootcamp/04-nestjs/nestjs-basiscs-1`               | 🟢         |
 | 4.2 NestJS Basics 2                       | `bootcamp/04-nestjs/nestjs-basiscs-2`               | 🟢         |
 | 4.3 NestJS TypeORM                        | `bootcamp/04-nestjs/nestjs-type-orm`                | 🟢         |
 | 4.4 NestJS RESTful Design                 | `bootcamp/04-nestjs/nestjs-restful-design`          | 🟢         |
 | 4.5 NestJS Auth                           | `bootcamp/04-nestjs/nestjs-auth`                    | 🟢         |
 | 4.6 NestJS OpenAPI & Swagger              | `bootcamp/04-nestjs/nestjs-swagger`                 | 🟢         |
-| 4.7 Recap project                         | `apps/04-nestjs/`                                   | ⬜         |
-| 5 DevOps                                  | `bootcamp/05-devops`                                | ⬜         |
+| 4.7 Recap project                         | `apps/04-nestjs/dark-bay`                           | 🟢         |
+| 5 DevOps                                  | `bootcamp/05-devops`                                | 🟢         |
 | 5.1 DevOps Testing                        | `bootcamp/05-devops/devops-testing`                 | 🟢         |
 | 5.2 DevOps Docker Basics                  | `bootcamp/05-devops/devops-docker-basics`           | 🟢         |
 | 5.3 DevOps Docker Advanced                | `bootcamp/05-devops/devops-docker-advanced`         | 🟢         |
 | 5.4 DevOps CI/CD                          | `bootcamp/05-devops/devops-ci-cd`                   | 🟢         |
 | 6 Next.js                                 | `bootcamp/06-nextjs`                                | ⬜         |
+| 6.1 Next.js React Refresher               | `bootcamp/06-nextjs/react-refresher`                | 🟢         |
+| 6.2 Next.js App Router                    | `bootcamp/06-nextjs/app-router`                     | 🟢         |
+| 6.3 Next.js Server vs. Client             | `bootcamp/06-nextjs/server-vs-client`               | 🟢         |
+| 6.4 Next.js Tailwind & Shadcn             | `bootcamp/06-nextjs/tailwind-and-shadcn`            | 🟢         |
+| 6.5 Next.js Ecosystem                     | `bootcamp/06-nextjs/ecosystem`                      | 🟢         |
+| 6.6 Recap project                         | `bootcamp/06-nextjs`                                | ⬜         |
 | 7 Real-Time                               | `bootcamp/07-realtime`                              | ⬜         |
 | 8 AI                                      | `bootcamp/08-ai`                                    | ⬜         |

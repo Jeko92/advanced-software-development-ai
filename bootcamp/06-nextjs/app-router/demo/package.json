@@ -1,0 +1,36 @@
+{
+  "name": "@bootcamp/nextjs-app-router-demo",
+  "version": "1.0.0",
+  "description": "Coffee Nerds — a Next.js demo for the App Router chapter: file-based routing, layouts, loading/error states, and dynamic routes over a mocked menu service.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "next typegen && tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "dependencies": {
+    "next": "16.3.4",
+    "pg": "^8.23.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "typeorm": "^1.1.1"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint-config-next": "16.3.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.0.0",
+    "tailwindcss": "^4"
+  }
+}

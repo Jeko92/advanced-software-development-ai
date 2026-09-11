@@ -1,0 +1,40 @@
+{
+  "name": "@bootcamp/nextjs-server-vs-client-code-snippet-library",
+  "version": "1.0.0",
+  "description": "Code Snippet Library — Server vs Client challenges: client components, server functions, API routes, and a Prisma/Postgres-backed snippetsService.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "next typegen && tsc --noEmit",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "db:seed": "prisma db seed",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "dotenv": "17.4.2",
+    "eslint-config-next": "16.3.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.0.0",
+    "prisma": "7.10.0",
+    "tsx": "^4.19.0"
+  }
+}
