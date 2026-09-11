@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum DeliveryStatus {
+  ACTIVE
+  ACCEPTED
+  DENIED
+  FULFILLED
+}
+
+model Delivery {
+  id          String         @id @default(cuid())
+  pickup      String
+  destination String
+  status      DeliveryStatus @default(ACTIVE)
+}
+
+// Translate the `deliveries` table from
+// docs/learning/06-nextjs/server-vs-client/challenges.md into Prisma schema
+// syntax — an id, pickup, destination, and status field. Consider a Prisma
+// `enum` for status instead of a bare `TEXT` column.
+//
+// Once the model is in place:
+//   pnpm --filter @bootcamp/nextjs-server-vs-client-kikis-delivery-service exec prisma migrate dev --name add_delivery
