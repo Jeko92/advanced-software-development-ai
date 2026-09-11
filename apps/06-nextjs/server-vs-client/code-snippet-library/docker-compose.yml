@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: ../../../..
+      dockerfile: apps/06-nextjs/server-vs-client/code-snippet-library/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
+    volumes:
+      - .:/app/apps/06-nextjs/server-vs-client/code-snippet-library
+      - /app/apps/06-nextjs/server-vs-client/code-snippet-library/node_modules
+      - /app/apps/06-nextjs/server-vs-client/code-snippet-library/.next
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:18
+    ports:
+      - '${DB_PORT}:5432'
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:

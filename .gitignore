@@ -18,6 +18,8 @@ coverage/
 .turbo
 out/
 .deploy/
+.vercel
+next-env.d.ts
 
 # Environment & Sensitive Files
 .env

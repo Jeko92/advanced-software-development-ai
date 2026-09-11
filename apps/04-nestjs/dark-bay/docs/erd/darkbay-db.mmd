@@ -1,0 +1,38 @@
+erDiagram
+    auctions {
+        datetime createdAt 
+        varchar description 
+        datetime endDate 
+        varchar id PK 
+        varchar sellerId FK 
+        INTEGER startingPrice 
+        varchar title 
+    }
+
+    offers {
+        INTEGER amount 
+        varchar auctionId FK 
+        varchar bidderId FK 
+        datetime createdAt 
+        varchar id PK 
+    }
+
+    user {
+        varchar id PK 
+        varchar passwordHash 
+        TEXT roles 
+        varchar username UK 
+    }
+
+    watchlist {
+        varchar auctionId FK,UK 
+        datetime createdAt 
+        varchar id PK 
+        varchar userId FK,UK 
+    }
+
+    auctions }o--|| user : "sellerId"
+    offers }o--|| auctions : "auctionId"
+    watchlist }o--|| auctions : "auctionId"
+    offers }o--|| user : "bidderId"
+    watchlist }o--|| user : "userId"

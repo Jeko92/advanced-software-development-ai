@@ -1,6 +1,7 @@
 packages:
   - 'apps/0[1-8]-*'
   - 'apps/0[1-8]-*/*'
+  - 'apps/0[1-8]-*/*/*'
   - 'apps/00-side-projects/*'
   - 'bootcamp/*'
   - 'bootcamp/*/*'
@@ -11,11 +12,29 @@ packages:
   - '!**/.deploy/**'
 allowBuilds:
   '@nestjs/core': true
+  '@prisma/engines': true
   '@scarf/scarf': false
   '@swc/core': true
   bcrypt: true
   better-sqlite3: true
   esbuild: true
+  msgpackr-extract: false
+  prisma: true
   protobufjs: false
+  sharp: false
   sqlite3: true
   unrs-resolver: false
+  workerd: false
+minimumReleaseAgeExclude:
+  - lucide-react@1.44.0
+# @nestjs/swagger's CLI plugin (dist/plugin/**) does an undeclared `require('typescript')`
+# at runtime. Without a real dependency/peer edge, pnpm falls back to whatever "typescript"
+# happens to be hoisted for phantom lookups repo-wide — which can be the TS7 native-compiler
+# preview pinned by bootcamp/03-software-design/* (its root export is a version-only stub with
+# no ModuleKind/ScriptTarget, crashing the plugin with "Cannot read properties of undefined
+# (reading 'ES2015')"). Declaring it as a peer here makes pnpm resolve/symlink each consuming
+# project's own typescript instead.
+packageExtensions:
+  '@nestjs/swagger':
+    peerDependencies:
+      typescript: '>=4.8.0'

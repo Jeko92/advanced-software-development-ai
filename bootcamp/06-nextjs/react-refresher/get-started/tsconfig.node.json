@@ -1,0 +1,9 @@
+{
+  "extends": "@bootcamp/tsconfig/node.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "noEmit": true,
+    "rewriteRelativeImportExtensions": false
+  },
+  "include": ["vite.config.ts"]
+}
