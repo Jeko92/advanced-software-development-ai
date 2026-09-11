@@ -1,0 +1,38 @@
+erDiagram
+    USER ||--o{ AUCTION : "sells (seller)"
+    USER ||--o{ OFFER : "bids (bidder)"
+    USER ||--o{ WATCHLIST : "watches (user)"
+    AUCTION ||--o{ OFFER : "receives (auction)"
+    AUCTION ||--o{ WATCHLIST : "watched by (auction)"
+
+    USER {
+        uuid id PK
+        string username UK
+        string passwordHash
+        string roles
+    }
+
+    AUCTION {
+        uuid id PK
+        string title
+        string description
+        float startingPrice
+        datetime endDate
+        uuid sellerId FK
+        datetime createdAt
+    }
+
+    OFFER {
+        uuid id PK
+        float amount
+        uuid bidderId FK
+        uuid auctionId FK
+        datetime createdAt
+    }
+
+    WATCHLIST {
+        uuid id PK
+        uuid userId FK
+        uuid auctionId FK
+        datetime createdAt
+    }
