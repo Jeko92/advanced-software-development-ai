@@ -1,6 +1,7 @@
 packages:
   - 'apps/0[1-8]-*'
   - 'apps/0[1-8]-*/*'
+  - 'apps/0[1-8]-*/*/*'
   - 'apps/00-side-projects/*'
   - 'bootcamp/*'
   - 'bootcamp/*/*'
@@ -11,11 +12,18 @@ packages:
   - '!**/.deploy/**'
 allowBuilds:
   '@nestjs/core': true
+  '@prisma/engines': true
   '@scarf/scarf': false
   '@swc/core': true
   bcrypt: true
   better-sqlite3: true
   esbuild: true
+  msgpackr-extract: false
+  prisma: true
   protobufjs: false
+  sharp: false
   sqlite3: true
   unrs-resolver: false
+  workerd: false
+minimumReleaseAgeExclude:
+  - lucide-react@1.44.0

@@ -1,0 +1,41 @@
+name: tailwind-and-shadcn-code-along
+services:
+  app:
+    build:
+      context: ../../../..
+      dockerfile: bootcamp/06-nextjs/tailwind-and-shadcn/code-along/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
+    volumes:
+      - .:/app/bootcamp/06-nextjs/tailwind-and-shadcn/code-along
+      - /app/bootcamp/06-nextjs/tailwind-and-shadcn/code-along/node_modules
+      - /app/bootcamp/06-nextjs/tailwind-and-shadcn/code-along/.next
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:18
+    ports:
+      # Host side hardcoded to 5433, not ${DB_PORT}/5432: a native Postgres
+      # already listens on 5432 on this machine, and it wins over Docker's
+      # mapping for localhost/127.0.0.1 connections. The container's own
+      # internal port stays 5432 — app talks to it as "db:5432" regardless.
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:

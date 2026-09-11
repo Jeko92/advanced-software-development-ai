@@ -7,7 +7,7 @@
 - [x] Part 2 — Web Backend Intro
 - [x] Part 3 — Software Design
 - [ ] Part 4 — NestJS
-- [ ] Part 5 — DevOps
+- [x] Part 5 — DevOps
 - [ ] Part 6 — Next.js
 - [ ] Part 7 — Real-Time Communication
 - [ ] Part 8 — AI
