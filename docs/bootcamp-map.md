@@ -33,7 +33,7 @@
 | 4.4 NestJS RESTful Design                 | `bootcamp/04-nestjs/nestjs-restful-design`          | 🟢         |
 | 4.5 NestJS Auth                           | `bootcamp/04-nestjs/nestjs-auth`                    | 🟢         |
 | 4.6 NestJS OpenAPI & Swagger              | `bootcamp/04-nestjs/nestjs-swagger`                 | 🟢         |
-| 4.7 Recap project                         | `apps/04-nestjs/`                                   | ⬜         |
+| 4.7 Recap project                         | `apps/04-nestjs/dark-bay`                            | 🟢         |
 | 5 DevOps                                  | `bootcamp/05-devops`                                | 🟢         |
 | 5.1 DevOps Testing                        | `bootcamp/05-devops/devops-testing`                 | 🟢         |
 | 5.2 DevOps Docker Basics                  | `bootcamp/05-devops/devops-docker-basics`           | 🟢         |
