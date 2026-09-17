@@ -45,7 +45,9 @@ export class WatchlistService {
   async findAllForUser(userId: string): Promise<AuctionResponseDto[]> {
     const entries = await this.watchlistRepository.find({
       where: { user: { id: userId } },
-      relations: { auction: { seller: true } },
+      // `offers` is loaded so AuctionResponseDto can derive currentPrice —
+      // see the matching comment in AuctionsService.findAll.
+      relations: { auction: { seller: true, offers: true } },
       order: { createdAt: 'DESC' },
     });
     const auctions = entries.map((entry) => entry.auction);
