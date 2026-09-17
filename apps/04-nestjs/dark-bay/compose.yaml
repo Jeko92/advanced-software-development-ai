@@ -19,7 +19,7 @@ services:
       # running natively on the host (e.g. a Homebrew install).
       - '${POSTGRES_HOST_PORT:-5433}:5432'
     volumes:
-      - darkbay-postgres-data:/var/lib/postgresql/data
+      - darkbay-postgres-data:/var/lib/postgresql
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U darkbay']
       interval: 5s
