@@ -24,7 +24,6 @@ const { migrations: _migrations, ...appDataSourceOptions } =
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [() => ({ DB_FILE: process.env['DB_FILE'] })],
       cache: true,
     }),
     TypeOrmModule.forRoot(appDataSourceOptions),
