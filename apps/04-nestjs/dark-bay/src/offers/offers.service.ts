@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { OfferResponseDto } from './dto/offer-response.dto';
+import { MyOfferResponseDto } from './dto/my-offer-response.dto';
 import { Offer } from './entities/offer.entity';
 import { User } from '../users/entities/user.entity';
 import { UserSummaryDto } from '../users/dto/user-summary.dto';
@@ -71,6 +72,34 @@ export class OffersService {
       order: { createdAt: 'DESC' },
     });
     return plainToInstance(OfferResponseDto, offers, {
+      excludeExtraneousValues: true,
+    });
+  }
+
+  async findAllForBidder(bidderId: string): Promise<MyOfferResponseDto[]> {
+    const offers = await this.offersRepository.find({
+      where: { bidder: { id: bidderId } },
+      relations: { auction: true },
+      order: { createdAt: 'DESC' },
+    });
+
+    const auctionIds = [...new Set(offers.map((offer) => offer.auction.id))];
+    const highestByAuction = new Map<string, number>();
+    await Promise.all(
+      auctionIds.map(async (auctionId) => {
+        const highest = await this.getHighestOfferAmount(auctionId);
+        if (highest !== null) {
+          highestByAuction.set(auctionId, highest);
+        }
+      }),
+    );
+
+    const withWinningFlag = offers.map((offer) => ({
+      ...offer,
+      isWinning: highestByAuction.get(offer.auction.id) === offer.amount,
+    }));
+
+    return plainToInstance(MyOfferResponseDto, withWinningFlag, {
       excludeExtraneousValues: true,
     });
   }
