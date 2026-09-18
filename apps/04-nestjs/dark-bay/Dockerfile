@@ -19,7 +19,11 @@
 # Stage 1: install + build
 FROM node:22-alpine AS builder
 
-RUN corepack enable
+# `corepack enable` alone only installs shims — it still fetches the actual
+# pnpm binary from the registry on first use. `prepare --activate` downloads
+# and pins it into this layer at build time instead, so no image needs
+# network access to npm's registry just to run pnpm at container start.
+RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
 WORKDIR /repo
 
 COPY . .
@@ -29,11 +33,22 @@ RUN pnpm --filter @bootcamp/dark-bay build
 # Stage 2: runtime
 FROM node:22-alpine
 
-RUN corepack enable
+# Pin COREPACK_HOME to a fixed path rather than corepack's default (under
+# whichever user's home directory is active). The `node` user takes over
+# below, and without this, `prepare --activate` here (run as root) caches
+# pnpm somewhere the `node` user can't see — corepack would then think it's
+# never been prepared and try to download it again at every container start.
+ENV COREPACK_HOME=/opt/corepack
+RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
 WORKDIR /repo
 ENV NODE_ENV=production
 
 COPY --from=builder /repo ./
+# `migration:run` (via pnpm, in a workspace) writes scratch files at the
+# workspace root, not just inside this app's own folder — without this, the
+# non-root `node` user below can't write there and the container crashes
+# before ever binding to a port.
+RUN chown -R node:node /repo /opt/corepack
 
 WORKDIR /repo/apps/04-nestjs/dark-bay
 EXPOSE 3030
