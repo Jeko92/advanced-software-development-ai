@@ -8,6 +8,6 @@
 - [x] Part 3 — Software Design
 - [x] Part 4 — NestJS
 - [x] Part 5 — DevOps
-- [ ] Part 6 — Next.js
+- [x] Part 6 — Next.js
 - [ ] Part 7 — Real-Time Communication
 - [ ] Part 8 — AI

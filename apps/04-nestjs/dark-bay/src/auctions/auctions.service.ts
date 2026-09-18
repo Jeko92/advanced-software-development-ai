@@ -54,12 +54,21 @@ export class AuctionsService {
   }
 
   async findAll(query: AuctionQueryDto) {
-    const { page = 1, limit = 10, status, minPrice, maxPrice } = query;
+    const {
+      page = 1,
+      limit = 10,
+      status,
+      minPrice,
+      maxPrice,
+      sellerId,
+      sort,
+    } = query;
 
     const skip = (page - 1) * limit;
 
     const where: FindOptionsWhere<Auction> = {
       ...(status && { endDate: auctionStatusWhereClause(status) }),
+      ...(sellerId && { seller: { id: sellerId } }),
     };
 
     if (minPrice !== undefined && maxPrice !== undefined) {
@@ -72,10 +81,14 @@ export class AuctionsService {
 
     const [auctions, total] = await this.auctionsRepository.findAndCount({
       where,
-      relations: { seller: true },
+      // `offers` is loaded so AuctionResponseDto can derive currentPrice
+      // (the highest offer, or startingPrice if none). Fine at this scale;
+      // a larger dataset would want a MAX(amount) subquery instead of
+      // loading every offer row per auction.
+      relations: { seller: true, offers: true },
       skip,
       take: limit,
-      order: { endDate: 'DESC' },
+      order: { endDate: sort === 'ending-soon' ? 'ASC' : 'DESC' },
     });
 
     const data = plainToInstance(AuctionResponseDto, auctions, {
@@ -96,7 +109,7 @@ export class AuctionsService {
   async findOne(id: string): Promise<Auction> {
     const auction = await this.auctionsRepository.findOne({
       where: { id },
-      relations: { seller: true },
+      relations: { seller: true, offers: true },
     });
     if (!auction) {
       throw new NotFoundException(`Auction with id ${id} not found`);
