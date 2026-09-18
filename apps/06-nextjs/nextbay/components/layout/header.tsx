@@ -22,10 +22,12 @@ export function Header() {
     { href: '/', label: 'Home' },
     { href: '/auctions', label: 'Auctions' },
     { href: '/#how-it-works', label: 'How it works' },
+    ...(user ? [{ href: '/dashboard', label: 'Dashboard' }] : []),
   ]
 
   const dashboardNavLinks = [
     { href: '/dashboard', label: 'Dashboard' },
+    { href: '/auctions', label: 'Auctions' },
     { href: '/dashboard/auctions', label: 'My Auctions' },
     { href: '/dashboard/offers', label: 'My Offers' },
     { href: '/dashboard/watchlist', label: 'Watchlist' },
