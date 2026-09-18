@@ -1,60 +1,69 @@
 # syntax=docker/dockerfile:1
 #
 # This app lives inside a pnpm workspace monorepo, so the build context for
-# this Dockerfile must be the **repo root**, not this directory. Build with
-# (run from the repo root):
+# this Dockerfile must be the **repo root**, not this directory — pnpm
+# workspace installs resolve `workspace:*` deps against the root
+# pnpm-lock.yaml, which only exists there. Build with (run from the repo
+# root):
 #   docker build -f apps/04-nestjs/dark-bay/Dockerfile -t dark-bay .
 # The CD workflow (.github/workflows/dark-bay-cd.yml) does exactly this.
 #
-# Two-stage build: install/build the whole workspace in a full toolchain
-# image, then copy the entire resulting tree (including the pnpm-managed
-# node_modules, whose per-package symlinks point back into the shared
-# node_modules/.pnpm store at the repo root) into a lean runtime image.
-# devDependencies are intentionally kept: the CMD below runs
-# `pnpm run migration:run` before starting the app, and that script
-# (typeorm-ts-node-commonjs) needs ts-node/typescript at container start,
-# not just at build time. See src/app.module.ts for why migrations aren't
-# loaded through the compiled app instead.
+# Same `pnpm deploy` pattern as
+# bootcamp/05-devops/ci-cd/code-along/Dockerfile: install/build inside the
+# full workspace, then prune to a self-contained, non-workspace copy for the
+# runtime stage. This isn't just an optimization — running anything
+# workspace-aware (`pnpm install`/`pnpm run`) inside the runtime container
+# was the actual bug: pnpm checks a workspace member's node_modules against
+# the store metadata recorded by whichever user last touched it, and since
+# the builder stage installs as root while the runtime stage runs as the
+# non-root `node` user, it decided the mismatch meant node_modules was
+# invalid — and reinstalled all 88 workspace projects from the registry at
+# every container start, which is what was actually causing Render's "no
+# open ports detected" (it never finished in time). A `pnpm deploy`'d
+# package is no longer a workspace member at all, so that check never
+# triggers, and the runtime CMD below never invokes the `pnpm` CLI anyway.
+#
+# devDependencies are kept (no `--prod` on the deploy step, unlike
+# code-along's): the CMD runs `typeorm-ts-node-commonjs` before starting the
+# app, which needs ts-node/typescript at container start, not just at build
+# time — and therefore, unlike code-along (which only ever runs pre-compiled
+# JS at runtime), also needs a working tsconfig.json at runtime. That's the
+# one place this pattern needs an extra step: `pnpm deploy` doesn't
+# materialize `workspace:*` devDependencies at all — it symlinks them to
+# their absolute path *on the host that ran the build*, which is obviously
+# dangling once copied into a fresh image. code-along never notices because
+# it never resolves tsconfig.json outside the build stage; see the
+# `@bootcamp/tsconfig` copy below for why this one does.
 
-# Stage 1: install + build
+# Stage 1: build
 FROM node:22-alpine AS builder
 
-# `corepack enable` alone only installs shims — it still fetches the actual
-# pnpm binary from the registry on first use. `prepare --activate` downloads
-# and pins it into this layer at build time instead, so no image needs
-# network access to npm's registry just to run pnpm at container start.
 RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
 WORKDIR /repo
 
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @bootcamp/dark-bay build
+RUN pnpm deploy --filter @bootcamp/dark-bay --legacy /prod/dark-bay
+# Replace the dangling `workspace:*` symlink (see comment above) with the
+# real (tiny, static, dependency-free) package contents.
+RUN rm -f /prod/dark-bay/node_modules/@bootcamp/tsconfig && \
+    cp -r /repo/packages/tsconfig /prod/dark-bay/node_modules/@bootcamp/tsconfig
 
 # Stage 2: runtime
 FROM node:22-alpine
 
-# Pin COREPACK_HOME to a fixed path rather than corepack's default (under
-# whichever user's home directory is active). The `node` user takes over
-# below, and without this, `prepare --activate` here (run as root) caches
-# pnpm somewhere the `node` user can't see — corepack would then think it's
-# never been prepared and try to download it again at every container start.
-ENV COREPACK_HOME=/opt/corepack
-RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
-WORKDIR /repo
+WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /repo ./
-# `migration:run` (via pnpm, in a workspace) writes scratch files at the
-# workspace root, not just inside this app's own folder — without this, the
-# non-root `node` user below can't write there and the container crashes
-# before ever binding to a port.
-RUN chown -R node:node /repo /opt/corepack
+COPY --from=builder --chown=node:node /prod/dark-bay ./
 
-WORKDIR /repo/apps/04-nestjs/dark-bay
 EXPOSE 3030
 ENV PORT=3030
 USER node
 
 # Apply pending migrations, then start the compiled app. Postgres connection
 # comes from DATABASE_URL (+ optional DATABASE_SSL) — see src/db/data-source.ts.
-CMD ["sh", "-c", "pnpm run migration:run && node dist/src/main"]
+# Invoked directly via the bin shim, not `pnpm run migration:run` — see the
+# top-of-file comment for why that distinction matters here.
+CMD ["sh", "-c", "node_modules/.bin/typeorm-ts-node-commonjs -d src/db/data-source.ts migration:run && node dist/src/main"]
