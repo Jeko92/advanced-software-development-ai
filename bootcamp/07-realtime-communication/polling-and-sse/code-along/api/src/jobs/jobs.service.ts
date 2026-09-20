@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ExportJob, TaskStatus } from './entities/export-job.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventEmitter } from 'node:events';
 
 export type JobSnapshot = {
   status: TaskStatus;
@@ -11,6 +12,8 @@ export type JobSnapshot = {
 
 @Injectable()
 export class JobsService {
+  private readonly emitters = new Map<string, EventEmitter>();
+
   constructor(
     @InjectRepository(ExportJob)
     private readonly exportJobRepository: Repository<ExportJob>,
@@ -22,6 +25,9 @@ export class JobsService {
       status: TaskStatus.RUNNING,
     };
     const job = await this.exportJobRepository.save(initialJob);
+
+    const emitter = new EventEmitter();
+    this.emitters.set(job.id, emitter);
 
     const tick = async (): Promise<void> => {
       job.progress = Math.min(job.progress + 10, 100);
@@ -36,12 +42,15 @@ export class JobsService {
           status: job.status,
           downloadUrl: job.downloadUrl,
         });
+        emitter.emit('progress');
+        this.emitters.delete(job.id);
         return;
       }
 
       await this.exportJobRepository.update(job.id, {
         progress: job.progress,
       });
+      emitter.emit('progress');
     };
 
     const interval = setInterval(() => void tick(), 2000);
@@ -57,5 +66,9 @@ export class JobsService {
       progress: job.progress,
       downloadUrl: job.downloadUrl,
     };
+  }
+
+  getEmitter(id: string): EventEmitter | undefined {
+    return this.emitters.get(id);
   }
 }
