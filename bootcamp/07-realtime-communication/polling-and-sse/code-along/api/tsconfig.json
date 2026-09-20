@@ -1,0 +1,11 @@
+{
+  "extends": "@bootcamp/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["node", "jest"],
+    "rewriteRelativeImportExtensions": false
+  },
+  "exclude": ["node_modules", "dist"]
+}
