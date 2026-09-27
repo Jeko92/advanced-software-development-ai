@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 import { create } from 'zustand';
-import { API_URL, type PollResults } from '../lib/config';
+import { API_URL, type PollResults, type VoteAck } from '../lib/config';
 
 const socket = io(API_URL, { autoConnect: false });
 
@@ -9,7 +9,8 @@ type PollState = {
   connected: boolean;
   pollId: string | null;
   joinPoll: (pollId: string) => void;
-  vote: (option: string) => void;
+  vote: (option: string) => Promise<void>;
+  error: string | null;
 };
 
 export const usePollStore = create<PollState>()((set, get) => {
@@ -25,6 +26,7 @@ export const usePollStore = create<PollState>()((set, get) => {
     results: {},
     connected: false,
     pollId: null,
+    error: null,
 
     joinPoll: (pollId) => {
       set({ pollId });
@@ -35,6 +37,12 @@ export const usePollStore = create<PollState>()((set, get) => {
       }
     },
 
-    vote: (option) => socket.emit('vote', { pollId: get().pollId, option }),
+    vote: async (option) => {
+      const ack: VoteAck = await socket.emitWithAck('vote', {
+        pollId: get().pollId,
+        option,
+      });
+      set({ error: ack.ok ? null : ack.reason });
+    },
   };
 });

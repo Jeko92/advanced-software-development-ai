@@ -13,6 +13,7 @@ export function PollStorePanel() {
   const connected = usePollStore((s) => s.connected);
   const joinPoll = usePollStore((s) => s.joinPoll);
   const vote = usePollStore((s) => s.vote);
+  const error = usePollStore((s) => s.error);
 
   useEffect(() => {
     joinPoll(pollId);
@@ -26,6 +27,7 @@ export function PollStorePanel() {
     >
       <PollPicker value={pollId} onChange={setPollId} />
       <PollView options={POLL_OPTIONS} results={results} onVote={vote} />
+      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </Panel>
   );
 }

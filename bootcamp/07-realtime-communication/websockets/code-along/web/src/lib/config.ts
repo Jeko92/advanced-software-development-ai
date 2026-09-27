@@ -8,3 +8,5 @@ export const POLL_IDS = ['lunch', 'dinner'] as const;
 export const POLL_OPTIONS = ['pizza', 'pasta'] as const;
 
 export type PollResults = Record<string, number>;
+
+export type VoteAck = { ok: true } | { ok: false; reason: string };

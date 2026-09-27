@@ -28,8 +28,13 @@ export class PollGateway {
     @MessageBody() data: { pollId: string; option: string },
     @ConnectedSocket() socket: Socket,
   ) {
-    const results = this.pollService.addVote(data.pollId, data.option);
-    this.server.to(data.pollId).emit('results', results);
+    const outcome = this.pollService.addVote(data.pollId, data.option);
+    if (!outcome.ok) {
+      return { ok: false, reason: outcome.reason };
+    }
+
+    this.server.to(data.pollId).emit('results', outcome.results);
     socket.to(data.pollId).emit('someoneVoted', data.option);
+    return { ok: true };
   }
 }
