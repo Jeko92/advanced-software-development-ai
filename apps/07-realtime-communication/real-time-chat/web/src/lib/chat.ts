@@ -26,3 +26,8 @@ export function roomLabel(room: string, me: string): string {
     .find((name) => name !== me);
   return `@${other ?? me}`;
 }
+
+/** The one room two users share for private messages, e.g. `dm:alice:bob`. */
+export function privateRoomFor(a: string, b: string): string {
+  return `${PRIVATE_ROOM_PREFIX}${[a, b].sort().join(':')}`;
+}

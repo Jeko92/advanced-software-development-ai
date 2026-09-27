@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import {
   API_URL,
   PRESET_ROOMS,
+  privateRoomFor,
   type ChatMessage,
   type Session,
 } from '../lib/chat';
@@ -23,6 +24,7 @@ type ChatState = {
   joinRoom: (room: string) => void;
   sendMessage: (text: string) => void;
   setTyping: (isTyping: boolean) => void;
+  openPrivateChat: (user: string) => void;
 };
 
 const initialState = {
@@ -80,6 +82,10 @@ export const useChatStore = create<ChatState>()((set, get) => {
     },
   );
 
+  socket.on('privateRoom', (data: { room: string; from: string }) => {
+    set((state) => ({ rooms: withRoom(state.rooms, data.room) }));
+  });
+
   socket.on('history', (data: { room: string; messages: ChatMessage[] }) => {
     if (data.room === get().room) set({ messages: data.messages });
   });
@@ -128,6 +134,13 @@ export const useChatStore = create<ChatState>()((set, get) => {
     setTyping: (isTyping) => {
       const { room } = get();
       if (room) socket.emit('typing', { room, isTyping });
+    },
+
+    openPrivateChat: (user) => {
+      const { username, joinRoom } = get();
+      if (username && user !== username) {
+        joinRoom(privateRoomFor(username, user));
+      }
     },
   };
 });

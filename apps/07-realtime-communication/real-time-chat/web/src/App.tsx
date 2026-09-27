@@ -16,6 +16,7 @@ function App() {
   const joinRoom = useChatStore((s) => s.joinRoom);
   const sendMessage = useChatStore((s) => s.sendMessage);
   const setTyping = useChatStore((s) => s.setTyping);
+  const openPrivateChat = useChatStore((s) => s.openPrivateChat);
 
   if (!username || !room) {
     return <JoinScreen onJoin={connect} error={error} />;
@@ -34,6 +35,7 @@ function App() {
       onTyping={setTyping}
       onSelectRoom={joinRoom}
       onLeave={leave}
+      onSelectUser={openPrivateChat}
     />
   );
 }

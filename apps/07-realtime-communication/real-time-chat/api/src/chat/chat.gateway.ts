@@ -1,6 +1,7 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
   SubscribeMessage,
@@ -26,9 +27,12 @@ type ChatSocket = Socket<
 >;
 
 const USERNAME_PATTERN = /^[\w-]{2,20}$/;
+const PRIVATE_ROOM_PREFIX = 'dm:';
 
 @WebSocketGateway({ cors: { origin: '*' } })
-export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server!: ChatServer;
 
@@ -49,6 +53,10 @@ export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
     });
   }
 
+  async handleConnection(socket: ChatSocket) {
+    await socket.join(`user:${socket.data.username}`);
+  }
+
   handleDisconnect(socket: ChatSocket) {
     const member = this.presenceService.leave(socket.id);
     if (member) this.announceLeave(member.room, member.username);
@@ -60,6 +68,9 @@ export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
     @ConnectedSocket() socket: ChatSocket,
   ) {
     const { username } = socket.data;
+    if (!this.canJoin(room, username)) {
+      return { ok: false, reason: "You can't join that room" };
+    }
     const previous = this.presenceService.join(socket.id, username, room);
     if (previous && previous !== room) {
       await socket.leave(previous);
@@ -76,6 +87,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
       this.emitSystemMessage(room, username, `${username} joined`);
     }
     this.emitPresence(room);
+    return { ok: true };
   }
 
   private announceLeave(room: string, username: string) {
@@ -94,6 +106,20 @@ export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
       .emit('presence', { room, users: this.presenceService.usersIn(room) });
   }
 
+  private canJoin(room: unknown, username: string): boolean {
+    if (typeof room !== 'string' || !room) return false;
+    if (!room.startsWith(PRIVATE_ROOM_PREFIX)) return true;
+    return room.slice(PRIVATE_ROOM_PREFIX.length).split(':').includes(username);
+  }
+
+  private privateRoomPartner(room: string, username: string) {
+    if (!room.startsWith(PRIVATE_ROOM_PREFIX)) return undefined;
+    return room
+      .slice(PRIVATE_ROOM_PREFIX.length)
+      .split(':')
+      .find((name) => name !== username);
+  }
+
   @SubscribeMessage('sendMessage')
   handleSendMessage(
     @MessageBody() data: { room: string; text: string },
@@ -107,12 +133,16 @@ export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
       return { ok: false, reason: 'Messages must be 1–500 characters' };
     }
 
-    const message = this.chatService.addMessage(
-      data.room,
-      socket.data.username,
-      text,
-    );
+    const { username } = socket.data;
+    const message = this.chatService.addMessage(data.room, username, text);
     this.server.to(data.room).emit('message', message);
+
+    const recipient = this.privateRoomPartner(data.room, username);
+    if (recipient) {
+      this.server
+        .to(`user:${recipient}`)
+        .emit('privateRoom', { room: data.room, from: username });
+    }
     return { ok: true };
   }
 
