@@ -1,19 +1,41 @@
 .grid-board {
+  --grid-size: 10;
+  --gap: 2px;
+  --cell: clamp(
+    0.5rem,
+    calc(
+      (100vw - 2rem - (var(--grid-size) + 1) * var(--gap)) / var(--grid-size)
+    ),
+    2.25rem
+  );
   display: grid;
-  grid-template-columns: repeat(var(--grid-size, 10), 2rem);
-  grid-template-rows: repeat(var(--grid-size, 10), 2rem);
-  gap: 1px;
+  grid-template-columns: repeat(var(--grid-size), var(--cell));
+  grid-template-rows: repeat(var(--grid-size), var(--cell));
+  gap: var(--gap);
+  padding: var(--gap);
   background: var(--border);
-  border: 1px solid var(--border);
-  width: fit-content;
-  margin: 1.5rem auto 0;
+  border-radius: var(--radius);
 }
+
 .cell {
-  width: 2rem;
-  height: 2rem;
-  background: var(--card);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  background: var(--card);
+  border-radius: 3px;
+}
+
+.player-marker {
+  font-size: calc(var(--cell) * 0.65);
+  line-height: 1;
+}
+
+.player-marker.you {
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+.player-marker + .player-marker {
+  margin-left: calc(var(--cell) * -0.45);
 }
