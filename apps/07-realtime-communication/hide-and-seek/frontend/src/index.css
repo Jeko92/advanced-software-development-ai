@@ -6,6 +6,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-seeker: var(--seeker);
+  --color-hider: var(--hider);
+  --color-observer: var(--observer);
+  --color-success: var(--success);
+  --color-wall: var(--wall);
+  --color-ice: var(--ice);
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -81,6 +87,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --seeker: oklch(0.7 0.19 47);
+  --hider: oklch(0.6 0.12 185);
+  --observer: oklch(0.55 0.03 257);
+  --success: oklch(0.63 0.17 149);
+  --wall: oklch(0.27 0.01 286);
+  --ice: oklch(0.93 0.04 225);
 }
 
 .dark {
@@ -115,6 +127,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --wall: oklch(0.9 0.01 286);
+  --ice: oklch(0.35 0.06 225);
 }
 
 @layer base {
