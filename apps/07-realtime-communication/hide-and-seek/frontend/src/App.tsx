@@ -7,7 +7,7 @@ import { Grid } from '@/components/Grid';
 import { Lobby } from '@/components/Lobby';
 import { socket } from '@/socket';
 import { useSocketStore } from '@/store/socketStore';
-import type { ClientRole, MatchState } from '@/types';
+import type { ClientRole, EndReason, MatchState } from '@/types';
 
 const KEY_TO_DIRECTION: Record<string, string> = {
   ArrowUp: 'up',
@@ -15,6 +15,18 @@ const KEY_TO_DIRECTION: Record<string, string> = {
   ArrowLeft: 'left',
   ArrowRight: 'right',
 };
+
+const REASON_TEXT: Record<EndReason, string> = {
+  caught: 'The seeker found the hider.',
+  timeout: 'Time ran out — the hider stayed hidden.',
+};
+
+function resultTitle(role: ClientRole, match: MatchState) {
+  if (role === 'observer') {
+    return match.winner === 'seeker' ? 'Seeker wins!' : 'Hider wins!';
+  }
+  return match.winner === role ? 'You win! 🎉' : 'You lose';
+}
 
 const ROLE_LABEL: Record<ClientRole, string> = {
   seeker: '🔍 You are the seeker',
@@ -103,8 +115,13 @@ function GameView({
       {matchState?.status === 'finished' && (
         <div className="grid justify-items-center gap-3">
           <p className="text-xl font-semibold">
-            {matchState.winner === 'seeker' ? 'Seeker wins!' : 'Hider wins!'}
+            {resultTitle(role, matchState)}
           </p>
+          {matchState.endReason && (
+            <p className="text-muted-foreground">
+              {REASON_TEXT[matchState.endReason]}
+            </p>
+          )}
           <div className="flex gap-2">
             {isPlayer && <Button onClick={playAgain}>Play again</Button>}
             <Button variant="outline" onClick={leaveRoom}>

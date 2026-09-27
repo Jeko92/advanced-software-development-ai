@@ -3,6 +3,7 @@ import {
   ClientRole,
   DIFFICULTIES,
   Difficulty,
+  EndReason,
   gameLengthFor,
   MatchState,
   Position,
@@ -91,6 +92,7 @@ export class GameService {
       observerCount: 0,
       timeRemaining: gameLengthSeconds,
       winner: null,
+      endReason: null,
     });
     return { roomId, role: 'seeker' };
   }
@@ -147,9 +149,7 @@ export class GameService {
       seekerPos.x === hiderPos.x &&
       seekerPos.y === hiderPos.y
     ) {
-      match.status = 'finished';
-      match.winner = 'seeker';
-      this.clearTimer(match.roomId);
+      this.finishMatch(match, 'seeker', 'caught');
     }
     return match;
   }
@@ -163,10 +163,7 @@ export class GameService {
     const timer = setInterval(() => {
       match.timeRemaining -= 1;
       if (match.timeRemaining <= 0) {
-        match.status = 'finished';
-        match.winner = 'hider';
-        clearInterval(timer);
-        this.timers.delete(roomId);
+        this.finishMatch(match, 'hider', 'timeout');
       }
       onTick(match);
     }, 1000);
@@ -216,6 +213,7 @@ export class GameService {
     const start = startPositions(match.gridSize);
     match.status = 'running';
     match.winner = null;
+    match.endReason = null;
     match.players.hider.position = start.hider;
     match.players.seeker.position = start.seeker;
     return match;
@@ -239,6 +237,13 @@ export class GameService {
     for (const [socketId, observedRoomId] of this.observers) {
       if (observedRoomId === roomId) this.observers.delete(socketId);
     }
+  }
+
+  private finishMatch(match: MatchState, winner: Role, reason: EndReason) {
+    match.status = 'finished';
+    match.winner = winner;
+    match.endReason = reason;
+    this.clearTimer(match.roomId);
   }
 
   private clearTimer(roomId: string) {

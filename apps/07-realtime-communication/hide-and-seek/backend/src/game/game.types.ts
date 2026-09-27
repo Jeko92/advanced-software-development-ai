@@ -25,6 +25,7 @@ export interface MatchState {
   gridSize: number;
   gameLengthSeconds: number;
   observerCount: number;
+  endReason: EndReason | null;
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';
@@ -65,6 +66,8 @@ export interface RoomSummary {
   players: number;
   observers: number;
 }
+
+export type EndReason = 'caught' | 'timeout';
 
 export function gameLengthFor(size: WorldSize, difficulty: Difficulty): number {
   return Math.round(
