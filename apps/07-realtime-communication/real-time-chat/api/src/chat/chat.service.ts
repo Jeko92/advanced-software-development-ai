@@ -13,13 +13,10 @@ export type ChatMessage = {
 @Injectable()
 export class ChatService {
   addMessage(room: string, username: string, text: string): ChatMessage {
-    return {
-      id: randomUUID(),
-      room,
-      kind: 'user',
-      username,
-      text,
-      sentAt: new Date().toISOString(),
-    };
+    return this.record({ room, kind: 'user', username, text });
+  }
+
+  private record(fields: Omit<ChatMessage, 'id' | 'sentAt'>): ChatMessage {
+    return { ...fields, id: randomUUID(), sentAt: new Date().toISOString() };
   }
 }

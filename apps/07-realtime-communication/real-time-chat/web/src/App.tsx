@@ -1,31 +1,39 @@
-import { useState } from 'react';
 import { ChatScreen } from './components/chat-screen';
 import { JoinScreen } from './components/join-screen';
-import { PRESET_ROOMS, type Session } from './lib/chat';
-import { DEMO_MESSAGES, DEMO_TYPING_USERS, DEMO_USERS } from './lib/demo-data';
+import { useChatStore } from './stores/chat-store';
 
-// Scaffold: renders the UI with static demo data and no socket at all.
-// CHALLENGE.md, Task 1 replaces the demo data with a Zustand chat store.
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const username = useChatStore((s) => s.username);
+  const room = useChatStore((s) => s.room);
+  const rooms = useChatStore((s) => s.rooms);
+  const messages = useChatStore((s) => s.messages);
+  const users = useChatStore((s) => s.users);
+  const typingUsers = useChatStore((s) => s.typingUsers);
+  const connected = useChatStore((s) => s.connected);
+  const error = useChatStore((s) => s.error);
+  const connect = useChatStore((s) => s.connect);
+  const leave = useChatStore((s) => s.leave);
+  const joinRoom = useChatStore((s) => s.joinRoom);
+  const sendMessage = useChatStore((s) => s.sendMessage);
+  const setTyping = useChatStore((s) => s.setTyping);
 
-  if (!session) {
-    return <JoinScreen onJoin={setSession} />;
+  if (!username || !room) {
+    return <JoinScreen onJoin={connect} error={error} />;
   }
 
   return (
     <ChatScreen
-      me={session.username}
-      room={session.room}
-      rooms={PRESET_ROOMS}
-      messages={DEMO_MESSAGES}
-      users={[...new Set([session.username, ...DEMO_USERS])]}
-      typingUsers={DEMO_TYPING_USERS}
-      connected
-      onSend={(text) => console.log('send', text)}
-      onTyping={(isTyping) => console.log('typing', isTyping)}
-      onSelectRoom={(room) => setSession({ ...session, room })}
-      onLeave={() => setSession(null)}
+      me={username}
+      room={room}
+      rooms={rooms}
+      messages={messages}
+      users={users}
+      typingUsers={typingUsers}
+      connected={connected}
+      onSend={sendMessage}
+      onTyping={setTyping}
+      onSelectRoom={joinRoom}
+      onLeave={leave}
     />
   );
 }
