@@ -16,6 +16,10 @@ export class ChatService {
     return this.record({ room, kind: 'user', username, text });
   }
 
+  addSystemMessage(room: string, username: string, text: string): ChatMessage {
+    return this.record({ room, kind: 'system', username, text });
+  }
+
   private record(fields: Omit<ChatMessage, 'id' | 'sentAt'>): ChatMessage {
     return { ...fields, id: randomUUID(), sentAt: new Date().toISOString() };
   }

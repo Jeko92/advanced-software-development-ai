@@ -8,6 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
+import { PresenceService } from './presence.service';
 
 type SocketData = { username: string };
 type ChatServer = Server<
@@ -28,7 +29,10 @@ export class ChatGateway implements OnGatewayConnection {
   @WebSocketServer()
   server!: ChatServer;
 
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly presenceService: PresenceService,
+  ) {}
 
   handleConnection(socket: ChatSocket) {
     const username: unknown = socket.handshake.auth['username'];
@@ -41,10 +45,34 @@ export class ChatGateway implements OnGatewayConnection {
     @MessageBody() room: string,
     @ConnectedSocket() socket: ChatSocket,
   ) {
-    for (const joined of socket.rooms) {
-      if (joined !== socket.id) await socket.leave(joined);
+    const { username } = socket.data;
+    const previous = this.presenceService.join(socket.id, username, room);
+    if (previous && previous !== room) {
+      await socket.leave(previous);
+      this.announceLeave(previous, username);
     }
+
     await socket.join(room);
+    if (previous !== room) {
+      this.emitSystemMessage(room, username, `${username} joined`);
+    }
+    this.emitPresence(room);
+  }
+
+  private announceLeave(room: string, username: string) {
+    this.emitSystemMessage(room, username, `${username} left`);
+    this.emitPresence(room);
+  }
+
+  private emitSystemMessage(room: string, username: string, text: string) {
+    const message = this.chatService.addSystemMessage(room, username, text);
+    this.server.to(room).emit('message', message);
+  }
+
+  private emitPresence(room: string) {
+    this.server
+      .to(room)
+      .emit('presence', { room, users: this.presenceService.usersIn(room) });
   }
 
   @SubscribeMessage('sendMessage')

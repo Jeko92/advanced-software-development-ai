@@ -50,6 +50,9 @@ export const useChatStore = create<ChatState>()((set, get) => {
     if (message.room !== get().room) return;
     set((state) => ({ messages: [...state.messages, message] }));
   });
+  socket.on('presence', (data: { room: string; users: string[] }) => {
+    if (data.room === get().room) set({ users: data.users });
+  });
 
   return {
     ...initialState,
@@ -75,6 +78,7 @@ export const useChatStore = create<ChatState>()((set, get) => {
         room,
         rooms: withRoom(state.rooms, room),
         messages: [],
+        users: [],
       }));
       socket.emit('joinRoom', room);
     },
