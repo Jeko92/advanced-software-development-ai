@@ -1,8 +1,8 @@
 import {
   ConnectedSocket,
   MessageBody,
-  OnGatewayConnection,
   OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -25,8 +25,10 @@ type ChatSocket = Socket<
   SocketData
 >;
 
+const USERNAME_PATTERN = /^[\w-]{2,20}$/;
+
 @WebSocketGateway({ cors: { origin: '*' } })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway implements OnGatewayInit, OnGatewayDisconnect {
   @WebSocketServer()
   server!: ChatServer;
 
@@ -35,10 +37,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly presenceService: PresenceService,
   ) {}
 
-  handleConnection(socket: ChatSocket) {
-    const username: unknown = socket.handshake.auth['username'];
-    socket.data.username =
-      typeof username === 'string' ? username : 'anonymous';
+  afterInit(server: ChatServer) {
+    server.use((socket, next) => {
+      const username: unknown = socket.handshake.auth['username'];
+      if (typeof username !== 'string' || !USERNAME_PATTERN.test(username)) {
+        next(new Error('Username must be 2–20 letters, digits, _ or -'));
+        return;
+      }
+      socket.data.username = username;
+      next();
+    });
   }
 
   handleDisconnect(socket: ChatSocket) {

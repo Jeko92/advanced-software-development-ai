@@ -41,10 +41,11 @@ const withRoom = (rooms: string[], room: string) =>
 
 export const useChatStore = create<ChatState>()((set, get) => {
   socket.on('connect', () => {
-    set({ connected: true });
+    set({ connected: true, error: null });
     const { room } = get();
     if (room) socket.emit('joinRoom', room);
   });
+
   socket.on('message', (message: ChatMessage) => {
     if (message.room !== get().room) return;
     set((state) => ({
@@ -81,6 +82,10 @@ export const useChatStore = create<ChatState>()((set, get) => {
 
   socket.on('history', (data: { room: string; messages: ChatMessage[] }) => {
     if (data.room === get().room) set({ messages: data.messages });
+  });
+
+  socket.on('connect_error', (error) => {
+    if (!socket.active) set({ ...initialState, error: error.message });
   });
 
   socket.on('disconnect', () => set({ connected: false, typingUsers: [] }));
