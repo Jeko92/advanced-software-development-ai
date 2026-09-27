@@ -1,0 +1,35 @@
+{
+  "extends": "@bootcamp/tsconfig/node.json",
+  "compilerOptions": {
+    /* Match the original project's relaxed base (strictNullChecks only) */
+    "target": "ES2023",
+    "strict": false,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": false,
+    "noImplicitOverride": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "allowJs": false,
+    "allowImportingTsExtensions": false,
+    "rewriteRelativeImportExtensions": false,
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "types": ["node", "jest"],
+    "incremental": true,
+    "strictBindCallApply": false
+  }
+}
