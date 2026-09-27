@@ -1,0 +1,4 @@
+{
+  "extends": "@bootcamp/tsconfig/node.json",
+  "include": ["src/**/*.ts"]
+}
