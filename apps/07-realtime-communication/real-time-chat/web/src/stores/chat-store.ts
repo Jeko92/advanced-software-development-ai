@@ -48,11 +48,37 @@ export const useChatStore = create<ChatState>()((set, get) => {
   socket.on('disconnect', () => set({ connected: false }));
   socket.on('message', (message: ChatMessage) => {
     if (message.room !== get().room) return;
-    set((state) => ({ messages: [...state.messages, message] }));
+    set((state) => ({
+      messages: [...state.messages, message],
+      typingUsers: state.typingUsers.filter(
+        (user) => user !== message.username,
+      ),
+    }));
   });
   socket.on('presence', (data: { room: string; users: string[] }) => {
-    if (data.room === get().room) set({ users: data.users });
+    if (data.room !== get().room) return;
+    set((state) => ({
+      users: data.users,
+      typingUsers: state.typingUsers.filter((user) =>
+        data.users.includes(user),
+      ),
+    }));
   });
+
+  socket.on(
+    'typing',
+    (data: { room: string; username: string; isTyping: boolean }) => {
+      if (data.room !== get().room) return;
+      set((state) => {
+        const others = state.typingUsers.filter(
+          (user) => user !== data.username,
+        );
+        return {
+          typingUsers: data.isTyping ? [...others, data.username] : others,
+        };
+      });
+    },
+  );
 
   return {
     ...initialState,
@@ -79,6 +105,7 @@ export const useChatStore = create<ChatState>()((set, get) => {
         rooms: withRoom(state.rooms, room),
         messages: [],
         users: [],
+        typingUsers: [],
       }));
       socket.emit('joinRoom', room);
     },
@@ -88,6 +115,9 @@ export const useChatStore = create<ChatState>()((set, get) => {
       if (room) socket.emit('sendMessage', { room, text });
     },
 
-    setTyping: () => {},
+    setTyping: (isTyping) => {
+      const { room } = get();
+      if (room) socket.emit('typing', { room, isTyping });
+    },
   };
 });

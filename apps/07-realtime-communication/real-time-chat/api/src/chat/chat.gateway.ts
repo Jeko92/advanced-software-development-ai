@@ -96,4 +96,17 @@ export class ChatGateway implements OnGatewayConnection {
     this.server.to(data.room).emit('message', message);
     return { ok: true };
   }
+
+  @SubscribeMessage('typing')
+  handleTyping(
+    @MessageBody() data: { room: string; isTyping: boolean },
+    @ConnectedSocket() socket: ChatSocket,
+  ) {
+    if (!socket.rooms.has(data.room)) return;
+    socket.to(data.room).emit('typing', {
+      room: data.room,
+      username: socket.data.username,
+      isTyping: data.isTyping,
+    });
+  }
 }
