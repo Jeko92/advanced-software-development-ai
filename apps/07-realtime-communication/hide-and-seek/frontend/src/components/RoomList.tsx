@@ -20,6 +20,8 @@ import { DIFFICULTIES, WORLD_SIZES, type GameStatus } from '@/types';
 
 const STATUS_LABEL: Record<GameStatus, string> = {
   waiting: 'Waiting',
+  'ready-check': 'Getting ready',
+  countdown: 'Starting',
   running: 'Playing',
   finished: 'Finished',
 };

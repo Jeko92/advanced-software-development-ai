@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   ClientRole,
+  COUNTDOWN_SECONDS,
   DIFFICULTIES,
   Difficulty,
   EndReason,
@@ -93,6 +94,8 @@ export class GameService {
       timeRemaining: gameLengthSeconds,
       winner: null,
       endReason: null,
+      ready: { seeker: false, hider: false },
+      countdown: null,
     });
     return { roomId, role: 'seeker' };
   }
@@ -113,7 +116,7 @@ export class GameService {
         socketId,
         position: startPositions(match.gridSize).hider,
       };
-      match.status = 'running';
+      match.status = 'ready-check';
       return { roomId, role: 'hider' };
     }
 
@@ -202,25 +205,54 @@ export class GameService {
     }));
   }
 
-  resetMatch(socketId: string): MatchState | null {
+  setReady(socketId: string): MatchState | null {
     const assignment = this.socketAssignments.get(socketId);
     if (!assignment) return null;
-
     const match = this.matches.get(assignment.roomId);
     if (!match || !match.players.seeker || !match.players.hider) return null;
-    if (match.status !== 'finished') return null;
 
-    const start = startPositions(match.gridSize);
-    match.status = 'running';
-    match.winner = null;
-    match.endReason = null;
-    match.players.hider.position = start.hider;
-    match.players.seeker.position = start.seeker;
+    if (match.status === 'finished') this.startRound(match);
+    if (match.status !== 'ready-check') return null;
+
+    match.ready[assignment.role] = true;
     return match;
+  }
+
+  startCountdown(roomId: string, onTick: (match: MatchState) => void) {
+    const match = this.matches.get(roomId);
+    if (!match) return;
+    this.clearTimer(roomId);
+    match.status = 'countdown';
+    match.countdown = COUNTDOWN_SECONDS;
+
+    const timer = setInterval(() => {
+      match.countdown! -= 1;
+      if (match.countdown! > 0) {
+        onTick(match);
+        return;
+      }
+      match.countdown = null;
+      match.status = 'running';
+      this.startTimer(roomId, onTick);
+      onTick(match);
+    }, 1000);
+    this.timers.set(roomId, timer);
   }
 
   private isInRoom(socketId: string) {
     return this.socketAssignments.has(socketId) || this.observers.has(socketId);
+  }
+
+  private startRound(match: MatchState) {
+    const start = startPositions(match.gridSize);
+    match.players.seeker!.position = start.seeker;
+    match.players.hider!.position = start.hider;
+    match.status = 'ready-check';
+    match.ready = { seeker: false, hider: false };
+    match.countdown = null;
+    match.winner = null;
+    match.endReason = null;
+    match.timeRemaining = match.gameLengthSeconds;
   }
 
   private isInBounds(pos: Position, gridSize: number) {

@@ -1,5 +1,8 @@
 export type Role = 'seeker' | 'hider';
-export type GameStatus = 'waiting' | 'running' | 'finished';
+export type GameStatus =
+  'waiting' | 'ready-check' | 'countdown' | 'running' | 'finished';
+
+export const COUNTDOWN_SECONDS = 3;
 
 export interface Position {
   x: number;
@@ -26,6 +29,8 @@ export interface MatchState {
   gameLengthSeconds: number;
   observerCount: number;
   endReason: EndReason | null;
+  ready: Record<Role, boolean>;
+  countdown: number | null;
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';

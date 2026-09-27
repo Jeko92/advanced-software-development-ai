@@ -76,9 +76,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const match = this.gameService.getMatch(result.roomId)!;
     this.publish(match);
     this.broadcastRoomList();
-    if (match.status === 'running' && result.role === 'hider') {
-      this.startMatchTimer(match.roomId);
-    }
   }
 
   private async leaveCurrentRoom(client: Socket) {
@@ -113,10 +110,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.to(LOBBY).emit('roomList', this.gameService.listRooms());
   }
 
-  private startMatchTimer(roomId: string) {
-    this.gameService.startTimer(roomId, (m) => this.publish(m));
-  }
-
   @SubscribeMessage('ping')
   handlePing(
     @MessageBody() payload: unknown,
@@ -135,11 +128,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (match) this.publish(match);
   }
 
-  @SubscribeMessage('playAgain')
-  handlePlayAgain(@ConnectedSocket() client: Socket) {
-    const match = this.gameService.resetMatch(client.id);
+  @SubscribeMessage('ready')
+  handleReady(@ConnectedSocket() client: Socket) {
+    const match = this.gameService.setReady(client.id);
     if (!match) return;
+    if (match.ready.seeker && match.ready.hider) {
+      this.gameService.startCountdown(match.roomId, (m) => this.publish(m));
+    }
     this.publish(match);
-    this.startMatchTimer(match.roomId);
   }
 }
