@@ -16,6 +16,7 @@ type PollState = {
   results: PollResults;
   connected: boolean;
   pollId: string | null;
+  viewers: string[];
   joinPoll: (pollId: string) => void;
   vote: (option: string) => Promise<void>;
   error: string | null;
@@ -30,11 +31,13 @@ export const usePollStore = create<PollState>()((set, get) => {
   socket.on('disconnect', () => set({ connected: false }));
   socket.on('connect_error', (error) => set({ error: error.message }));
   socket.on('results', (results: PollResults) => set({ results }));
+  socket.on('presence', (viewers: string[]) => set({ viewers }));
 
   return {
     results: {},
     connected: false,
     pollId: null,
+    viewers: [],
     error: null,
 
     joinPoll: (pollId) => {

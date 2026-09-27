@@ -14,6 +14,7 @@ export function PollStorePanel() {
   const joinPoll = usePollStore((s) => s.joinPoll);
   const vote = usePollStore((s) => s.vote);
   const error = usePollStore((s) => s.error);
+  const viewers = usePollStore((s) => s.viewers);
 
   useEffect(() => {
     joinPoll(pollId);
@@ -28,7 +29,8 @@ export function PollStorePanel() {
       <PollPicker value={pollId} onChange={setPollId} />
       <PollView options={POLL_OPTIONS} results={results} onVote={vote} />
       <p className="mt-4 text-sm text-slate-600">
-        You are <strong>{AUTH_TOKEN}</strong> · watching #{pollId}
+        You are <strong>{AUTH_TOKEN}</strong> · watching #{pollId}:{' '}
+        {viewers.join(', ') || 'nobody'}
       </p>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </Panel>

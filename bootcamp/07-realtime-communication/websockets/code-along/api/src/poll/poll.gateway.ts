@@ -1,6 +1,7 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayDisconnect,
   OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
@@ -8,6 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import { PollService } from './poll.service';
+import { PresenceService } from './presence.service';
 
 type SocketData = { user: string };
 type PollServer = Server<
@@ -31,11 +33,14 @@ const USERS_BY_TOKEN: Record<string, string> = {
 };
 
 @WebSocketGateway({ cors: { origin: '*' } })
-export class PollGateway implements OnGatewayInit {
+export class PollGateway implements OnGatewayInit, OnGatewayDisconnect {
   @WebSocketServer()
   server!: PollServer;
 
-  constructor(private readonly pollService: PollService) {}
+  constructor(
+    private readonly pollService: PollService,
+    private readonly presenceService: PresenceService,
+  ) {}
 
   afterInit(server: PollServer) {
     server.use((socket, next) => {
@@ -53,13 +58,29 @@ export class PollGateway implements OnGatewayInit {
     });
   }
 
+  handleDisconnect(socket: PollSocket) {
+    const pollId = this.presenceService.leave(socket.id);
+    if (pollId) this.emitPresence(pollId);
+  }
+
   @SubscribeMessage('joinPoll')
   async handleJoin(
     @MessageBody() pollId: string,
     @ConnectedSocket() socket: PollSocket,
   ) {
+    const previous = this.presenceService.join(
+      socket.id,
+      socket.data.user,
+      pollId,
+    );
+    if (previous && previous !== pollId) {
+      await socket.leave(previous);
+      this.emitPresence(previous);
+    }
+
     await socket.join(pollId);
     socket.emit('results', this.pollService.getResults(pollId));
+    this.emitPresence(pollId);
   }
 
   @SubscribeMessage('vote')
@@ -79,5 +100,11 @@ export class PollGateway implements OnGatewayInit {
     this.server.to(data.pollId).emit('results', outcome.results);
     socket.to(data.pollId).emit('someoneVoted', data.option);
     return { ok: true };
+  }
+
+  private emitPresence(pollId: string) {
+    this.server
+      .to(pollId)
+      .emit('presence', this.presenceService.usersIn(pollId));
   }
 }
