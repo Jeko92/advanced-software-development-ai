@@ -1,7 +1,6 @@
 {
   "extends": "@bootcamp/tsconfig/node.json",
   "compilerOptions": {
-    /* Match the original project's relaxed base (strictNullChecks only) */
     "target": "ES2023",
     "strict": false,
     "strictNullChecks": true,

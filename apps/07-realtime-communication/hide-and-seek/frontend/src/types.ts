@@ -20,7 +20,54 @@ export interface MatchState {
   };
   timeRemaining: number;
   winner: Role | null;
+  worldSize: WorldSize;
+  difficulty: Difficulty;
+  gridSize: number;
+  gameLengthSeconds: number;
+  observerCount: number;
 }
 
-export const GRID_SIZE = 10;
-export const GAME_LENGTH_SECONDS = 60;
+export type WorldSize = 'small' | 'medium' | 'large';
+export type Difficulty = 'easy' | 'normal' | 'hard';
+
+export const WORLD_SIZES: Record<
+  WorldSize,
+  { label: string; gridSize: number; baseSeconds: number }
+> = {
+  small: { label: 'Small 10×10', gridSize: 10, baseSeconds: 60 },
+  medium: { label: 'Medium 20×20', gridSize: 20, baseSeconds: 120 },
+  large: { label: 'Large 30×30', gridSize: 30, baseSeconds: 180 },
+};
+
+export const DIFFICULTIES: Record<
+  Difficulty,
+  { label: string; timeFactor: number }
+> = {
+  easy: { label: 'Easy', timeFactor: 1.25 },
+  normal: { label: 'Normal', timeFactor: 1 },
+  hard: { label: 'Hard', timeFactor: 0.75 },
+};
+
+export type ClientRole = Role | 'observer';
+export type RoomError =
+  | 'invalid-name'
+  | 'name-taken'
+  | 'invalid-settings'
+  | 'not-found'
+  | 'already-in-room';
+export const ROOM_NAME_MAX_LENGTH = 24;
+
+export interface RoomSummary {
+  roomId: string;
+  worldSize: WorldSize;
+  difficulty: Difficulty;
+  status: GameStatus;
+  players: number;
+  observers: number;
+}
+
+export function gameLengthFor(size: WorldSize, difficulty: Difficulty): number {
+  return Math.round(
+    WORLD_SIZES[size].baseSeconds * DIFFICULTIES[difficulty].timeFactor,
+  );
+}

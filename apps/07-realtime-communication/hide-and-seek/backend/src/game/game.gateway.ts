@@ -9,6 +9,9 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { GameService } from './game.service';
+import { ClientRole, GameStatus, MatchState, RoomError } from './game.types';
+
+const LOBBY = 'lobby';
 
 @WebSocketGateway({
   cors: {
@@ -19,33 +22,99 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server!: Server;
 
+  private listedStatus = new Map<string, GameStatus>();
+
   constructor(private readonly gameService: GameService) {}
 
   async handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
-    await this.joinMatchmaking(client);
+    await client.join(LOBBY);
+    client.emit('roomList', this.gameService.listRooms());
   }
 
-  private async joinMatchmaking(client: Socket) {
-    const assignment = this.gameService.assignToRoom(client.id);
-    await client.join(assignment.roomId);
-    client.emit('role', { role: assignment.role });
-    const match = this.gameService.getMatch(assignment.roomId);
-    this.server.to(assignment.roomId).emit('matchState', match);
-
-    if (match?.status === 'running') {
-      this.gameService.startTimer(assignment.roomId, (m) => {
-        this.server.to(assignment.roomId).emit('matchState', m);
-      });
-    }
-  }
-
-  handleDisconnect(client: Socket) {
+  async handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
-    const match = this.gameService.handleDisconnect(client.id);
-    if (match) {
-      this.server.to(match.roomId).emit('matchState', match);
+    await this.leaveCurrentRoom(client);
+  }
+
+  @SubscribeMessage('createRoom')
+  async handleCreateRoom(
+    @MessageBody()
+    body: { roomName: string; worldSize: string; difficulty: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const result = this.gameService.createRoom(client.id, body ?? {});
+    await this.enterRoom(client, result);
+  }
+
+  @SubscribeMessage('joinRoom')
+  async handleJoinRoom(
+    @MessageBody() body: { roomName: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const result = this.gameService.joinRoom(client.id, body?.roomName);
+    await this.enterRoom(client, result);
+  }
+
+  @SubscribeMessage('leaveRoom')
+  async handleLeaveRoom(@ConnectedSocket() client: Socket) {
+    await this.leaveCurrentRoom(client);
+  }
+
+  private async enterRoom(
+    client: Socket,
+    result: { roomId: string; role: ClientRole } | { error: RoomError },
+  ) {
+    if ('error' in result) {
+      client.emit('roomError', { reason: result.error });
+      return;
     }
+    await client.leave(LOBBY);
+    await client.join(result.roomId);
+    client.emit('role', { role: result.role });
+
+    const match = this.gameService.getMatch(result.roomId)!;
+    this.publish(match);
+    this.broadcastRoomList();
+    if (match.status === 'running' && result.role === 'hider') {
+      this.startMatchTimer(match.roomId);
+    }
+  }
+
+  private async leaveCurrentRoom(client: Socket) {
+    const result = this.gameService.leaveRoom(client.id);
+    if (!result) return;
+
+    if (result.kind === 'observer-left') {
+      await client.leave(result.match.roomId);
+      this.publish(result.match);
+    } else {
+      await client.leave(result.roomId);
+      this.server
+        .to(result.roomId)
+        .emit('roomClosed', { reason: 'player-left' });
+      this.server.in(result.roomId).socketsJoin(LOBBY);
+      this.server.in(result.roomId).socketsLeave(result.roomId);
+      this.listedStatus.delete(result.roomId);
+    }
+    if (client.connected) await client.join(LOBBY);
+    this.broadcastRoomList();
+  }
+
+  private publish(match: MatchState) {
+    this.server.to(match.roomId).emit('matchState', match);
+    if (this.listedStatus.get(match.roomId) !== match.status) {
+      this.listedStatus.set(match.roomId, match.status);
+      this.broadcastRoomList();
+    }
+  }
+
+  private broadcastRoomList() {
+    this.server.to(LOBBY).emit('roomList', this.gameService.listRooms());
+  }
+
+  private startMatchTimer(roomId: string) {
+    this.gameService.startTimer(roomId, (m) => this.publish(m));
   }
 
   @SubscribeMessage('ping')
@@ -63,26 +132,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
   ) {
     const match = this.gameService.applyMove(client.id, body.direction);
-    if (match) {
-      this.server.to(match.roomId).emit('matchState', match);
-    }
+    if (match) this.publish(match);
   }
 
   @SubscribeMessage('playAgain')
-  async handlePlayAgain(@ConnectedSocket() client: Socket) {
-    const abandonedRoomId = this.gameService.leaveAbandonedMatch(client.id);
-    if (abandonedRoomId) {
-      await client.leave(abandonedRoomId);
-      await this.joinMatchmaking(client);
-      return;
-    }
-
+  handlePlayAgain(@ConnectedSocket() client: Socket) {
     const match = this.gameService.resetMatch(client.id);
-    if (match) {
-      this.server.to(match.roomId).emit('matchState', match);
-      this.gameService.startTimer(match.roomId, (m) => {
-        this.server.to(match.roomId).emit('matchState', m);
-      });
-    }
+    if (!match) return;
+    this.publish(match);
+    this.startMatchTimer(match.roomId);
   }
 }

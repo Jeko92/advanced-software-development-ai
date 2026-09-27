@@ -21,8 +21,6 @@ function App() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      // Read the store at key-press time; the matchState captured by this
-      // effect would be stale.
       if (useSocketStore.getState().matchState?.status !== 'running') return;
 
       const map: Record<string, string> = {

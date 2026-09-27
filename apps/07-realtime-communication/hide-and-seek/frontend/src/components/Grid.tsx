@@ -1,10 +1,10 @@
-import { GRID_SIZE, type MatchState } from '../types.ts';
-import type { ReactElement } from 'react';
+import type { MatchState } from '../types.ts';
+import type { CSSProperties, ReactElement } from 'react';
 
 export function Grid({ match }: { match: MatchState }) {
   const cells: ReactElement[] = [];
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
+  for (let y = 0; y < match.gridSize; y++) {
+    for (let x = 0; x < match.gridSize; x++) {
       const isSeeker =
         match.players.seeker?.position.x === x &&
         match.players.seeker?.position.y === y;
@@ -19,5 +19,12 @@ export function Grid({ match }: { match: MatchState }) {
     }
   }
 
-  return <div className="grid">{cells}</div>;
+  return (
+    <div
+      className="grid"
+      style={{ '--grid-size': match.gridSize } as CSSProperties}
+    >
+      {cells}
+    </div>
+  );
 }

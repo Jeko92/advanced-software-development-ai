@@ -185,8 +185,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(10, 2rem);
-  grid-template-rows: repeat(10, 2rem);
+  grid-template-columns: repeat(var(--grid-size, 10), 2rem);
+  grid-template-rows: repeat(var(--grid-size, 10), 2rem);
   gap: 1px;
   background: #ccc;
   border: 1px solid #ccc;

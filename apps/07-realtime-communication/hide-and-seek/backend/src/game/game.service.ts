@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import {
-  GAME_LENGTH_SECONDS,
-  GRID_SIZE,
+  ClientRole,
+  DIFFICULTIES,
+  Difficulty,
+  gameLengthFor,
   MatchState,
   Position,
   Role,
+  ROOM_NAME_MAX_LENGTH,
+  RoomError,
+  RoomSummary,
+  WORLD_SIZES,
+  WorldSize,
 } from './game.types';
 
 interface SocketAssignment {
@@ -12,11 +19,28 @@ interface SocketAssignment {
   role: Role;
 }
 
+const startPositions = (gridSize: number) => {
+  return {
+    seeker: { x: 0, y: 0 },
+    hider: { x: gridSize - 1, y: gridSize - 1 },
+  };
+};
+
+const normalizeRoomName = (raw: unknown) =>
+  String(raw ?? '')
+    .trim()
+    .toLowerCase();
+
+const isWorldSize = (value: unknown): value is WorldSize =>
+  typeof value === 'string' && Object.hasOwn(WORLD_SIZES, value);
+
+const isDifficulty = (value: unknown): value is Difficulty =>
+  typeof value === 'string' && Object.hasOwn(DIFFICULTIES, value);
+
 @Injectable()
 export class GameService {
   private socketAssignments = new Map<string, SocketAssignment>();
-  private waitingRoomId: string | null = null;
-  private roomCounter = 0;
+  private observers = new Map<string, string>();
   private matches = new Map<string, MatchState>();
   private readonly deltas: Record<string, Position> = {
     up: { x: 0, y: -1 },
@@ -26,39 +50,74 @@ export class GameService {
   };
   private timers = new Map<string, NodeJS.Timeout>();
 
-  assignToRoom(socketId: string) {
-    if (this.waitingRoomId === null) {
-      const roomId = `room-${++this.roomCounter}`;
-      this.waitingRoomId = roomId;
-      const assignment: SocketAssignment = { roomId, role: 'hider' };
-      this.socketAssignments.set(socketId, assignment);
-      this.matches.set(roomId, {
-        roomId,
-        status: 'waiting',
-        players: {
-          hider: { socketId, position: { x: GRID_SIZE - 1, y: GRID_SIZE - 1 } },
-          seeker: null,
-        },
-        timeRemaining: 0,
-        winner: null,
-      });
-      return assignment;
-    }
-
-    const roomId = this.waitingRoomId;
-    this.waitingRoomId = null;
-    const assignment: SocketAssignment = { roomId, role: 'seeker' };
-    this.socketAssignments.set(socketId, assignment);
-
-    const match = this.matches.get(roomId)!;
-    match.players.seeker = { socketId, position: { x: 0, y: 0 } };
-    match.status = 'running';
-
-    return assignment;
-  }
-
   getMatch(roomId: string): MatchState | undefined {
     return this.matches.get(roomId);
+  }
+
+  createRoom(
+    socketId: string,
+    settings: { roomName: unknown; worldSize: unknown; difficulty: unknown },
+  ): { roomId: string; role: ClientRole } | { error: RoomError } {
+    if (this.isInRoom(socketId)) return { error: 'already-in-room' };
+
+    const roomId = normalizeRoomName(settings.roomName);
+    if (roomId === '' || roomId.length > ROOM_NAME_MAX_LENGTH) {
+      return { error: 'invalid-name' };
+    }
+    if (this.matches.has(roomId)) return { error: 'name-taken' };
+    if (
+      !isWorldSize(settings.worldSize) ||
+      !isDifficulty(settings.difficulty)
+    ) {
+      return { error: 'invalid-settings' };
+    }
+
+    const { worldSize, difficulty } = settings;
+    const gridSize = WORLD_SIZES[worldSize].gridSize;
+    const gameLengthSeconds = gameLengthFor(worldSize, difficulty);
+
+    this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
+    this.matches.set(roomId, {
+      roomId,
+      status: 'waiting',
+      worldSize,
+      difficulty,
+      gridSize,
+      gameLengthSeconds,
+      players: {
+        seeker: { socketId, position: startPositions(gridSize).seeker },
+        hider: null,
+      },
+      observerCount: 0,
+      timeRemaining: gameLengthSeconds,
+      winner: null,
+    });
+    return { roomId, role: 'seeker' };
+  }
+
+  joinRoom(
+    socketId: string,
+    rawName: unknown,
+  ): { roomId: string; role: ClientRole } | { error: RoomError } {
+    if (this.isInRoom(socketId)) return { error: 'already-in-room' };
+
+    const roomId = normalizeRoomName(rawName);
+    const match = this.matches.get(roomId);
+    if (!match) return { error: 'not-found' };
+
+    if (!match.players.hider) {
+      this.socketAssignments.set(socketId, { roomId, role: 'hider' });
+      match.players.hider = {
+        socketId,
+        position: startPositions(match.gridSize).hider,
+      };
+      match.status = 'running';
+      return { roomId, role: 'hider' };
+    }
+
+    this.observers.set(socketId, roomId);
+    match.observerCount++;
+    return { roomId, role: 'observer' };
   }
 
   applyMove(socketId: string, direction: string): MatchState | null {
@@ -77,14 +136,7 @@ export class GameService {
       y: player.position.y + delta.y,
     };
 
-    if (
-      target.x < 0 ||
-      target.x >= GRID_SIZE ||
-      target.y < 0 ||
-      target.y >= GRID_SIZE
-    ) {
-      return null;
-    }
+    if (!this.isInBounds(target, match.gridSize)) return null;
 
     player.position = target;
     const seekerPos = match.players.seeker?.position;
@@ -102,20 +154,11 @@ export class GameService {
     return match;
   }
 
-  private clearTimer(roomId: string) {
-    const timer = this.timers.get(roomId);
-    if (timer) {
-      clearInterval(timer);
-      this.timers.delete(roomId);
-    }
-  }
-
   startTimer(roomId: string, onTick: (match: MatchState) => void) {
     const match = this.matches.get(roomId);
     if (!match) return;
-    // Never let two intervals tick the same match.
     this.clearTimer(roomId);
-    match.timeRemaining = GAME_LENGTH_SECONDS;
+    match.timeRemaining = match.gameLengthSeconds;
 
     const timer = setInterval(() => {
       match.timeRemaining -= 1;
@@ -130,55 +173,36 @@ export class GameService {
     this.timers.set(roomId, timer);
   }
 
-  handleDisconnect(socketId: string): MatchState | null {
+  leaveRoom(
+    socketId: string,
+  ):
+    | { kind: 'room-closed'; roomId: string }
+    | { kind: 'observer-left'; match: MatchState }
+    | null {
+    const observedRoomId = this.observers.get(socketId);
+    if (observedRoomId) {
+      this.observers.delete(socketId);
+      const match = this.matches.get(observedRoomId);
+      if (!match) return null;
+      match.observerCount--;
+      return { kind: 'observer-left', match };
+    }
+
     const assignment = this.socketAssignments.get(socketId);
-    this.socketAssignments.delete(socketId);
     if (!assignment) return null;
-
-    const match = this.matches.get(assignment.roomId);
-    if (!match) return null;
-
-    if (
-      this.waitingRoomId === assignment.roomId &&
-      match.status === 'waiting'
-    ) {
-      this.waitingRoomId = null;
-      this.matches.delete(assignment.roomId);
-      return null;
-    }
-
-    this.clearTimer(match.roomId);
-    if (match.status === 'running') {
-      match.status = 'finished';
-      match.winner = assignment.role === 'seeker' ? 'hider' : 'seeker';
-    }
-    // Free the leaver's slot so the remaining player can't restart a round
-    // against a socket that no longer exists.
-    match.players[assignment.role] = null;
-
-    if (!match.players.seeker && !match.players.hider) {
-      this.matches.delete(match.roomId);
-      return null;
-    }
-    return match;
+    this.closeRoom(assignment.roomId);
+    return { kind: 'room-closed', roomId: assignment.roomId };
   }
 
-  /**
-   * Sends a player whose opponent has left back to matchmaking by tearing
-   * down their finished room. Returns the room id they left, or null when
-   * the opponent is still there (then `resetMatch` applies instead).
-   */
-  leaveAbandonedMatch(socketId: string): string | null {
-    const assignment = this.socketAssignments.get(socketId);
-    if (!assignment) return null;
-
-    const match = this.matches.get(assignment.roomId);
-    if (!match || match.status !== 'finished') return null;
-    if (match.players.seeker && match.players.hider) return null;
-
-    this.socketAssignments.delete(socketId);
-    this.matches.delete(assignment.roomId);
-    return assignment.roomId;
+  listRooms(): RoomSummary[] {
+    return [...this.matches.values()].map((m) => ({
+      roomId: m.roomId,
+      worldSize: m.worldSize,
+      difficulty: m.difficulty,
+      status: m.status,
+      players: Number(!!m.players.seeker) + Number(!!m.players.hider),
+      observers: m.observerCount,
+    }));
   }
 
   resetMatch(socketId: string): MatchState | null {
@@ -187,14 +211,41 @@ export class GameService {
 
     const match = this.matches.get(assignment.roomId);
     if (!match || !match.players.seeker || !match.players.hider) return null;
-    // Only a finished round can be restarted; a second "play again" from the
-    // other player must not reset the round that just started.
     if (match.status !== 'finished') return null;
 
+    const start = startPositions(match.gridSize);
     match.status = 'running';
     match.winner = null;
-    match.players.hider.position = { x: GRID_SIZE - 1, y: GRID_SIZE - 1 };
-    match.players.seeker.position = { x: 0, y: 0 };
+    match.players.hider.position = start.hider;
+    match.players.seeker.position = start.seeker;
     return match;
+  }
+
+  private isInRoom(socketId: string) {
+    return this.socketAssignments.has(socketId) || this.observers.has(socketId);
+  }
+
+  private isInBounds(pos: Position, gridSize: number) {
+    return pos.x >= 0 && pos.x < gridSize && pos.y >= 0 && pos.y < gridSize;
+  }
+
+  private closeRoom(roomId: string) {
+    this.clearTimer(roomId);
+    const match = this.matches.get(roomId);
+    this.matches.delete(roomId);
+    for (const player of [match?.players.seeker, match?.players.hider]) {
+      if (player) this.socketAssignments.delete(player.socketId);
+    }
+    for (const [socketId, observedRoomId] of this.observers) {
+      if (observedRoomId === roomId) this.observers.delete(socketId);
+    }
+  }
+
+  private clearTimer(roomId: string) {
+    const timer = this.timers.get(roomId);
+    if (timer) {
+      clearInterval(timer);
+      this.timers.delete(roomId);
+    }
   }
 }
