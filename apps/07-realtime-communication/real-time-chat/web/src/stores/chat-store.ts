@@ -40,11 +40,16 @@ const withRoom = (rooms: string[], room: string) =>
   rooms.includes(room) ? rooms : [...rooms, room];
 
 export const useChatStore = create<ChatState>()((set, get) => {
-  socket.on('connect', () => set({ connected: true }));
+  socket.on('connect', () => {
+    set({ connected: true });
+    const { room } = get();
+    if (room) socket.emit('joinRoom', room);
+  });
   socket.on('disconnect', () => set({ connected: false }));
-  socket.on('message', (message: ChatMessage) =>
-    set((state) => ({ messages: [...state.messages, message] })),
-  );
+  socket.on('message', (message: ChatMessage) => {
+    if (message.room !== get().room) return;
+    set((state) => ({ messages: [...state.messages, message] }));
+  });
 
   return {
     ...initialState,
@@ -65,7 +70,13 @@ export const useChatStore = create<ChatState>()((set, get) => {
     },
 
     joinRoom: (room) => {
-      set((state) => ({ room, rooms: withRoom(state.rooms, room) }));
+      if (room === get().room) return;
+      set((state) => ({
+        room,
+        rooms: withRoom(state.rooms, room),
+        messages: [],
+      }));
+      socket.emit('joinRoom', room);
     },
 
     sendMessage: (text) => {

@@ -36,16 +36,36 @@ export class ChatGateway implements OnGatewayConnection {
       typeof username === 'string' ? username : 'anonymous';
   }
 
+  @SubscribeMessage('joinRoom')
+  async handleJoinRoom(
+    @MessageBody() room: string,
+    @ConnectedSocket() socket: ChatSocket,
+  ) {
+    for (const joined of socket.rooms) {
+      if (joined !== socket.id) await socket.leave(joined);
+    }
+    await socket.join(room);
+  }
+
   @SubscribeMessage('sendMessage')
   handleSendMessage(
     @MessageBody() data: { room: string; text: string },
     @ConnectedSocket() socket: ChatSocket,
   ) {
+    if (!socket.rooms.has(data.room)) {
+      return { ok: false, reason: 'Join the room before sending' };
+    }
+    const text = typeof data.text === 'string' ? data.text.trim() : '';
+    if (!text || text.length > 500) {
+      return { ok: false, reason: 'Messages must be 1–500 characters' };
+    }
+
     const message = this.chatService.addMessage(
       data.room,
       socket.data.username,
-      data.text,
+      text,
     );
-    this.server.emit('message', message);
+    this.server.to(data.room).emit('message', message);
+    return { ok: true };
   }
 }
