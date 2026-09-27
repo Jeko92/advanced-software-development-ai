@@ -25,7 +25,7 @@ interface SocketState {
   leaveRoom: () => void;
   clearMessages: () => void;
   move: (direction: string) => void;
-  playAgain: () => void;
+  ready: () => void;
 }
 
 export const useSocketStore = create<SocketState>()((set) => {
@@ -65,7 +65,7 @@ export const useSocketStore = create<SocketState>()((set) => {
     roomError: null,
     notice: null,
     move: (direction: string) => socket.emit('move', { direction }),
-    playAgain: () => socket.emit('playAgain'),
+    ready: () => socket.emit('ready'),
     createRoom: (settings) => socket.emit('createRoom', settings),
     joinRoom: (roomName) => socket.emit('joinRoom', { roomName }),
     leaveRoom: () => {

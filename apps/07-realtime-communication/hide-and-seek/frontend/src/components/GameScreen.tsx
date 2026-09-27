@@ -1,6 +1,7 @@
 import { Grid } from '@/components/Grid';
 import { Hud } from '@/components/Hud';
 import { GameOverOverlay, WaitingOverlay } from '@/components/Overlays';
+import { StartDialog } from '@/components/StartDialog';
 import { useMovementKeys } from '@/hooks/useMovementKeys';
 import { useSocketStore } from '@/store/socketStore';
 
@@ -17,6 +18,7 @@ export function GameScreen() {
         {match.status === 'waiting' && <WaitingOverlay roomId={match.roomId} />}
         {match.status === 'finished' && <GameOverOverlay match={match} />}
       </div>
+      <StartDialog match={match} />
     </section>
   );
 }

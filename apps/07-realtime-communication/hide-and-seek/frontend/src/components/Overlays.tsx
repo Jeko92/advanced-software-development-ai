@@ -44,7 +44,7 @@ export function WaitingOverlay({ roomId }: { roomId: string }) {
 
 export function GameOverOverlay({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role);
-  const playAgain = useSocketStore((s) => s.playAgain);
+  const ready = useSocketStore((s) => s.ready);
   const leaveRoom = useSocketStore((s) => s.leaveRoom);
   const isPlayer = role === 'seeker' || role === 'hider';
   const won = isPlayer && match.winner === role;
@@ -74,7 +74,7 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
         </CardHeader>
         <CardFooter className="justify-center gap-2">
           {isPlayer && (
-            <Button autoFocus onClick={playAgain}>
+            <Button autoFocus onClick={ready}>
               Play again
             </Button>
           )}
