@@ -1,15 +1,32 @@
 import { useEffect } from 'react';
+import { LogOut } from 'lucide-react';
 import './App.css';
-import { socket } from './socket.ts';
-import { useSocketStore } from './store/socketStore.ts';
-import { Grid } from './components/Grid.tsx';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Grid } from '@/components/Grid';
+import { Lobby } from '@/components/Lobby';
+import { socket } from '@/socket';
+import { useSocketStore } from '@/store/socketStore';
+import type { ClientRole, MatchState } from '@/types';
+
+const KEY_TO_DIRECTION: Record<string, string> = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+};
+
+const ROLE_LABEL: Record<ClientRole, string> = {
+  seeker: '🔍 You are the seeker',
+  hider: '🙈 You are the hider',
+  observer: '👀 Watching',
+};
 
 function App() {
   const connected = useSocketStore((s) => s.connected);
   const role = useSocketStore((s) => s.role);
   const matchState = useSocketStore((s) => s.matchState);
   const move = useSocketStore((s) => s.move);
-  const playAgain = useSocketStore((s) => s.playAgain);
 
   useEffect(() => {
     socket.connect();
@@ -21,16 +38,16 @@ function App() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (useSocketStore.getState().matchState?.status !== 'running') return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLButtonElement
+      ) {
+        return;
+      }
+      const { role, matchState } = useSocketStore.getState();
+      if (role === 'observer' || matchState?.status !== 'running') return;
 
-      const map: Record<string, string> = {
-        ArrowUp: 'up',
-        ArrowDown: 'down',
-        ArrowLeft: 'left',
-        ArrowRight: 'right',
-      };
-
-      const direction = map[e.key];
+      const direction = KEY_TO_DIRECTION[e.key];
       if (direction) move(direction);
     };
 
@@ -38,34 +55,72 @@ function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [move]);
 
-  const opponentLeft =
-    !!matchState && (!matchState.players.seeker || !matchState.players.hider);
+  return (
+    <main className="mx-auto grid max-w-5xl gap-6 p-4">
+      <header className="flex items-center justify-between gap-4">
+        <h1 className="text-3xl font-bold tracking-tight">Hide and Seek</h1>
+        <Badge variant="outline">
+          {connected ? 'Connected' : 'Connecting…'}
+        </Badge>
+      </header>
+      {role ? <GameView role={role} matchState={matchState} /> : <Lobby />}
+    </main>
+  );
+}
+
+function GameView({
+  role,
+  matchState,
+}: {
+  role: ClientRole;
+  matchState: MatchState | null;
+}) {
+  const playAgain = useSocketStore((s) => s.playAgain);
+  const leaveRoom = useSocketStore((s) => s.leaveRoom);
+  const isPlayer = role !== 'observer';
 
   return (
-    <div>
-      <h1>Hide and Seek</h1>
-      <p>{connected ? 'Connected' : 'Connecting...'}</p>
-      <p>{role ? `You are the ${role}` : 'Assigning role...'}</p>
-      {matchState && <p>Room: {matchState.roomId.replace('room-', '')}</p>}
-      {matchState?.status === 'waiting' && <p>Waiting for an opponent...</p>}
+    <section className="grid justify-items-center gap-4">
+      <div className="flex w-full flex-wrap items-center gap-2">
+        <Badge variant="secondary">{ROLE_LABEL[role]}</Badge>
+        {matchState && (
+          <Badge variant="outline">Room: {matchState.roomId}</Badge>
+        )}
+        <Button
+          variant="outline"
+          size="sm"
+          className="ml-auto"
+          onClick={leaveRoom}
+        >
+          <LogOut /> Leave
+        </Button>
+      </div>
+
+      {matchState?.status === 'waiting' && (
+        <p className="text-muted-foreground">Waiting for a hider to join…</p>
+      )}
+
       {matchState?.status === 'finished' && (
-        <div>
-          <p>
+        <div className="grid justify-items-center gap-3">
+          <p className="text-xl font-semibold">
             {matchState.winner === 'seeker' ? 'Seeker wins!' : 'Hider wins!'}
           </p>
-          {opponentLeft && <p>Your opponent left the game.</p>}
-          <button onClick={playAgain}>
-            {opponentLeft ? 'Find New Opponent' : 'Play Again'}
-          </button>
+          <div className="flex gap-2">
+            {isPlayer && <Button onClick={playAgain}>Play again</Button>}
+            <Button variant="outline" onClick={leaveRoom}>
+              Back to lobby
+            </Button>
+          </div>
         </div>
       )}
+
       {matchState && (
         <>
-          <p>Time left: {matchState.timeRemaining}s</p>
+          <p className="tabular-nums">Time left: {matchState.timeRemaining}s</p>
           <Grid match={matchState} />
         </>
       )}
-    </div>
+    </section>
   );
 }
 

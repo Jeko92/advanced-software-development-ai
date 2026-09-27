@@ -6,7 +6,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import { baseConfig } from '@bootcamp/eslint-config';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'src/components/ui']),
   { ignores: ['eslint.config.js', 'prettier.config.mjs'] },
   ...baseConfig,
   {

@@ -21,7 +21,7 @@ export function Grid({ match }: { match: MatchState }) {
 
   return (
     <div
-      className="grid"
+      className="grid-board"
       style={{ '--grid-size': match.gridSize } as CSSProperties}
     >
       {cells}
