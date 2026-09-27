@@ -80,6 +80,8 @@ export const useChatStore = create<ChatState>()((set, get) => {
     },
   );
 
+  socket.on('disconnect', () => set({ connected: false, typingUsers: [] }));
+
   return {
     ...initialState,
     connect: ({ username, room }) => {

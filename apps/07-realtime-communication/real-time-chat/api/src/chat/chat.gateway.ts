@@ -2,6 +2,7 @@ import {
   ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -25,7 +26,7 @@ type ChatSocket = Socket<
 >;
 
 @WebSocketGateway({ cors: { origin: '*' } })
-export class ChatGateway implements OnGatewayConnection {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server!: ChatServer;
 
@@ -38,6 +39,11 @@ export class ChatGateway implements OnGatewayConnection {
     const username: unknown = socket.handshake.auth['username'];
     socket.data.username =
       typeof username === 'string' ? username : 'anonymous';
+  }
+
+  handleDisconnect(socket: ChatSocket) {
+    const member = this.presenceService.leave(socket.id);
+    if (member) this.announceLeave(member.room, member.username);
   }
 
   @SubscribeMessage('joinRoom')
