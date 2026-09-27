@@ -45,7 +45,6 @@ export const useChatStore = create<ChatState>()((set, get) => {
     const { room } = get();
     if (room) socket.emit('joinRoom', room);
   });
-  socket.on('disconnect', () => set({ connected: false }));
   socket.on('message', (message: ChatMessage) => {
     if (message.room !== get().room) return;
     set((state) => ({
@@ -79,6 +78,10 @@ export const useChatStore = create<ChatState>()((set, get) => {
       });
     },
   );
+
+  socket.on('history', (data: { room: string; messages: ChatMessage[] }) => {
+    if (data.room === get().room) set({ messages: data.messages });
+  });
 
   socket.on('disconnect', () => set({ connected: false, typingUsers: [] }));
 

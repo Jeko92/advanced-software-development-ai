@@ -59,6 +59,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     await socket.join(room);
+    socket.emit('history', {
+      room,
+      messages: this.chatService.historyFor(room),
+    });
+
     if (previous !== room) {
       this.emitSystemMessage(room, username, `${username} joined`);
     }

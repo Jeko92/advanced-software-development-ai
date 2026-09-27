@@ -10,8 +10,12 @@ export type ChatMessage = {
   sentAt: string;
 };
 
+const HISTORY_LIMIT = 20;
+
 @Injectable()
 export class ChatService {
+  private history = new Map<string, ChatMessage[]>();
+
   addMessage(room: string, username: string, text: string): ChatMessage {
     return this.record({ room, kind: 'user', username, text });
   }
@@ -20,7 +24,18 @@ export class ChatService {
     return this.record({ room, kind: 'system', username, text });
   }
 
+  historyFor(room: string): ChatMessage[] {
+    return this.history.get(room) ?? [];
+  }
+
   private record(fields: Omit<ChatMessage, 'id' | 'sentAt'>): ChatMessage {
-    return { ...fields, id: randomUUID(), sentAt: new Date().toISOString() };
+    const message: ChatMessage = {
+      ...fields,
+      id: randomUUID(),
+      sentAt: new Date().toISOString(),
+    };
+    const messages = [...this.historyFor(message.room), message];
+    this.history.set(message.room, messages.slice(-HISTORY_LIMIT));
+    return message;
   }
 }
