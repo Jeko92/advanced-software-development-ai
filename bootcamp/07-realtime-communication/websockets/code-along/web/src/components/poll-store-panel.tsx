@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { POLL_IDS, POLL_OPTIONS } from '../lib/config';
+import { AUTH_TOKEN, POLL_IDS, POLL_OPTIONS } from '../lib/config';
 import { usePollStore } from '../stores/poll-store';
 import { ConnectionBadge } from './connection-badge';
 import { Panel } from './panel';
@@ -27,6 +27,9 @@ export function PollStorePanel() {
     >
       <PollPicker value={pollId} onChange={setPollId} />
       <PollView options={POLL_OPTIONS} results={results} onVote={vote} />
+      <p className="mt-4 text-sm text-slate-600">
+        You are <strong>{AUTH_TOKEN}</strong> · watching #{pollId}
+      </p>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </Panel>
   );

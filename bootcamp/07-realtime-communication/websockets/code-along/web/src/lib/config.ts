@@ -10,3 +10,8 @@ export const POLL_OPTIONS = ['pizza', 'pasta'] as const;
 export type PollResults = Record<string, number>;
 
 export type VoteAck = { ok: true } | { ok: false; reason: string };
+
+// Who you are, for the handshake auth — open a second window with
+// ?token=token-bob to act as another user.
+export const AUTH_TOKEN =
+  new URLSearchParams(window.location.search).get('token') ?? 'token-alice';

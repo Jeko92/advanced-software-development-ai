@@ -1,8 +1,16 @@
 import { io } from 'socket.io-client';
 import { create } from 'zustand';
-import { API_URL, type PollResults, type VoteAck } from '../lib/config';
+import {
+  API_URL,
+  AUTH_TOKEN,
+  type PollResults,
+  type VoteAck,
+} from '../lib/config';
 
-const socket = io(API_URL, { autoConnect: false });
+const socket = io(API_URL, {
+  autoConnect: false,
+  auth: { token: AUTH_TOKEN },
+});
 
 type PollState = {
   results: PollResults;
@@ -15,11 +23,12 @@ type PollState = {
 
 export const usePollStore = create<PollState>()((set, get) => {
   socket.on('connect', () => {
-    set({ connected: true });
+    set({ connected: true, error: null });
     const { pollId } = get();
     if (pollId) socket.emit('joinPoll', pollId);
   });
   socket.on('disconnect', () => set({ connected: false }));
+  socket.on('connect_error', (error) => set({ error: error.message }));
   socket.on('results', (results: PollResults) => set({ results }));
 
   return {

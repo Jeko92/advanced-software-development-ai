@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import {
   API_URL,
+  AUTH_TOKEN,
   POLL_IDS,
   POLL_OPTIONS,
   type PollResults,
@@ -11,7 +12,10 @@ import { Panel } from './panel';
 import { PollPicker } from './poll-picker';
 import { PollView } from './poll-view';
 
-const socket = io(API_URL, { autoConnect: false });
+const socket = io(API_URL, {
+  autoConnect: false,
+  auth: { token: AUTH_TOKEN },
+});
 
 export function PollEffectPanel() {
   const [pollId, setPollId] = useState<string>(POLL_IDS[0]);
