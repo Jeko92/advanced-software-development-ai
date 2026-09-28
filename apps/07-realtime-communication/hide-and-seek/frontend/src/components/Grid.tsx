@@ -25,6 +25,11 @@ export function Grid({ match }: { match: MatchState }) {
       const at = (p?: Position) => p?.x === x && p?.y === y;
       const classes = ['cell'];
       if (ice.has(`${x},${y}`)) classes.push('ice');
+      const portalIndex =
+        match.portals?.findIndex((p) => p.x === x && p.y === y) ?? -1;
+      if (portalIndex >= 0) {
+        classes.push(portalIndex === 0 ? 'portal-a' : 'portal-b');
+      }
       const wallRight = walls.has(`${x},${y}-${x + 1},${y}`);
       const wallBottom = walls.has(`${x},${y}-${x},${y + 1}`);
       const item = items.get(`${x},${y}`);
@@ -32,6 +37,12 @@ export function Grid({ match }: { match: MatchState }) {
         <div key={`${x}-${y}`} className={classes.join(' ')}>
           {wallRight && <span className="wall wall-right" />}
           {wallBottom && <span className="wall wall-bottom" />}
+          {portalIndex >= 0 && match.teleportCount > 0 && (
+            <span
+              key={`flash-${match.teleportCount}`}
+              className="portal-flash"
+            />
+          )}
           {item && (
             <span key={item.id} className="item">
               {ITEM_ICON[item.type]}

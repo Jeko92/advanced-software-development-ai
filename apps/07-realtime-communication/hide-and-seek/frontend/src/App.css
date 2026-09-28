@@ -40,6 +40,42 @@
   );
 }
 
+.cell.portal-a {
+  background: #d8b4fe;
+}
+
+.cell.portal-b {
+  background: #fbcfe8;
+}
+
+.cell.portal-a::before,
+.cell.portal-b::before {
+  content: '🌀';
+  position: absolute;
+  opacity: 0.45;
+  font-size: calc(var(--cell) * 0.6);
+}
+
+.portal-flash {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: portal-flash 0.5s ease-out forwards;
+}
+
+@keyframes portal-flash {
+  from {
+    box-shadow: 0 0 0 0 #a855f7;
+  }
+  50% {
+    box-shadow: 0 0 14px 6px #a855f7;
+  }
+  to {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
 .wall {
   position: absolute;
   z-index: 1;
