@@ -6,6 +6,10 @@ const KEY_TO_DIRECTION: Record<string, string> = {
   ArrowDown: 'down',
   ArrowLeft: 'left',
   ArrowRight: 'right',
+  w: 'up',
+  s: 'down',
+  a: 'left',
+  d: 'right',
 };
 
 export function useMovementKeys() {
@@ -19,7 +23,8 @@ export function useMovementKeys() {
       ) {
         return;
       }
-      const direction = KEY_TO_DIRECTION[e.key];
+      const direction =
+        KEY_TO_DIRECTION[e.key] ?? KEY_TO_DIRECTION[e.key.toLowerCase()];
       if (!direction) return;
       e.preventDefault();
       const { role, matchState } = useSocketStore.getState();

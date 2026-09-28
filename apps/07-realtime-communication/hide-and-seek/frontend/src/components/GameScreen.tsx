@@ -1,4 +1,5 @@
 import { ChatPanel } from '@/components/ChatPanel';
+import { DPad } from '@/components/DPad';
 import { Grid } from '@/components/Grid';
 import { Hud } from '@/components/Hud';
 import {
@@ -21,13 +22,16 @@ export function GameScreen() {
       <Hud match={match} />
       <PausePrompt match={match} />
       <div className="grid w-full justify-items-center gap-4 lg:grid-cols-[1fr_18rem] lg:items-start">
-        <div className="relative">
-          <Grid match={match} />
-          {match.status === 'waiting' && (
-            <WaitingOverlay roomId={match.roomId} />
-          )}
-          {match.status === 'finished' && <GameOverOverlay match={match} />}
-          {match.status === 'paused' && <PausedOverlay />}
+        <div className="grid justify-items-center gap-3">
+          <div className="relative">
+            <Grid match={match} />
+            {match.status === 'waiting' && (
+              <WaitingOverlay roomId={match.roomId} />
+            )}
+            {match.status === 'finished' && <GameOverOverlay match={match} />}
+            {match.status === 'paused' && <PausedOverlay />}
+          </div>
+          <DPad />
         </div>
         <ChatPanel />
       </div>
