@@ -32,6 +32,7 @@ export interface MatchState {
   ready: Record<Role, boolean>;
   countdown: number | null;
   swapRequestedBy: Role | null;
+  wallEdges: string[];
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';
@@ -48,11 +49,11 @@ export const WORLD_SIZES: Record<
 
 export const DIFFICULTIES: Record<
   Difficulty,
-  { label: string; timeFactor: number }
+  { label: string; timeFactor: number; wallPiecesPerRow: number }
 > = {
-  easy: { label: 'Easy', timeFactor: 1.25 },
-  normal: { label: 'Normal', timeFactor: 1 },
-  hard: { label: 'Hard', timeFactor: 0.75 },
+  easy: { label: 'Easy', timeFactor: 1.25, wallPiecesPerRow: 0.8 },
+  normal: { label: 'Normal', timeFactor: 1, wallPiecesPerRow: 1.5 },
+  hard: { label: 'Hard', timeFactor: 0.75, wallPiecesPerRow: 2.5 },
 };
 
 export type ClientRole = Role | 'observer';

@@ -78,8 +78,7 @@ export class GameService {
     const gridSize = WORLD_SIZES[worldSize].gridSize;
     const gameLengthSeconds = gameLengthFor(worldSize, difficulty);
 
-    this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
-    this.matches.set(roomId, {
+    const match: MatchState = {
       roomId,
       status: 'waiting',
       worldSize,
@@ -97,7 +96,11 @@ export class GameService {
       ready: { seeker: false, hider: false },
       countdown: null,
       swapRequestedBy: null,
-    });
+      wallEdges: [],
+    };
+    this.generateTerrain(match);
+    this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
+    this.matches.set(roomId, match);
     return { roomId, role: 'seeker' };
   }
 
@@ -143,6 +146,7 @@ export class GameService {
     };
 
     if (!this.isInBounds(target, match.gridSize)) return null;
+    if (this.isBlocked(player.position, target, match)) return null;
 
     player.position = target;
     const seekerPos = match.players.seeker?.position;
@@ -293,6 +297,109 @@ export class GameService {
     match.endReason = null;
     match.swapRequestedBy = null;
     match.timeRemaining = match.gameLengthSeconds;
+    this.generateTerrain(match);
+  }
+
+  private generateTerrain(match: MatchState) {
+    const start = startPositions(match.gridSize);
+    match.wallEdges = this.generateWalls(match, [start.seeker, start.hider]);
+  }
+
+  private edgeKey(a: Position, b: Position): string {
+    const [p1, p2] = a.y < b.y || (a.y === b.y && a.x < b.x) ? [a, b] : [b, a];
+    return `${p1.x},${p1.y}-${p2.x},${p2.y}`;
+  }
+
+  private neighbors(pos: Position, gridSize: number): Position[] {
+    return [
+      { x: pos.x, y: pos.y - 1 },
+      { x: pos.x, y: pos.y + 1 },
+      { x: pos.x - 1, y: pos.y },
+      { x: pos.x + 1, y: pos.y },
+    ].filter((p) => this.isInBounds(p, gridSize));
+  }
+
+  private wouldFullyEnclose(
+    pos: Position,
+    gridSize: number,
+    wallEdges: Set<string>,
+  ): boolean {
+    return this.neighbors(pos, gridSize).every((n) =>
+      wallEdges.has(this.edgeKey(pos, n)),
+    );
+  }
+
+  private isConnected(gridSize: number, wallEdges: Set<string>): boolean {
+    const visited = new Set<string>(['0,0']);
+    const queue: Position[] = [{ x: 0, y: 0 }];
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      for (const neighbor of this.neighbors(current, gridSize)) {
+        const key = `${neighbor.x},${neighbor.y}`;
+        if (visited.has(key)) continue;
+        if (wallEdges.has(this.edgeKey(current, neighbor))) continue;
+        visited.add(key);
+        queue.push(neighbor);
+      }
+    }
+
+    return visited.size === gridSize * gridSize;
+  }
+
+  private generateWalls(match: MatchState, avoid: Position[]): string[] {
+    const { gridSize } = match;
+    const wallEdges = new Set<string>();
+    const avoidKeys = new Set(avoid.map((p) => `${p.x},${p.y}`));
+    const directionKeys = Object.keys(this.deltas);
+    const numPieces = Math.floor(
+      gridSize * DIFFICULTIES[match.difficulty].wallPiecesPerRow,
+    );
+    const randomDirection = () =>
+      directionKeys[Math.floor(Math.random() * directionKeys.length)];
+
+    for (let i = 0; i < numPieces; i++) {
+      let current: Position = {
+        x: Math.floor(Math.random() * gridSize),
+        y: Math.floor(Math.random() * gridSize),
+      };
+      const pieceLength = 1 + Math.floor(Math.random() * 4);
+      let directionKey = randomDirection();
+
+      for (let step = 0; step < pieceLength; step++) {
+        if (step > 0 && Math.random() < 0.3) directionKey = randomDirection();
+        const delta = this.deltas[directionKey];
+        const next = { x: current.x + delta.x, y: current.y + delta.y };
+
+        if (!this.isInBounds(next, gridSize)) break;
+        if (
+          avoidKeys.has(`${current.x},${current.y}`) ||
+          avoidKeys.has(`${next.x},${next.y}`)
+        ) {
+          break;
+        }
+
+        const key = this.edgeKey(current, next);
+        wallEdges.add(key);
+
+        if (
+          this.wouldFullyEnclose(current, gridSize, wallEdges) ||
+          this.wouldFullyEnclose(next, gridSize, wallEdges) ||
+          !this.isConnected(gridSize, wallEdges)
+        ) {
+          wallEdges.delete(key);
+          break;
+        }
+
+        current = next;
+      }
+    }
+
+    return Array.from(wallEdges);
+  }
+
+  private isBlocked(from: Position, to: Position, match: MatchState): boolean {
+    return match.wallEdges.includes(this.edgeKey(from, to));
   }
 
   private canSwap(match: MatchState) {
