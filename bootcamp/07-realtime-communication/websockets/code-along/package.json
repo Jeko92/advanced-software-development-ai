@@ -1,0 +1,12 @@
+{
+  "name": "@bootcamp/websockets-code-along",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WebSockets code-along — runs the raw ws server, the NestJS Socket.IO api and the Vite React web app together.",
+  "scripts": {
+    "dev": "concurrently -n native,api,web -c magenta,blue,green \"pnpm --filter @bootcamp/websockets-native-ws dev\" \"pnpm --filter @bootcamp/websockets-api dev\" \"pnpm --filter @bootcamp/websockets-web dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

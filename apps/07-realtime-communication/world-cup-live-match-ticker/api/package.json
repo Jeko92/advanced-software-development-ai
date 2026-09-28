@@ -1,0 +1,30 @@
+{
+  "name": "@bootcamp/world-cup-live-match-ticker-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "World Cup Live Match Ticker challenge API — streams match events over Server-Sent Events, on plain Express.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@bootcamp/eslint-config": "workspace:*",
+    "@bootcamp/prettier-config": "workspace:*",
+    "@bootcamp/tsconfig": "workspace:*",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.10.0",
+    "globals": "^17.0.0",
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.3"
+  }
+}

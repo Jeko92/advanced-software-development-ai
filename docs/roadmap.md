@@ -9,5 +9,5 @@
 - [x] Part 4 — NestJS
 - [x] Part 5 — DevOps
 - [x] Part 6 — Next.js
-- [ ] Part 7 — Real-Time Communication
+- [x] Part 7 — Real-Time Communication
 - [ ] Part 8 — AI
