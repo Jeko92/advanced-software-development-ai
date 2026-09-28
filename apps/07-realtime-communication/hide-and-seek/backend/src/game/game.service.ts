@@ -97,6 +97,7 @@ export class GameService {
       countdown: null,
       swapRequestedBy: null,
       wallEdges: [],
+      iceCells: [],
     };
     this.generateTerrain(match);
     this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
@@ -139,27 +140,42 @@ export class GameService {
     const delta = this.deltas[direction];
     if (!delta) return null;
 
-    const player = match.players[assignment.role]!;
-    const target = {
-      x: player.position.x + delta.x,
-      y: player.position.y + delta.y,
-    };
+    return this.movePlayer(match, assignment.role, delta) ? match : null;
+  }
 
-    if (!this.isInBounds(target, match.gridSize)) return null;
-    if (this.isBlocked(player.position, target, match)) return null;
+  private movePlayer(match: MatchState, role: Role, delta: Position): boolean {
+    const player = match.players[role]!;
+    let moved = false;
 
-    player.position = target;
-    const seekerPos = match.players.seeker?.position;
-    const hiderPos = match.players.hider?.position;
-    if (
-      seekerPos &&
-      hiderPos &&
-      seekerPos.x === hiderPos.x &&
-      seekerPos.y === hiderPos.y
-    ) {
-      this.finishMatch(match, 'seeker', 'caught');
+    while (true) {
+      const next = {
+        x: player.position.x + delta.x,
+        y: player.position.y + delta.y,
+      };
+      if (
+        !this.isInBounds(next, match.gridSize) ||
+        this.isBlocked(player.position, next, match)
+      ) {
+        break;
+      }
+
+      player.position = next;
+      moved = true;
+
+      if (this.isCaught(match)) {
+        this.finishMatch(match, 'seeker', 'caught');
+        break;
+      }
+      if (!this.isIceCell(next, match)) break;
     }
-    return match;
+
+    return moved;
+  }
+
+  private isCaught(match: MatchState) {
+    const s = match.players.seeker?.position;
+    const h = match.players.hider?.position;
+    return !!s && !!h && s.x === h.x && s.y === h.y;
   }
 
   startTimer(roomId: string, onTick: (match: MatchState) => void) {
@@ -303,6 +319,36 @@ export class GameService {
   private generateTerrain(match: MatchState) {
     const start = startPositions(match.gridSize);
     match.wallEdges = this.generateWalls(match, [start.seeker, start.hider]);
+    match.iceCells = this.generateIceCells(match, [start.seeker, start.hider]);
+  }
+
+  private isIceCell(pos: Position, match: MatchState): boolean {
+    return match.iceCells.some((c) => c.x === pos.x && c.y === pos.y);
+  }
+
+  private generateIceCells(match: MatchState, avoid: Position[]): Position[] {
+    const { gridSize } = match;
+    const avoidKeys = new Set(avoid.map((p) => `${p.x},${p.y}`));
+    const targetCount = Math.floor(
+      gridSize * DIFFICULTIES[match.difficulty].iceCellsPerRow,
+    );
+    const iceCells: Position[] = [];
+    const usedKeys = new Set<string>();
+
+    let attempts = 0;
+    while (iceCells.length < targetCount && attempts < targetCount * 20) {
+      attempts++;
+      const candidate: Position = {
+        x: Math.floor(Math.random() * gridSize),
+        y: Math.floor(Math.random() * gridSize),
+      };
+      const key = `${candidate.x},${candidate.y}`;
+      if (avoidKeys.has(key) || usedKeys.has(key)) continue;
+      usedKeys.add(key);
+      iceCells.push(candidate);
+    }
+
+    return iceCells;
   }
 
   private edgeKey(a: Position, b: Position): string {
