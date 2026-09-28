@@ -116,8 +116,15 @@
   }
 }
 
-.grid-board.frozen {
-  filter: saturate(0.3);
+.grid-board.frozen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: rgb(56 189 248 / 0.18);
+  box-shadow: inset 0 0 0 3px rgb(56 189 248 / 0.7);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .player-marker {
@@ -150,6 +157,28 @@
     calc(var(--y) * (var(--cell) + var(--gap)))
   );
   transition: transform 120ms ease-out;
+}
+
+.token.frozen {
+  filter: grayscale(0.8) brightness(1.1);
+}
+
+.token.frozen::after,
+.token.boosted::after {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  font-size: calc(var(--cell) * 0.4);
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.8));
+}
+
+.token.frozen::after {
+  content: '❄️';
+}
+
+.token.boosted::after {
+  content: '⚡';
 }
 
 .countdown-number {

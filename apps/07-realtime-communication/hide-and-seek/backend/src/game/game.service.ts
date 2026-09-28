@@ -5,6 +5,7 @@ import {
   COUNTDOWN_SECONDS,
   DIFFICULTIES,
   Difficulty,
+  EffectType,
   EndReason,
   ITEM_EFFECT_SECONDS,
   gameLengthFor,
@@ -53,6 +54,7 @@ export class GameService {
     right: { x: 1, y: 0 },
   };
   private timers = new Map<string, NodeJS.Timeout>();
+  private pausedAt = new Map<string, number>();
 
   getAssignment(socketId: string) {
     return this.socketAssignments.get(socketId);
@@ -152,9 +154,10 @@ export class GameService {
     if (!delta) return null;
 
     const { role } = assignment;
-    if (match.effects[role]?.type === 'frozen') return null;
+    const effect = this.activeEffect(match, role);
+    if (effect?.type === 'frozen') return null;
 
-    const steps = match.effects[role]?.type === 'speedBoost' ? 2 : 1;
+    const steps = effect?.type === 'speedBoost' ? 2 : 1;
     let moved = false;
     for (let i = 0; i < steps && match.status === 'running'; i++) {
       if (!this.movePlayer(match, role, delta)) break;
@@ -306,6 +309,7 @@ export class GameService {
     if (accepted && match.status === 'running') {
       match.status = 'paused';
       this.clearTimer(match.roomId);
+      this.pausedAt.set(match.roomId, Date.now());
     }
     return match;
   }
@@ -374,6 +378,7 @@ export class GameService {
       }
       match.countdown = null;
       match.status = 'running';
+      this.shiftEffectsPastPause(match);
       if (mode === 'start') this.startTimer(roomId, onTick);
       else this.runClock(match, onTick);
       onTick(match);
@@ -412,16 +417,15 @@ export class GameService {
     const [item] = match.items.splice(index, 1);
 
     if (item.type === 'speedBoost') {
-      match.effects[role] = {
-        type: 'speedBoost',
-        secondsLeft: ITEM_EFFECT_SECONDS.speedBoost,
-      };
+      this.giveEffect(
+        match,
+        role,
+        'speedBoost',
+        ITEM_EFFECT_SECONDS.speedBoost,
+      );
     } else if (item.type === 'freeze') {
       const opponent: Role = role === 'seeker' ? 'hider' : 'seeker';
-      match.effects[opponent] = {
-        type: 'frozen',
-        secondsLeft: ITEM_EFFECT_SECONDS.freeze,
-      };
+      this.giveEffect(match, opponent, 'frozen', ITEM_EFFECT_SECONDS.freeze);
     } else if (match.timeRemaining !== null) {
       match.timeRemaining =
         role === 'hider'
@@ -430,12 +434,45 @@ export class GameService {
     }
   }
 
+  private giveEffect(
+    match: MatchState,
+    role: Role,
+    type: EffectType,
+    seconds: number,
+  ) {
+    match.effects[role] = {
+      type,
+      secondsLeft: seconds,
+      endsAt: Date.now() + seconds * 1000,
+    };
+  }
+
+  private activeEffect(match: MatchState, role: Role) {
+    const effect = match.effects[role];
+    return effect && effect.endsAt > Date.now() ? effect : null;
+  }
+
   private tickEffects(match: MatchState) {
+    const now = Date.now();
     for (const role of ['seeker', 'hider'] as const) {
       const effect = match.effects[role];
       if (!effect) continue;
-      effect.secondsLeft -= 1;
-      if (effect.secondsLeft <= 0) match.effects[role] = null;
+      if (effect.endsAt <= now) {
+        match.effects[role] = null;
+      } else {
+        effect.secondsLeft = Math.ceil((effect.endsAt - now) / 1000);
+      }
+    }
+  }
+
+  private shiftEffectsPastPause(match: MatchState) {
+    const pausedAt = this.pausedAt.get(match.roomId);
+    if (pausedAt === undefined) return;
+    this.pausedAt.delete(match.roomId);
+    const pausedFor = Date.now() - pausedAt;
+    for (const role of ['seeker', 'hider'] as const) {
+      const effect = match.effects[role];
+      if (effect) effect.endsAt += pausedFor;
     }
   }
 
@@ -667,6 +704,7 @@ export class GameService {
 
   private closeRoom(roomId: string) {
     this.clearTimer(roomId);
+    this.pausedAt.delete(roomId);
     const match = this.matches.get(roomId);
     this.matches.delete(roomId);
     for (const player of [match?.players.seeker, match?.players.hider]) {

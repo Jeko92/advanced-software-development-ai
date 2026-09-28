@@ -92,6 +92,7 @@ function PlayerToken({
 }) {
   const position = match.players[owner]?.position;
   if (!position) return null;
+  const effect = match.effects[owner]?.type;
   const other = match.players[owner === 'seeker' ? 'hider' : 'seeker'];
   const sharesCell =
     owner === 'hider' &&
@@ -100,7 +101,13 @@ function PlayerToken({
 
   return (
     <span
-      className={`token player-marker ${owner} ${isYou ? 'you' : ''}`}
+      className={[
+        'token player-marker',
+        owner,
+        isYou ? 'you' : '',
+        effect === 'frozen' ? 'frozen' : '',
+        effect === 'speedBoost' ? 'boosted' : '',
+      ].join(' ')}
       style={
         {
           '--x': position.x + (sharesCell ? 0.35 : 0),

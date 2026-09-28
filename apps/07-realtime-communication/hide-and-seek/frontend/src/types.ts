@@ -66,6 +66,7 @@ export type EffectType = 'speedBoost' | 'frozen';
 export interface ActiveEffect {
   type: EffectType;
   secondsLeft: number;
+  endsAt: number;
 }
 
 export const ITEM_EFFECT_SECONDS = {
