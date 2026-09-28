@@ -49,7 +49,7 @@ export function Hud({ match }: { match: MatchState }) {
   const copy = ROLE_COPY[role];
   const isPlayer = role === 'seeker' || role === 'hider';
   const pauseRequested = isPlayer && match.pauseRequestedBy === role;
-  const low = match.timeRemaining <= 10;
+  const low = match.timeRemaining !== null && match.timeRemaining <= 10;
 
   return (
     <div className="grid w-full max-w-2xl gap-3">
@@ -83,24 +83,30 @@ export function Hud({ match }: { match: MatchState }) {
           </Button>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <Progress
-          value={(match.timeRemaining / match.gameLengthSeconds) * 100}
-          aria-label="Time left"
-          className={cn(
-            'flex-1',
-            low && '[&_[data-slot=progress-indicator]]:bg-destructive',
-          )}
-        />
-        <span
-          className={cn(
-            'w-12 text-right text-sm tabular-nums',
-            low && 'animate-pulse text-destructive',
-          )}
-        >
-          {match.timeRemaining}s
-        </span>
-      </div>
+      {match.timeRemaining === null || match.gameLengthSeconds === null ? (
+        <Badge variant="outline" className="justify-self-start">
+          ∞ Free mode — catch only
+        </Badge>
+      ) : (
+        <div className="flex items-center gap-3">
+          <Progress
+            value={(match.timeRemaining / match.gameLengthSeconds) * 100}
+            aria-label="Time left"
+            className={cn(
+              'flex-1',
+              low && '[&_[data-slot=progress-indicator]]:bg-destructive',
+            )}
+          />
+          <span
+            className={cn(
+              'w-12 text-right text-sm tabular-nums',
+              low && 'animate-pulse text-destructive',
+            )}
+          >
+            {match.timeRemaining}s
+          </span>
+        </div>
+      )}
       <EffectBadges match={match} role={role} />
     </div>
   );

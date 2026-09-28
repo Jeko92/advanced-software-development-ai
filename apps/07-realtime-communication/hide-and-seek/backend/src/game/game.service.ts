@@ -226,8 +226,8 @@ export class GameService {
 
     const timer = setInterval(() => {
       ticks++;
-      match.timeRemaining -= 1;
-      if (match.timeRemaining <= 0) {
+      if (match.timeRemaining !== null) match.timeRemaining -= 1;
+      if (match.timeRemaining !== null && match.timeRemaining <= 0) {
         this.finishMatch(match, 'hider', 'timeout');
       } else {
         this.tickEffects(match);
@@ -422,13 +422,11 @@ export class GameService {
         type: 'frozen',
         secondsLeft: ITEM_EFFECT_SECONDS.freeze,
       };
-    } else if (role === 'hider') {
-      match.timeRemaining += ITEM_EFFECT_SECONDS.clock;
-    } else {
-      match.timeRemaining = Math.max(
-        5,
-        match.timeRemaining - ITEM_EFFECT_SECONDS.clock,
-      );
+    } else if (match.timeRemaining !== null) {
+      match.timeRemaining =
+        role === 'hider'
+          ? match.timeRemaining + ITEM_EFFECT_SECONDS.clock
+          : Math.max(5, match.timeRemaining - ITEM_EFFECT_SECONDS.clock);
     }
   }
 
@@ -478,8 +476,11 @@ export class GameService {
     );
     if (!position) return;
 
-    const type =
-      rules.itemTypes[Math.floor(Math.random() * rules.itemTypes.length)];
+    const types =
+      match.gameLengthSeconds === null
+        ? rules.itemTypes.filter((t) => t !== 'clock')
+        : rules.itemTypes;
+    const type = types[Math.floor(Math.random() * types.length)];
     match.items.push({ id: randomUUID(), type, position });
   }
 

@@ -21,12 +21,12 @@ export interface MatchState {
     seeker: PlayerInfo | null;
     hider: PlayerInfo | null;
   };
-  timeRemaining: number;
+  timeRemaining: number | null;
   winner: Role | null;
   worldSize: WorldSize;
   difficulty: Difficulty;
   gridSize: number;
-  gameLengthSeconds: number;
+  gameLengthSeconds: number | null;
   observerCount: number;
   endReason: EndReason | null;
   ready: Record<Role, boolean>;
@@ -46,11 +46,11 @@ export type Difficulty = 'easy' | 'normal' | 'hard';
 
 export const WORLD_SIZES: Record<
   WorldSize,
-  { label: string; gridSize: number; baseSeconds: number }
+  { label: string; gridSize: number; baseSeconds: number | null }
 > = {
   small: { label: 'Small 10×10', gridSize: 10, baseSeconds: 60 },
   medium: { label: 'Medium 20×20', gridSize: 20, baseSeconds: 120 },
-  large: { label: 'Large 30×30', gridSize: 30, baseSeconds: 180 },
+  large: { label: 'Large 30×30', gridSize: 30, baseSeconds: null },
 };
 
 export type ItemType = 'speedBoost' | 'freeze' | 'clock';
@@ -135,10 +135,13 @@ export interface RoomSummary {
 
 export type EndReason = 'caught' | 'timeout';
 
-export function gameLengthFor(size: WorldSize, difficulty: Difficulty): number {
-  return Math.round(
-    WORLD_SIZES[size].baseSeconds * DIFFICULTIES[difficulty].timeFactor,
-  );
+export function gameLengthFor(
+  size: WorldSize,
+  difficulty: Difficulty,
+): number | null {
+  const base = WORLD_SIZES[size].baseSeconds;
+  if (base === null) return null;
+  return Math.round(base * DIFFICULTIES[difficulty].timeFactor);
 }
 
 export const CHAT_MESSAGE_MAX_LENGTH = 200;

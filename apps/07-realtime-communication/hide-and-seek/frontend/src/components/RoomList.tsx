@@ -64,6 +64,8 @@ export function RoomList() {
                     <TableCell>
                       {WORLD_SIZES[room.worldSize].label} ·{' '}
                       {DIFFICULTIES[room.difficulty].label}
+                      {WORLD_SIZES[room.worldSize].baseSeconds === null &&
+                        ' · ∞'}
                     </TableCell>
                     <TableCell>
                       {room.players}/2

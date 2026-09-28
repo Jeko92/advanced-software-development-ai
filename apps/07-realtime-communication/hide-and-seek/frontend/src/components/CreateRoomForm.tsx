@@ -91,6 +91,7 @@ export function CreateRoomForm() {
   const createRoom = useSocketStore((s) => s.createRoom);
   const roomError = useSocketStore((s) => s.roomError);
   const clearMessages = useSocketStore((s) => s.clearMessages);
+  const roundLength = gameLengthFor(worldSize, difficulty);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -170,7 +171,9 @@ export function CreateRoomForm() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            Round length: {gameLengthFor(worldSize, difficulty)} s
+            {roundLength === null
+              ? 'No time limit — catch only'
+              : `Round length: ${roundLength} s`}
           </p>
 
           {roomError && (
