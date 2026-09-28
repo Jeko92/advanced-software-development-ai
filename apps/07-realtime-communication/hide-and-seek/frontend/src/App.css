@@ -175,3 +175,13 @@
     opacity: 0.85;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .token,
+  .item,
+  .portal-flash,
+  .countdown-number {
+    animation: none;
+    transition: none;
+  }
+}

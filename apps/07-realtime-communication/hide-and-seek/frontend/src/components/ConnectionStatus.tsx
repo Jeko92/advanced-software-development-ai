@@ -10,7 +10,7 @@ export function ConnectionStatus() {
       <span
         className={cn(
           'size-2 rounded-full',
-          connected ? 'bg-success' : 'animate-pulse bg-destructive',
+          connected ? 'bg-success' : 'motion-safe:animate-pulse bg-destructive',
         )}
       />
       {connected ? 'Connected' : 'Reconnecting…'}

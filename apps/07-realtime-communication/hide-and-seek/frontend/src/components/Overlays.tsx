@@ -32,7 +32,7 @@ export function WaitingOverlay({ roomId }: { roomId: string }) {
     <BoardOverlay>
       <Card className="w-full max-w-xs text-center">
         <CardHeader className="justify-items-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+          <Loader2 className="size-6 motion-safe:animate-spin text-muted-foreground" />
           <CardTitle>Waiting for a hider…</CardTitle>
           <CardDescription>
             Share the room name <strong>{roomId}</strong> — it's listed in the

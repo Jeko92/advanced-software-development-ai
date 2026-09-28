@@ -1,3 +1,4 @@
+import { Announcer } from '@/components/Announcer';
 import { ChatPanel } from '@/components/ChatPanel';
 import { DPad } from '@/components/DPad';
 import { Grid } from '@/components/Grid';
@@ -32,7 +33,8 @@ export function GameScreen() {
           <div
             className={cn(
               'relative rounded-lg',
-              lastSeconds && 'animate-pulse ring-3 ring-destructive',
+              lastSeconds &&
+                'ring-3 ring-destructive motion-safe:animate-pulse',
             )}
           >
             <Grid match={match} />
@@ -48,6 +50,7 @@ export function GameScreen() {
         <ChatPanel />
       </div>
       <StartDialog match={match} />
+      <Announcer match={match} />
     </section>
   );
 }

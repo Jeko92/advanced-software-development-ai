@@ -19,6 +19,13 @@ export function Grid({ match }: { match: MatchState }) {
     (role === 'seeker' || role === 'hider') &&
     match.effects[role]?.type === 'frozen';
   const cells: ReactElement[] = [];
+  const own =
+    role === 'seeker' || role === 'hider'
+      ? match.players[role]?.position
+      : undefined;
+  const label = own
+    ? `Game board, you are at column ${own.x + 1}, row ${own.y + 1}`
+    : 'Game board';
 
   for (let y = 0; y < match.gridSize; y++) {
     for (let x = 0; x < match.gridSize; x++) {
@@ -56,7 +63,8 @@ export function Grid({ match }: { match: MatchState }) {
     <div
       className={frozen ? 'grid-board frozen' : 'grid-board'}
       style={{ '--grid-size': match.gridSize } as CSSProperties}
-      aria-label="Game board"
+      role="img"
+      aria-label={label}
     >
       {cells}
       <div className="token-layer" aria-hidden>

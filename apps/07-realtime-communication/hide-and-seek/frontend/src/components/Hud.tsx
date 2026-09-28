@@ -100,7 +100,7 @@ export function Hud({ match }: { match: MatchState }) {
           <span
             className={cn(
               'w-12 text-right text-sm tabular-nums',
-              low && 'animate-pulse text-destructive',
+              low && 'motion-safe:animate-pulse text-destructive',
             )}
           >
             {match.timeRemaining}s
