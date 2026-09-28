@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Loader2, Play } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -94,10 +95,11 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
   );
 }
 
-export function PausedOverlay() {
+export function PausedOverlay({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role);
   const resumeMatch = useSocketStore((s) => s.resumeMatch);
   const isPlayer = role === 'seeker' || role === 'hider';
+  const imReady = isPlayer && match.ready[role];
 
   return (
     <BoardOverlay>
@@ -105,15 +107,21 @@ export function PausedOverlay() {
         <CardHeader>
           <CardTitle className="text-2xl">⏸ Paused</CardTitle>
           <CardDescription>
-            {isPlayer
-              ? 'Either player can resume — the round continues after a 3-2-1.'
-              : 'Paused by the players.'}
+            The round continues with a 3-2-1 once both players are ready.
           </CardDescription>
         </CardHeader>
+        <CardContent className="flex justify-center gap-2">
+          <Badge variant={match.ready.seeker ? 'default' : 'outline'}>
+            🔍 Seeker {match.ready.seeker ? '✓' : '…'}
+          </Badge>
+          <Badge variant={match.ready.hider ? 'default' : 'outline'}>
+            🙈 Hider {match.ready.hider ? '✓' : '…'}
+          </Badge>
+        </CardContent>
         {isPlayer && (
           <CardFooter className="justify-center">
-            <Button autoFocus onClick={resumeMatch}>
-              <Play /> Resume
+            <Button autoFocus disabled={imReady} onClick={resumeMatch}>
+              <Play /> {imReady ? 'Waiting for opponent…' : 'Ready to resume'}
             </Button>
           </CardFooter>
         )}

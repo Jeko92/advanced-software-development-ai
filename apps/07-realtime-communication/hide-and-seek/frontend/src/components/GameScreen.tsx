@@ -43,7 +43,7 @@ export function GameScreen() {
               <WaitingOverlay roomId={match.roomId} />
             )}
             {match.status === 'finished' && <GameOverOverlay match={match} />}
-            {match.status === 'paused' && <PausedOverlay />}
+            {match.status === 'paused' && <PausedOverlay match={match} />}
             <CheerLayer />
           </div>
           <DPad />

@@ -350,6 +350,7 @@ export class GameService {
     match.pauseRequestedBy = null;
     if (accepted && match.status === 'running') {
       match.status = 'paused';
+      match.ready = { seeker: false, hider: false };
       this.clearTimer(match.roomId);
       this.pausedAt.set(match.roomId, Date.now());
     }
@@ -361,6 +362,7 @@ export class GameService {
     if (!assignment) return null;
     const match = this.matches.get(assignment.roomId);
     if (!match || match.status !== 'paused') return null;
+    match.ready[assignment.role] = true;
     return match;
   }
 

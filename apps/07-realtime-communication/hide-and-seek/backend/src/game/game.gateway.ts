@@ -250,11 +250,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleResumeMatch(@ConnectedSocket() client: Socket) {
     const match = this.gameService.resume(client.id);
     if (!match) return;
-    this.gameService.startCountdown(
-      match.roomId,
-      (m) => this.publish(m),
-      'resume',
-    );
+    if (match.ready.seeker && match.ready.hider) {
+      this.gameService.startCountdown(
+        match.roomId,
+        (m) => this.publish(m),
+        'resume',
+      );
+    }
     this.publish(match);
   }
 

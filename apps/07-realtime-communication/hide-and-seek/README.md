@@ -48,7 +48,8 @@ If a player leaves, the room closes and everyone returns to the lobby.
   messages reach only other spectators, between rounds everyone.
 - **Cheers** — observers send emoji reactions (👏 🔥 😱 😂 💪) that float over every
   board, so they can root for the players without leaking positions.
-- **Pause** — needs both players to agree; resuming goes through a 3-2-1 countdown.
+- **Pause** — needs both players to agree, and so does resuming: both click "Ready to
+  resume", then a 3-2-1 countdown continues the round.
 
 ## Controls
 
