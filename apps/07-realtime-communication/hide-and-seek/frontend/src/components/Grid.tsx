@@ -5,12 +5,14 @@ import type { MatchState, Position, Role } from '@/types';
 export function Grid({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role);
   const walls = new Set(match.wallEdges);
+  const ice = new Set(match.iceCells.map((c) => `${c.x},${c.y}`));
   const cells: ReactElement[] = [];
 
   for (let y = 0; y < match.gridSize; y++) {
     for (let x = 0; x < match.gridSize; x++) {
       const at = (p?: Position) => p?.x === x && p?.y === y;
       const classes = ['cell'];
+      if (ice.has(`${x},${y}`)) classes.push('ice');
       const wallRight = walls.has(`${x},${y}-${x + 1},${y}`);
       const wallBottom = walls.has(`${x},${y}-${x},${y + 1}`);
       cells.push(
