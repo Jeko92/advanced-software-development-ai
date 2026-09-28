@@ -106,7 +106,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   private publish(match: MatchState) {
-    this.server.to(match.roomId).emit('matchState', match);
+    for (const role of ['seeker', 'hider'] as const) {
+      const player = match.players[role];
+      if (player) {
+        this.server
+          .to(player.socketId)
+          .emit('matchState', this.gameService.viewFor(match, role));
+      }
+    }
+    for (const socketId of this.gameService.observerIds(match.roomId)) {
+      this.server.to(socketId).emit('matchState', match);
+    }
     if (this.listedStatus.get(match.roomId) !== match.status) {
       this.listedStatus.set(match.roomId, match.status);
       this.broadcastRoomList();

@@ -11,7 +11,7 @@ export interface Position {
 
 export interface PlayerInfo {
   socketId: string;
-  position: Position;
+  position: Position | null;
 }
 
 export interface MatchState {

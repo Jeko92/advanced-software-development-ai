@@ -152,3 +152,12 @@ export interface ChatMessage {
   text: string;
   sentAt: number;
 }
+
+export interface PlayerView {
+  socketId: string;
+  position: Position | null;
+}
+
+export type MatchView = Omit<MatchState, 'players'> & {
+  players: Record<Role, PlayerView | null>;
+};

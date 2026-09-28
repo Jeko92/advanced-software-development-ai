@@ -96,8 +96,8 @@ function PlayerToken({
   const other = match.players[owner === 'seeker' ? 'hider' : 'seeker'];
   const sharesCell =
     owner === 'hider' &&
-    other?.position.x === position.x &&
-    other?.position.y === position.y;
+    other?.position?.x === position.x &&
+    other?.position?.y === position.y;
 
   return (
     <span

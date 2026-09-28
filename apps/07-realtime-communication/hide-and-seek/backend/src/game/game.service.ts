@@ -10,6 +10,7 @@ import {
   ITEM_EFFECT_SECONDS,
   gameLengthFor,
   MatchState,
+  MatchView,
   Position,
   Role,
   ROOM_NAME_MAX_LENGTH,
@@ -55,9 +56,33 @@ export class GameService {
   };
   private timers = new Map<string, NodeJS.Timeout>();
   private pausedAt = new Map<string, number>();
+  private teleportsBy = new Map<string, Record<Role, number>>();
 
   getAssignment(socketId: string) {
     return this.socketAssignments.get(socketId);
+  }
+
+  viewFor(match: MatchState, role: Role): MatchView {
+    const opponent: Role = role === 'seeker' ? 'hider' : 'seeker';
+    const opponentInfo = match.players[opponent];
+    const hideOpponent = match.status !== 'finished' && opponentInfo !== null;
+
+    return {
+      ...match,
+      players: {
+        ...match.players,
+        [opponent]: hideOpponent
+          ? { ...opponentInfo, position: null }
+          : opponentInfo,
+      },
+      teleportCount: this.teleportsBy.get(match.roomId)?.[role] ?? 0,
+    };
+  }
+
+  observerIds(roomId: string): string[] {
+    return [...this.observers]
+      .filter(([, observedRoomId]) => observedRoomId === roomId)
+      .map(([socketId]) => socketId);
   }
 
   getMatch(roomId: string): MatchState | undefined {
@@ -115,6 +140,7 @@ export class GameService {
     this.generateTerrain(match);
     this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
     this.matches.set(roomId, match);
+    this.teleportsBy.set(roomId, { seeker: 0, hider: 0 });
     return { roomId, role: 'seeker' };
   }
 
@@ -195,6 +221,8 @@ export class GameService {
       if (exit) {
         player.position = exit;
         match.teleportCount++;
+        const teleports = this.teleportsBy.get(match.roomId);
+        if (teleports) teleports[role]++;
         if (this.isCaught(match)) {
           this.finishMatch(match, 'seeker', 'caught');
         } else {
@@ -404,6 +432,7 @@ export class GameService {
     match.items = [];
     match.effects = { seeker: null, hider: null };
     match.teleportCount = 0;
+    this.teleportsBy.set(match.roomId, { seeker: 0, hider: 0 });
     match.pauseRequestedBy = null;
     this.generateTerrain(match);
   }
@@ -705,6 +734,7 @@ export class GameService {
   private closeRoom(roomId: string) {
     this.clearTimer(roomId);
     this.pausedAt.delete(roomId);
+    this.teleportsBy.delete(roomId);
     const match = this.matches.get(roomId);
     this.matches.delete(roomId);
     for (const player of [match?.players.seeker, match?.players.hider]) {
