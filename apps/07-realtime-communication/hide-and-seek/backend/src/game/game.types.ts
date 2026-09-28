@@ -139,3 +139,11 @@ export function gameLengthFor(size: WorldSize, difficulty: Difficulty): number {
     WORLD_SIZES[size].baseSeconds * DIFFICULTIES[difficulty].timeFactor,
   );
 }
+
+export const CHAT_MESSAGE_MAX_LENGTH = 200;
+
+export interface ChatMessage {
+  from: Role;
+  text: string;
+  sentAt: number;
+}

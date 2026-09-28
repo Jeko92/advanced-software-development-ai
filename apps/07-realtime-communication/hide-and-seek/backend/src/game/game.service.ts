@@ -54,6 +54,10 @@ export class GameService {
   };
   private timers = new Map<string, NodeJS.Timeout>();
 
+  getAssignment(socketId: string) {
+    return this.socketAssignments.get(socketId);
+  }
+
   getMatch(roomId: string): MatchState | undefined {
     return this.matches.get(roomId);
   }

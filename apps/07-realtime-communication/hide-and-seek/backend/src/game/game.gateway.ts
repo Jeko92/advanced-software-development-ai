@@ -9,7 +9,14 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { GameService } from './game.service';
-import { ClientRole, GameStatus, MatchState, RoomError } from './game.types';
+import {
+  CHAT_MESSAGE_MAX_LENGTH,
+  ChatMessage,
+  ClientRole,
+  GameStatus,
+  MatchState,
+  RoomError,
+} from './game.types';
 
 const LOBBY = 'lobby';
 
@@ -136,6 +143,24 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.gameService.startCountdown(match.roomId, (m) => this.publish(m));
     }
     this.publish(match);
+  }
+
+  @SubscribeMessage('chatMessage')
+  handleChatMessage(
+    @MessageBody() body: { text: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const assignment = this.gameService.getAssignment(client.id);
+    const text = String(body?.text ?? '')
+      .trim()
+      .slice(0, CHAT_MESSAGE_MAX_LENGTH);
+    if (!assignment || text === '') return;
+    const message: ChatMessage = {
+      from: assignment.role,
+      text,
+      sentAt: Date.now(),
+    };
+    this.server.to(assignment.roomId).emit('chatMessage', message);
   }
 
   @SubscribeMessage('requestSwap')
