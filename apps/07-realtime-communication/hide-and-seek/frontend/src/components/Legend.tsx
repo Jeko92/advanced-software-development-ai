@@ -37,8 +37,9 @@ export function Legend({ match }: { match: MatchState }) {
           <span className="size-3 rounded-sm bg-ice" /> Ice
         </>,
       )}
-      {entry('portal', '🌀 Portal')}
-      {itemTypes.map((type) => entry(type, ITEM_LEGEND[type]))}
+      {match.mode === 'classic' && entry('portal', '🌀 Portal')}
+      {match.mode === 'classic' &&
+        itemTypes.map((type) => entry(type, ITEM_LEGEND[type]))}
     </ul>
   );
 }

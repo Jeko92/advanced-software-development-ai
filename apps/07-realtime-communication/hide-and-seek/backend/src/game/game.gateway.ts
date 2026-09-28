@@ -53,7 +53,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('createRoom')
   async handleCreateRoom(
     @MessageBody()
-    body: { roomName: string; worldSize: string; difficulty: string },
+    body: {
+      roomName: string;
+      worldSize: string;
+      difficulty: string;
+      mode?: string;
+    },
     @ConnectedSocket() client: Socket,
   ) {
     const result = this.gameService.createRoom(client.id, body ?? {});
@@ -179,6 +184,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     const assignment = this.gameService.getAssignment(client.id);
     if (assignment) {
+      const match = this.gameService.getMatch(assignment.roomId);
+      const roundLive = ['countdown', 'running', 'paused'].includes(
+        match?.status ?? '',
+      );
+      if (match?.mode === 'coop' && roundLive) return;
       const message: ChatMessage = {
         from: assignment.role,
         name: null,
@@ -239,10 +249,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() body: { accepted: boolean },
     @ConnectedSocket() client: Socket,
   ) {
-    const match = this.gameService.respondToPause(
-      client.id,
-      body?.accepted === true,
-    );
+    const match = this.gameService.respondToPause(client.id, body?.accepted);
     if (match) this.publish(match);
   }
 

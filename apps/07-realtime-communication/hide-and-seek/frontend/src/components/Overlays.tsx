@@ -18,6 +18,7 @@ import type { EndReason, MatchState } from '@/types';
 const REASON_TEXT: Record<EndReason, string> = {
   caught: 'The seeker found the hider.',
   timeout: 'Time ran out — the hider stayed hidden.',
+  met: 'The players met in the maze.',
 };
 
 export function BoardOverlay({ children }: { children: ReactNode }) {
@@ -52,8 +53,17 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
   const isPlayer = role === 'seeker' || role === 'hider';
   const won = isPlayer && match.winner === role;
 
+  const coopWon = match.mode === 'coop' && match.winner === 'team';
   let title: string;
-  if (isPlayer) {
+  if (match.mode === 'coop') {
+    if (isPlayer) {
+      title = coopWon
+        ? 'You found each other! 🎉'
+        : "Time's up — you didn't meet";
+    } else {
+      title = coopWon ? 'They found each other!' : "They didn't meet";
+    }
+  } else if (isPlayer) {
     title = won ? 'You win! 🎉' : 'You lose';
   } else {
     title = match.winner === 'seeker' ? 'Seeker wins!' : 'Hider wins!';
@@ -66,13 +76,18 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
           <CardTitle
             className={cn(
               'text-2xl',
-              isPlayer && (won ? 'text-success' : 'text-destructive'),
+              isPlayer &&
+                (won || coopWon ? 'text-success' : 'text-destructive'),
             )}
           >
             {title}
           </CardTitle>
           {match.endReason && (
-            <CardDescription>{REASON_TEXT[match.endReason]}</CardDescription>
+            <CardDescription>
+              {match.mode === 'coop' && match.endReason === 'timeout'
+                ? 'Time ran out before you met.'
+                : REASON_TEXT[match.endReason]}
+            </CardDescription>
           )}
         </CardHeader>
         {isPlayer && (

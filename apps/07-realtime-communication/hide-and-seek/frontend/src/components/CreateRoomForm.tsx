@@ -16,10 +16,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useSocketStore } from '@/store/socketStore';
 import {
   DIFFICULTIES,
+  GAME_MODES,
   gameLengthFor,
   ROOM_NAME_MAX_LENGTH,
   WORLD_SIZES,
   type Difficulty,
+  type GameMode,
   type RoomError,
   type WorldSize,
 } from '@/types';
@@ -88,16 +90,17 @@ export function CreateRoomForm() {
   const [roomName, setRoomName] = useState('');
   const [worldSize, setWorldSize] = useState<WorldSize>('small');
   const [difficulty, setDifficulty] = useState<Difficulty>('normal');
+  const [mode, setMode] = useState<GameMode>('classic');
   const createRoom = useSocketStore((s) => s.createRoom);
   const roomError = useSocketStore((s) => s.roomError);
   const clearMessages = useSocketStore((s) => s.clearMessages);
-  const roundLength = gameLengthFor(worldSize, difficulty);
+  const roundLength = gameLengthFor(worldSize, difficulty, mode);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const name = roomName.trim() || randomRoomName();
     setRoomName(name);
-    createRoom({ roomName: name, worldSize, difficulty });
+    createRoom({ roomName: name, worldSize, difficulty, mode });
   };
 
   return (
@@ -105,7 +108,7 @@ export function CreateRoomForm() {
       <CardHeader>
         <CardTitle>Create a game</CardTitle>
         <CardDescription>
-          You'll be the seeker — the next player to join hides.
+          You start as the seeker — the next player to join hides.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -168,6 +171,26 @@ export function CreateRoomForm() {
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
+          </div>
+
+          <div className="grid gap-2">
+            <Label id="mode-label">Mode</Label>
+            <ToggleGroup
+              aria-labelledby="mode-label"
+              variant="outline"
+              className="w-full"
+              value={[mode]}
+              onValueChange={(v) => v[0] && setMode(v[0] as GameMode)}
+            >
+              {(Object.keys(GAME_MODES) as GameMode[]).map((m) => (
+                <ToggleGroupItem key={m} value={m} className="flex-1">
+                  {GAME_MODES[m].label}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+            <p className="text-xs text-muted-foreground">
+              {GAME_MODES[mode].description}
+            </p>
           </div>
 
           <p className="text-sm text-muted-foreground">

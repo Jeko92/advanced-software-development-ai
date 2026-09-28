@@ -14,7 +14,7 @@ export function SwapRoles({ match }: { match: MatchState }) {
   const canSwap =
     match.status === 'finished' ||
     (match.status === 'ready-check' && nobodyReady);
-  if (!canSwap) return null;
+  if (!canSwap || match.mode === 'coop') return null;
 
   if (match.swapRequestedBy && match.swapRequestedBy !== role) {
     return (

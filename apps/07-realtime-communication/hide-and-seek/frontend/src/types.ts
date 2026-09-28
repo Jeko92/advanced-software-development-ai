@@ -22,7 +22,9 @@ export interface MatchState {
     hider: PlayerInfo | null;
   };
   timeRemaining: number | null;
-  winner: Role | null;
+  winner: Role | 'team' | null;
+  mode: GameMode;
+  distanceHint?: number | null;
   worldSize: WorldSize;
   difficulty: Difficulty;
   gridSize: number;
@@ -82,6 +84,7 @@ export const DIFFICULTIES: Record<
     timeFactor: number;
     wallPiecesPerRow: number;
     iceCellsPerRow: number;
+    mazeOpenings: number;
     itemTypes: ItemType[];
     spawnEverySeconds: number;
     maxItems: number;
@@ -92,6 +95,7 @@ export const DIFFICULTIES: Record<
     timeFactor: 1.25,
     wallPiecesPerRow: 0.8,
     iceCellsPerRow: 0.3,
+    mazeOpenings: 0.2,
     itemTypes: ['speedBoost', 'clock'],
     spawnEverySeconds: 10,
     maxItems: 2,
@@ -101,6 +105,7 @@ export const DIFFICULTIES: Record<
     timeFactor: 1,
     wallPiecesPerRow: 1.5,
     iceCellsPerRow: 0.8,
+    mazeOpenings: 0.1,
     itemTypes: ['speedBoost', 'freeze', 'clock'],
     spawnEverySeconds: 8,
     maxItems: 3,
@@ -110,6 +115,7 @@ export const DIFFICULTIES: Record<
     timeFactor: 0.75,
     wallPiecesPerRow: 2.5,
     iceCellsPerRow: 1.2,
+    mazeOpenings: 0.05,
     itemTypes: ['speedBoost', 'freeze', 'clock'],
     spawnEverySeconds: 5,
     maxItems: 5,
@@ -132,15 +138,34 @@ export interface RoomSummary {
   status: GameStatus;
   players: number;
   observers: number;
+  mode: GameMode;
 }
 
-export type EndReason = 'caught' | 'timeout';
+export type EndReason = 'caught' | 'timeout' | 'met';
+
+export type GameMode = 'classic' | 'coop';
+
+export const GAME_MODES: Record<
+  GameMode,
+  { label: string; description: string }
+> = {
+  classic: { label: 'Classic', description: 'Seeker vs hider' },
+  coop: {
+    label: 'Co-op maze',
+    description: 'Find each other in a maze before time runs out',
+  },
+};
+
+export const COOP_LARGE_SECONDS = 240;
 
 export function gameLengthFor(
   size: WorldSize,
   difficulty: Difficulty,
+  mode: GameMode = 'classic',
 ): number | null {
-  const base = WORLD_SIZES[size].baseSeconds;
+  const base =
+    WORLD_SIZES[size].baseSeconds ??
+    (mode === 'coop' ? COOP_LARGE_SECONDS : null);
   if (base === null) return null;
   return Math.round(base * DIFFICULTIES[difficulty].timeFactor);
 }

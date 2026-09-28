@@ -7,6 +7,7 @@ import {
   Difficulty,
   EffectType,
   EndReason,
+  GameMode,
   ITEM_EFFECT_SECONDS,
   gameLengthFor,
   MatchState,
@@ -78,7 +79,18 @@ export class GameService {
           : opponentInfo,
       },
       teleportCount: this.teleportsBy.get(match.roomId)?.[role] ?? 0,
+      distanceHint: this.distanceHint(match),
     };
+  }
+
+  private distanceHint(match: MatchState): number | null {
+    const { seeker, hider } = match.players;
+    if (match.mode !== 'coop' || match.status !== 'running') return null;
+    if (!seeker || !hider) return null;
+    return (
+      Math.abs(seeker.position.x - hider.position.x) +
+      Math.abs(seeker.position.y - hider.position.y)
+    );
   }
 
   observerIds(roomId: string): string[] {
@@ -97,7 +109,12 @@ export class GameService {
 
   createRoom(
     socketId: string,
-    settings: { roomName: unknown; worldSize: unknown; difficulty: unknown },
+    settings: {
+      roomName: unknown;
+      worldSize: unknown;
+      difficulty: unknown;
+      mode?: unknown;
+    },
   ): { roomId: string; role: ClientRole } | { error: RoomError } {
     if (this.isInRoom(socketId)) return { error: 'already-in-room' };
 
@@ -114,14 +131,16 @@ export class GameService {
     }
 
     const { worldSize, difficulty } = settings;
+    const mode: GameMode = settings.mode === 'coop' ? 'coop' : 'classic';
     const gridSize = WORLD_SIZES[worldSize].gridSize;
-    const gameLengthSeconds = gameLengthFor(worldSize, difficulty);
+    const gameLengthSeconds = gameLengthFor(worldSize, difficulty, mode);
 
     const match: MatchState = {
       roomId,
       status: 'waiting',
       worldSize,
       difficulty,
+      mode,
       gridSize,
       gameLengthSeconds,
       players: {
@@ -226,7 +245,7 @@ export class GameService {
       moved = true;
 
       if (this.isCaught(match)) {
-        this.finishMatch(match, 'seeker', 'caught');
+        this.finishMeeting(match);
         break;
       }
       this.collectItem(match, role);
@@ -238,7 +257,7 @@ export class GameService {
         const teleports = this.teleportsBy.get(match.roomId);
         if (teleports) teleports[role]++;
         if (this.isCaught(match)) {
-          this.finishMatch(match, 'seeker', 'caught');
+          this.finishMeeting(match);
         } else {
           this.collectItem(match, role);
         }
@@ -273,7 +292,11 @@ export class GameService {
       ticks++;
       if (match.timeRemaining !== null) match.timeRemaining -= 1;
       if (match.timeRemaining !== null && match.timeRemaining <= 0) {
-        this.finishMatch(match, 'hider', 'timeout');
+        this.finishMatch(
+          match,
+          match.mode === 'coop' ? null : 'hider',
+          'timeout',
+        );
       } else {
         this.tickEffects(match);
         if (ticks % spawnEverySeconds === 0) this.spawnItem(match);
@@ -312,6 +335,7 @@ export class GameService {
       status: m.status,
       players: Number(!!m.players.seeker) + Number(!!m.players.hider),
       observers: m.observerCount,
+      mode: m.mode,
     }));
   }
 
@@ -522,6 +546,7 @@ export class GameService {
   }
 
   private spawnItem(match: MatchState) {
+    if (match.mode === 'coop') return;
     const rules = DIFFICULTIES[match.difficulty];
     if (match.items.length >= rules.maxItems) return;
 
@@ -568,6 +593,15 @@ export class GameService {
 
   private generateTerrain(match: MatchState) {
     const start = startPositions(match.gridSize);
+    if (match.mode === 'coop') {
+      match.wallEdges = this.generateMaze(match);
+      match.iceCells = this.generateIceCells(match, [
+        start.seeker,
+        start.hider,
+      ]);
+      match.portals = null;
+      return;
+    }
     match.wallEdges = this.generateWalls(match, [start.seeker, start.hider]);
     match.iceCells = this.generateIceCells(match, [start.seeker, start.hider]);
     match.portals = this.generatePortals(match, [
@@ -575,6 +609,52 @@ export class GameService {
       start.hider,
       ...match.iceCells,
     ]);
+  }
+
+  private generateMaze(match: MatchState): string[] {
+    const { gridSize } = match;
+    const key = (p: Position) => `${p.x},${p.y}`;
+    const open = new Set<string>();
+    const visited = new Set<string>(['0,0']);
+    const stack: Position[] = [{ x: 0, y: 0 }];
+
+    while (stack.length > 0) {
+      const current = stack[stack.length - 1];
+      const unvisited = this.neighbors(current, gridSize).filter(
+        (n) => !visited.has(key(n)),
+      );
+      if (unvisited.length === 0) {
+        stack.pop();
+        continue;
+      }
+      const next = unvisited[Math.floor(Math.random() * unvisited.length)];
+      open.add(this.edgeKey(current, next));
+      visited.add(key(next));
+      stack.push(next);
+    }
+
+    const walls: string[] = [];
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        for (const n of [
+          { x: x + 1, y },
+          { x, y: y + 1 },
+        ]) {
+          if (!this.isInBounds(n, gridSize)) continue;
+          const edge = this.edgeKey({ x, y }, n);
+          if (!open.has(edge)) walls.push(edge);
+        }
+      }
+    }
+
+    for (let i = walls.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [walls[i], walls[j]] = [walls[j], walls[i]];
+    }
+    const openings = Math.floor(
+      walls.length * DIFFICULTIES[match.difficulty].mazeOpenings,
+    );
+    return walls.slice(openings);
   }
 
   private generatePortals(
@@ -734,6 +814,7 @@ export class GameService {
   }
 
   private canSwap(match: MatchState) {
+    if (match.mode === 'coop') return false;
     if (!match.players.seeker || !match.players.hider) return false;
     if (match.status === 'finished') return true;
     return (
@@ -762,7 +843,16 @@ export class GameService {
     }
   }
 
-  private finishMatch(match: MatchState, winner: Role, reason: EndReason) {
+  private finishMeeting(match: MatchState) {
+    if (match.mode === 'coop') this.finishMatch(match, 'team', 'met');
+    else this.finishMatch(match, 'seeker', 'caught');
+  }
+
+  private finishMatch(
+    match: MatchState,
+    winner: Role | 'team' | null,
+    reason: EndReason,
+  ) {
     match.status = 'finished';
     match.winner = winner;
     match.endReason = reason;

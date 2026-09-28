@@ -65,7 +65,9 @@ export function RoomList() {
                       {WORLD_SIZES[room.worldSize].label} ·{' '}
                       {DIFFICULTIES[room.difficulty].label}
                       {WORLD_SIZES[room.worldSize].baseSeconds === null &&
+                        room.mode === 'classic' &&
                         ' · ∞'}
+                      {room.mode === 'coop' && ' · 🤝 Co-op'}
                     </TableCell>
                     <TableCell>
                       {room.players}/2

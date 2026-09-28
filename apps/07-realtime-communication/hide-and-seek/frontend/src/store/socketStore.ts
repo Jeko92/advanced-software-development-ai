@@ -6,6 +6,7 @@ import type {
   CheerEmoji,
   ClientRole,
   Difficulty,
+  GameMode,
   MatchState,
   RoomError,
   RoomSummary,
@@ -29,6 +30,7 @@ interface SocketState {
     roomName: string;
     worldSize: WorldSize;
     difficulty: Difficulty;
+    mode: GameMode;
   }) => void;
   joinRoom: (roomName: string) => void;
   leaveRoom: () => void;

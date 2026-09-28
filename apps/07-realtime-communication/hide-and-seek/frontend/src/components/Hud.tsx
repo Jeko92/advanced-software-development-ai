@@ -42,6 +42,13 @@ const EFFECT_COPY: Record<EffectType, { icon: string; label: string }> = {
   frozen: { icon: '🥶', label: 'Frozen' },
 };
 
+function distanceLabel(distance: number) {
+  if (distance <= 3) return '🔥 Hot';
+  if (distance <= 6) return '♨️ Warm';
+  if (distance <= 10) return '🌤️ Cool';
+  return '❄️ Cold';
+}
+
 export function Hud({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role)!;
   const leaveRoom = useSocketStore((s) => s.leaveRoom);
@@ -62,6 +69,10 @@ export function Hud({ match }: { match: MatchState }) {
           {WORLD_SIZES[match.worldSize].label} ·{' '}
           {DIFFICULTIES[match.difficulty].label}
         </Badge>
+        {match.mode === 'coop' && <Badge variant="outline">🤝 Co-op</Badge>}
+        {match.distanceHint != null && (
+          <Badge variant="secondary">{distanceLabel(match.distanceHint)}</Badge>
+        )}
         {match.observerCount > 0 && (
           <Badge variant="outline">
             <Eye /> {match.observerCount}

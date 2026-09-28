@@ -13,6 +13,11 @@ function announcement(match: MatchState, role: ClientRole | null) {
     case 'paused':
       return 'Game paused.';
     case 'finished': {
+      if (match.mode === 'coop') {
+        return match.winner === 'team'
+          ? 'The players found each other.'
+          : 'Time ran out before the players met.';
+      }
       const reason =
         match.endReason === 'caught'
           ? 'The seeker found the hider.'

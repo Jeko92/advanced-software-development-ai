@@ -51,6 +51,14 @@ If a player leaves, the room closes and everyone returns to the lobby.
 - **Pause** — needs both players to agree, and so does resuming: both click "Ready to
   resume", then a 3-2-1 countdown continues the round.
 
+## Co-op maze mode
+
+Pick **Co-op maze** when creating a room. Both players are hidden from each other in a
+real maze (Easy has the most shortcuts, Hard the fewest) and win together by meeting on
+the same cell before time runs out — on 30×30 the co-op round lasts 240 s. There are
+no items or portals, players can't chat during a round (no coaching), and a
+🔥 hot / ❄️ cold hint shows how close the partner is without revealing where.
+
 ## Controls
 
 - Arrow keys or **W A S D**

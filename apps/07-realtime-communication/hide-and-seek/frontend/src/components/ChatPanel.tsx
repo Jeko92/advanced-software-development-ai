@@ -36,6 +36,7 @@ export function ChatPanel() {
   const role = useSocketStore((s) => s.role);
   const myName = useSocketStore((s) => s.myName);
   const status = useSocketStore((s) => s.matchState?.status);
+  const mode = useSocketStore((s) => s.matchState?.mode);
   const messages = useSocketStore((s) => s.messages);
   const sendMessage = useSocketStore((s) => s.sendMessage);
   const cheer = useSocketStore((s) => s.cheer);
@@ -44,6 +45,7 @@ export function ChatPanel() {
   const isObserver = role === 'observer';
   const roundLive =
     status === 'countdown' || status === 'running' || status === 'paused';
+  const chatLocked = !isObserver && mode === 'coop' && roundLive;
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: 'end' });
@@ -121,15 +123,28 @@ export function ChatPanel() {
         <form className="flex w-full gap-2" onSubmit={onSubmit}>
           <Input
             value={text}
+            disabled={chatLocked}
             maxLength={CHAT_MESSAGE_MAX_LENGTH}
-            placeholder="Say something…"
+            placeholder={
+              chatLocked ? 'Chat is off during co-op rounds' : 'Say something…'
+            }
             aria-label="Chat message"
             onChange={(e) => setText(e.target.value)}
           />
-          <Button type="submit" size="icon" aria-label="Send">
+          <Button
+            type="submit"
+            size="icon"
+            aria-label="Send"
+            disabled={chatLocked}
+          >
             <SendHorizontal />
           </Button>
         </form>
+        {chatLocked && (
+          <p className="text-xs text-muted-foreground">
+            No coaching in co-op — you can talk again between rounds.
+          </p>
+        )}
         {isObserver && roundLive && (
           <p className="text-xs text-muted-foreground">
             Players see spectator messages between rounds — cheer with emojis
