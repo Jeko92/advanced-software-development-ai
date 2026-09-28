@@ -23,6 +23,7 @@ const STATUS_LABEL: Record<GameStatus, string> = {
   'ready-check': 'Getting ready',
   countdown: 'Starting',
   running: 'Playing',
+  paused: 'Paused',
   finished: 'Finished',
 };
 

@@ -163,6 +163,36 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.to(assignment.roomId).emit('chatMessage', message);
   }
 
+  @SubscribeMessage('requestPause')
+  handleRequestPause(@ConnectedSocket() client: Socket) {
+    const match = this.gameService.requestPause(client.id);
+    if (match) this.publish(match);
+  }
+
+  @SubscribeMessage('respondToPause')
+  handleRespondToPause(
+    @MessageBody() body: { accepted: boolean },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const match = this.gameService.respondToPause(
+      client.id,
+      body?.accepted === true,
+    );
+    if (match) this.publish(match);
+  }
+
+  @SubscribeMessage('resumeMatch')
+  handleResumeMatch(@ConnectedSocket() client: Socket) {
+    const match = this.gameService.resume(client.id);
+    if (!match) return;
+    this.gameService.startCountdown(
+      match.roomId,
+      (m) => this.publish(m),
+      'resume',
+    );
+    this.publish(match);
+  }
+
   @SubscribeMessage('requestSwap')
   handleRequestSwap(@ConnectedSocket() client: Socket) {
     const match = this.gameService.requestSwap(client.id);

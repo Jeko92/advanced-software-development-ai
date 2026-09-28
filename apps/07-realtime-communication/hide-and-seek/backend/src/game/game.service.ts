@@ -108,6 +108,7 @@ export class GameService {
       effects: { seeker: null, hider: null },
       portals: null,
       teleportCount: 0,
+      pauseRequestedBy: null,
     };
     this.generateTerrain(match);
     this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
@@ -213,9 +214,13 @@ export class GameService {
   startTimer(roomId: string, onTick: (match: MatchState) => void) {
     const match = this.matches.get(roomId);
     if (!match) return;
-    this.clearTimer(roomId);
     match.timeRemaining = match.gameLengthSeconds;
     this.spawnItem(match);
+    this.runClock(match, onTick);
+  }
+
+  private runClock(match: MatchState, onTick: (match: MatchState) => void) {
+    this.clearTimer(match.roomId);
     const { spawnEverySeconds } = DIFFICULTIES[match.difficulty];
     let ticks = 0;
 
@@ -230,7 +235,7 @@ export class GameService {
       }
       onTick(match);
     }, 1000);
-    this.timers.set(roomId, timer);
+    this.timers.set(match.roomId, timer);
   }
 
   leaveRoom(
@@ -279,6 +284,40 @@ export class GameService {
     return match;
   }
 
+  requestPause(socketId: string): MatchState | null {
+    const assignment = this.socketAssignments.get(socketId);
+    if (!assignment) return null;
+    const match = this.matches.get(assignment.roomId);
+    if (!match || match.status !== 'running' || match.pauseRequestedBy) {
+      return null;
+    }
+    match.pauseRequestedBy = assignment.role;
+    return match;
+  }
+
+  respondToPause(socketId: string, accepted: boolean): MatchState | null {
+    const assignment = this.socketAssignments.get(socketId);
+    if (!assignment) return null;
+    const match = this.matches.get(assignment.roomId);
+    if (!match || !match.pauseRequestedBy) return null;
+    if (match.pauseRequestedBy === assignment.role) return null;
+
+    match.pauseRequestedBy = null;
+    if (accepted && match.status === 'running') {
+      match.status = 'paused';
+      this.clearTimer(match.roomId);
+    }
+    return match;
+  }
+
+  resume(socketId: string): MatchState | null {
+    const assignment = this.socketAssignments.get(socketId);
+    if (!assignment) return null;
+    const match = this.matches.get(assignment.roomId);
+    if (!match || match.status !== 'paused') return null;
+    return match;
+  }
+
   requestSwap(socketId: string): MatchState | null {
     const assignment = this.socketAssignments.get(socketId);
     if (!assignment) return null;
@@ -316,7 +355,11 @@ export class GameService {
     return match;
   }
 
-  startCountdown(roomId: string, onTick: (match: MatchState) => void) {
+  startCountdown(
+    roomId: string,
+    onTick: (match: MatchState) => void,
+    mode: 'start' | 'resume' = 'start',
+  ) {
     const match = this.matches.get(roomId);
     if (!match) return;
     this.clearTimer(roomId);
@@ -331,7 +374,8 @@ export class GameService {
       }
       match.countdown = null;
       match.status = 'running';
-      this.startTimer(roomId, onTick);
+      if (mode === 'start') this.startTimer(roomId, onTick);
+      else this.runClock(match, onTick);
       onTick(match);
     }, 1000);
     this.timers.set(roomId, timer);
@@ -355,6 +399,7 @@ export class GameService {
     match.items = [];
     match.effects = { seeker: null, hider: null };
     match.teleportCount = 0;
+    match.pauseRequestedBy = null;
     this.generateTerrain(match);
   }
 
@@ -635,6 +680,7 @@ export class GameService {
     match.status = 'finished';
     match.winner = winner;
     match.endReason = reason;
+    match.pauseRequestedBy = null;
     this.clearTimer(match.roomId);
   }
 

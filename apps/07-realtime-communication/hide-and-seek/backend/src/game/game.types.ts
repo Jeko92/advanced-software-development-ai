@@ -1,6 +1,6 @@
 export type Role = 'seeker' | 'hider';
 export type GameStatus =
-  'waiting' | 'ready-check' | 'countdown' | 'running' | 'finished';
+  'waiting' | 'ready-check' | 'countdown' | 'running' | 'paused' | 'finished';
 
 export const COUNTDOWN_SECONDS = 3;
 
@@ -38,6 +38,7 @@ export interface MatchState {
   effects: Record<Role, ActiveEffect | null>;
   portals: [Position, Position] | null;
   teleportCount: number;
+  pauseRequestedBy: Role | null;
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';
