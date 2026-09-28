@@ -6,6 +6,7 @@ import {
   DIFFICULTIES,
   Difficulty,
   EndReason,
+  ITEM_EFFECT_SECONDS,
   gameLengthFor,
   MatchState,
   Position,
@@ -143,7 +144,16 @@ export class GameService {
     const delta = this.deltas[direction];
     if (!delta) return null;
 
-    return this.movePlayer(match, assignment.role, delta) ? match : null;
+    const { role } = assignment;
+    if (match.effects[role]?.type === 'frozen') return null;
+
+    const steps = match.effects[role]?.type === 'speedBoost' ? 2 : 1;
+    let moved = false;
+    for (let i = 0; i < steps && match.status === 'running'; i++) {
+      if (!this.movePlayer(match, role, delta)) break;
+      moved = true;
+    }
+    return moved ? match : null;
   }
 
   private movePlayer(match: MatchState, role: Role, delta: Position): boolean {
@@ -169,6 +179,7 @@ export class GameService {
         this.finishMatch(match, 'seeker', 'caught');
         break;
       }
+      this.collectItem(match, role);
       if (!this.isIceCell(next, match)) break;
     }
 
@@ -195,8 +206,9 @@ export class GameService {
       match.timeRemaining -= 1;
       if (match.timeRemaining <= 0) {
         this.finishMatch(match, 'hider', 'timeout');
-      } else if (ticks % spawnEverySeconds === 0) {
-        this.spawnItem(match);
+      } else {
+        this.tickEffects(match);
+        if (ticks % spawnEverySeconds === 0) this.spawnItem(match);
       }
       onTick(match);
     }, 1000);
@@ -325,6 +337,44 @@ export class GameService {
     match.items = [];
     match.effects = { seeker: null, hider: null };
     this.generateTerrain(match);
+  }
+
+  private collectItem(match: MatchState, role: Role) {
+    const { position } = match.players[role]!;
+    const index = match.items.findIndex(
+      (i) => i.position.x === position.x && i.position.y === position.y,
+    );
+    if (index === -1) return;
+    const [item] = match.items.splice(index, 1);
+
+    if (item.type === 'speedBoost') {
+      match.effects[role] = {
+        type: 'speedBoost',
+        secondsLeft: ITEM_EFFECT_SECONDS.speedBoost,
+      };
+    } else if (item.type === 'freeze') {
+      const opponent: Role = role === 'seeker' ? 'hider' : 'seeker';
+      match.effects[opponent] = {
+        type: 'frozen',
+        secondsLeft: ITEM_EFFECT_SECONDS.freeze,
+      };
+    } else if (role === 'hider') {
+      match.timeRemaining += ITEM_EFFECT_SECONDS.clock;
+    } else {
+      match.timeRemaining = Math.max(
+        5,
+        match.timeRemaining - ITEM_EFFECT_SECONDS.clock,
+      );
+    }
+  }
+
+  private tickEffects(match: MatchState) {
+    for (const role of ['seeker', 'hider'] as const) {
+      const effect = match.effects[role];
+      if (!effect) continue;
+      effect.secondsLeft -= 1;
+      if (effect.secondsLeft <= 0) match.effects[role] = null;
+    }
   }
 
   private spawnItem(match: MatchState) {
