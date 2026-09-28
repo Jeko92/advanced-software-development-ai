@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -89,6 +89,34 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
             Back to lobby
           </Button>
         </CardFooter>
+      </Card>
+    </BoardOverlay>
+  );
+}
+
+export function PausedOverlay() {
+  const role = useSocketStore((s) => s.role);
+  const resumeMatch = useSocketStore((s) => s.resumeMatch);
+  const isPlayer = role === 'seeker' || role === 'hider';
+
+  return (
+    <BoardOverlay>
+      <Card className="w-full max-w-xs text-center">
+        <CardHeader>
+          <CardTitle className="text-2xl">⏸ Paused</CardTitle>
+          <CardDescription>
+            {isPlayer
+              ? 'Either player can resume — the round continues after a 3-2-1.'
+              : 'Paused by the players.'}
+          </CardDescription>
+        </CardHeader>
+        {isPlayer && (
+          <CardFooter className="justify-center">
+            <Button autoFocus onClick={resumeMatch}>
+              <Play /> Resume
+            </Button>
+          </CardFooter>
+        )}
       </Card>
     </BoardOverlay>
   );

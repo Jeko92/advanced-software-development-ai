@@ -29,6 +29,9 @@ interface SocketState {
   move: (direction: string) => void;
   ready: () => void;
   requestSwap: () => void;
+  requestPause: () => void;
+  respondToPause: (accepted: boolean) => void;
+  resumeMatch: () => void;
   sendMessage: (text: string) => void;
   respondToSwap: (accepted: boolean) => void;
 }
@@ -88,6 +91,9 @@ export const useSocketStore = create<SocketState>()((set) => {
     move: (direction: string) => socket.emit('move', { direction }),
     ready: () => socket.emit('ready'),
     requestSwap: () => socket.emit('requestSwap'),
+    requestPause: () => socket.emit('requestPause'),
+    respondToPause: (accepted) => socket.emit('respondToPause', { accepted }),
+    resumeMatch: () => socket.emit('resumeMatch'),
     sendMessage: (text) => socket.emit('chatMessage', { text }),
     respondToSwap: (accepted) => socket.emit('respondToSwap', { accepted }),
     createRoom: (settings) => socket.emit('createRoom', settings),

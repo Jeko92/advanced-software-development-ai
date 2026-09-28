@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Copy, Eye, LogOut } from 'lucide-react';
+import { Check, Copy, Eye, LogOut, Pause } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -45,7 +45,10 @@ const EFFECT_COPY: Record<EffectType, { icon: string; label: string }> = {
 export function Hud({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role)!;
   const leaveRoom = useSocketStore((s) => s.leaveRoom);
+  const requestPause = useSocketStore((s) => s.requestPause);
   const copy = ROLE_COPY[role];
+  const isPlayer = role === 'seeker' || role === 'hider';
+  const pauseRequested = isPlayer && match.pauseRequestedBy === role;
   const low = match.timeRemaining <= 10;
 
   return (
@@ -64,14 +67,21 @@ export function Hud({ match }: { match: MatchState }) {
             <Eye /> {match.observerCount}
           </Badge>
         )}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="ml-auto"
-          onClick={leaveRoom}
-        >
-          <LogOut /> Leave
-        </Button>
+        <div className="ml-auto flex gap-2">
+          {isPlayer && match.status === 'running' && (
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!!match.pauseRequestedBy}
+              onClick={requestPause}
+            >
+              <Pause /> {pauseRequested ? 'Pause requested…' : 'Pause'}
+            </Button>
+          )}
+          <Button variant="ghost" size="sm" onClick={leaveRoom}>
+            <LogOut /> Leave
+          </Button>
+        </div>
       </div>
       <div className="flex items-center gap-3">
         <Progress
