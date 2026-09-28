@@ -19,6 +19,7 @@
   background: var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  position: relative;
 }
 
 .cell {
@@ -129,8 +130,26 @@
   box-shadow: 0 0 0 3px var(--primary);
 }
 
-.player-marker + .player-marker {
-  margin-left: calc(var(--cell) * -0.45);
+.token-layer {
+  position: absolute;
+  inset: var(--gap);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.token {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: var(--cell);
+  height: var(--cell);
+  transform: translate(
+    calc(var(--x) * (var(--cell) + var(--gap))),
+    calc(var(--y) * (var(--cell) + var(--gap)))
+  );
+  transition: transform 120ms ease-out;
 }
 
 .countdown-number {

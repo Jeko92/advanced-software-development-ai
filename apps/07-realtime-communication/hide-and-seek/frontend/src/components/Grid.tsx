@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactElement } from 'react';
 import { useSocketStore } from '@/store/socketStore';
-import type { ItemType, MatchState, Position, Role } from '@/types';
+import type { ItemType, MatchState, Role } from '@/types';
 
 const ITEM_ICON: Record<ItemType, string> = {
   speedBoost: '⚡',
@@ -22,7 +22,6 @@ export function Grid({ match }: { match: MatchState }) {
 
   for (let y = 0; y < match.gridSize; y++) {
     for (let x = 0; x < match.gridSize; x++) {
-      const at = (p?: Position) => p?.x === x && p?.y === y;
       const classes = ['cell'];
       if (ice.has(`${x},${y}`)) classes.push('ice');
       const portalIndex =
@@ -48,12 +47,6 @@ export function Grid({ match }: { match: MatchState }) {
               {ITEM_ICON[item.type]}
             </span>
           )}
-          {at(match.players.seeker?.position) && (
-            <PlayerMarker role="seeker" isYou={role === 'seeker'} />
-          )}
-          {at(match.players.hider?.position) && (
-            <PlayerMarker role="hider" isYou={role === 'hider'} />
-          )}
         </div>,
       );
     }
@@ -66,14 +59,48 @@ export function Grid({ match }: { match: MatchState }) {
       aria-label="Game board"
     >
       {cells}
+      <div className="token-layer" aria-hidden>
+        {(['seeker', 'hider'] as const).map((owner) => (
+          <PlayerToken
+            key={`${owner}-${match.status}-${match.teleportCount}`}
+            match={match}
+            owner={owner}
+            isYou={role === owner}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
-function PlayerMarker({ role, isYou }: { role: Role; isYou: boolean }) {
+function PlayerToken({
+  match,
+  owner,
+  isYou,
+}: {
+  match: MatchState;
+  owner: Role;
+  isYou: boolean;
+}) {
+  const position = match.players[owner]?.position;
+  if (!position) return null;
+  const other = match.players[owner === 'seeker' ? 'hider' : 'seeker'];
+  const sharesCell =
+    owner === 'hider' &&
+    other?.position.x === position.x &&
+    other?.position.y === position.y;
+
   return (
-    <span className={`player-marker ${role} ${isYou ? 'you' : ''}`}>
-      {role === 'seeker' ? '🔍' : '🙈'}
+    <span
+      className={`token player-marker ${owner} ${isYou ? 'you' : ''}`}
+      style={
+        {
+          '--x': position.x + (sharesCell ? 0.35 : 0),
+          '--y': position.y,
+        } as CSSProperties
+      }
+    >
+      {owner === 'seeker' ? '🔍' : '🙈'}
     </span>
   );
 }
