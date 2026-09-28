@@ -36,6 +36,8 @@ export interface MatchState {
   iceCells: Position[];
   items: Item[];
   effects: Record<Role, ActiveEffect | null>;
+  portals: [Position, Position] | null;
+  teleportCount: number;
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';

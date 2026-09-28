@@ -102,6 +102,8 @@ export class GameService {
       iceCells: [],
       items: [],
       effects: { seeker: null, hider: null },
+      portals: null,
+      teleportCount: 0,
     };
     this.generateTerrain(match);
     this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
@@ -180,6 +182,18 @@ export class GameService {
         break;
       }
       this.collectItem(match, role);
+
+      const exit = this.portalExit(next, match);
+      if (exit) {
+        player.position = exit;
+        match.teleportCount++;
+        if (this.isCaught(match)) {
+          this.finishMatch(match, 'seeker', 'caught');
+        } else {
+          this.collectItem(match, role);
+        }
+        break;
+      }
       if (!this.isIceCell(next, match)) break;
     }
 
@@ -336,6 +350,7 @@ export class GameService {
     match.timeRemaining = match.gameLengthSeconds;
     match.items = [];
     match.effects = { seeker: null, hider: null };
+    match.teleportCount = 0;
     this.generateTerrain(match);
   }
 
@@ -389,6 +404,7 @@ export class GameService {
       [
         ...players,
         ...match.iceCells,
+        ...(match.portals ?? []),
         ...match.items.map((i) => i.position),
       ].map((p) => `${p.x},${p.y}`),
     );
@@ -422,6 +438,41 @@ export class GameService {
     const start = startPositions(match.gridSize);
     match.wallEdges = this.generateWalls(match, [start.seeker, start.hider]);
     match.iceCells = this.generateIceCells(match, [start.seeker, start.hider]);
+    match.portals = this.generatePortals(match, [
+      start.seeker,
+      start.hider,
+      ...match.iceCells,
+    ]);
+  }
+
+  private generatePortals(
+    match: MatchState,
+    avoid: Position[],
+  ): [Position, Position] | null {
+    const { gridSize } = match;
+    const avoidKeys = new Set(avoid.map((p) => `${p.x},${p.y}`));
+    const randomCell = () => ({
+      x: Math.floor(Math.random() * gridSize),
+      y: Math.floor(Math.random() * gridSize),
+    });
+
+    for (let attempt = 0; attempt < 200; attempt++) {
+      const a = randomCell();
+      const b = randomCell();
+      if (avoidKeys.has(`${a.x},${a.y}`) || avoidKeys.has(`${b.x},${b.y}`)) {
+        continue;
+      }
+      if (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) >= gridSize) return [a, b];
+    }
+    return null;
+  }
+
+  private portalExit(pos: Position, match: MatchState): Position | null {
+    if (!match.portals) return null;
+    const [a, b] = match.portals;
+    if (a.x === pos.x && a.y === pos.y) return b;
+    if (b.x === pos.x && b.y === pos.y) return a;
+    return null;
   }
 
   private isIceCell(pos: Position, match: MatchState): boolean {
