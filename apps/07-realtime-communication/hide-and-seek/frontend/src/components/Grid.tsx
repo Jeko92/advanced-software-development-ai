@@ -1,11 +1,23 @@
 import type { CSSProperties, ReactElement } from 'react';
 import { useSocketStore } from '@/store/socketStore';
-import type { MatchState, Position, Role } from '@/types';
+import type { ItemType, MatchState, Position, Role } from '@/types';
+
+const ITEM_ICON: Record<ItemType, string> = {
+  speedBoost: '⚡',
+  freeze: '🥶',
+  clock: '⏱️',
+};
 
 export function Grid({ match }: { match: MatchState }) {
   const role = useSocketStore((s) => s.role);
   const walls = new Set(match.wallEdges);
   const ice = new Set(match.iceCells.map((c) => `${c.x},${c.y}`));
+  const items = new Map(
+    match.items.map((i) => [`${i.position.x},${i.position.y}`, i]),
+  );
+  const frozen =
+    (role === 'seeker' || role === 'hider') &&
+    match.effects[role]?.type === 'frozen';
   const cells: ReactElement[] = [];
 
   for (let y = 0; y < match.gridSize; y++) {
@@ -15,10 +27,16 @@ export function Grid({ match }: { match: MatchState }) {
       if (ice.has(`${x},${y}`)) classes.push('ice');
       const wallRight = walls.has(`${x},${y}-${x + 1},${y}`);
       const wallBottom = walls.has(`${x},${y}-${x},${y + 1}`);
+      const item = items.get(`${x},${y}`);
       cells.push(
         <div key={`${x}-${y}`} className={classes.join(' ')}>
           {wallRight && <span className="wall wall-right" />}
           {wallBottom && <span className="wall wall-bottom" />}
+          {item && (
+            <span key={item.id} className="item">
+              {ITEM_ICON[item.type]}
+            </span>
+          )}
           {at(match.players.seeker?.position) && (
             <PlayerMarker role="seeker" isYou={role === 'seeker'} />
           )}
@@ -32,7 +50,7 @@ export function Grid({ match }: { match: MatchState }) {
 
   return (
     <div
-      className="grid-board"
+      className={frozen ? 'grid-board frozen' : 'grid-board'}
       style={{ '--grid-size': match.gridSize } as CSSProperties}
       aria-label="Game board"
     >

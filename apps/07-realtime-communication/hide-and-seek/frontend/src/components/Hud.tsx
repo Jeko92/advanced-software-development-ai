@@ -9,6 +9,7 @@ import {
   DIFFICULTIES,
   WORLD_SIZES,
   type ClientRole,
+  type EffectType,
   type MatchState,
 } from '@/types';
 
@@ -34,6 +35,11 @@ const ROLE_COPY: Record<
     goal: 'You are an observer',
     className: 'bg-observer/15 text-observer',
   },
+};
+
+const EFFECT_COPY: Record<EffectType, { icon: string; label: string }> = {
+  speedBoost: { icon: '⚡', label: 'Speed' },
+  frozen: { icon: '🥶', label: 'Frozen' },
 };
 
 export function Hud({ match }: { match: MatchState }) {
@@ -85,8 +91,38 @@ export function Hud({ match }: { match: MatchState }) {
           {match.timeRemaining}s
         </span>
       </div>
+      <EffectBadges match={match} role={role} />
     </div>
   );
+}
+
+function EffectBadges({
+  match,
+  role,
+}: {
+  match: MatchState;
+  role: ClientRole;
+}) {
+  const badges = (['seeker', 'hider'] as const).flatMap((owner) => {
+    const effect = match.effects[owner];
+    if (!effect) return [];
+    const copy = EFFECT_COPY[effect.type];
+    let who = '';
+    if (role === 'observer') who = owner === 'seeker' ? '🔍 ' : '🙈 ';
+    else if (owner !== role) who = 'Opponent ';
+    return [
+      <Badge
+        key={owner}
+        variant={effect.type === 'frozen' ? 'destructive' : 'secondary'}
+      >
+        {who}
+        {copy.icon} {copy.label} {effect.secondsLeft}s
+      </Badge>,
+    ];
+  });
+
+  if (badges.length === 0) return null;
+  return <div className="flex flex-wrap gap-2">{badges}</div>;
 }
 
 function RoomNameButton({ roomId }: { roomId: string }) {
