@@ -1,0 +1,12 @@
+{
+  "name": "@bootcamp/real-time-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Communication challenge — a room-based chat with presence, typing indicators and reconnection over Socket.io, on NestJS + React (Vite).",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"pnpm --filter @bootcamp/real-time-chat-api dev\" \"pnpm --filter @bootcamp/real-time-chat-web dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

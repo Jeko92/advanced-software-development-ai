@@ -1,0 +1,241 @@
+.grid-board {
+  --grid-size: 10;
+  --gap: 2px;
+  --wall-width: max(2px, calc(var(--cell) * 0.12));
+  --board-space: min(100vw - 2rem, 62rem, 100svh - 13rem);
+  --cell: clamp(
+    0.5rem,
+    calc(
+      (var(--board-space) - (var(--grid-size) + 1) * var(--gap)) /
+        var(--grid-size)
+    ),
+    2.25rem
+  );
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), var(--cell));
+  grid-template-rows: repeat(var(--grid-size), var(--cell));
+  gap: var(--gap);
+  padding: var(--gap);
+  background: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border-radius: 3px;
+}
+
+.cell.ice {
+  background: var(--ice);
+  background-image: linear-gradient(
+    135deg,
+    transparent 45%,
+    rgb(255 255 255 / 0.5) 50%,
+    transparent 55%
+  );
+}
+
+.cell.portal-a {
+  background: #d8b4fe;
+}
+
+.cell.portal-b {
+  background: #fbcfe8;
+}
+
+.cell.portal-a::before,
+.cell.portal-b::before {
+  content: '🌀';
+  position: absolute;
+  opacity: 0.45;
+  font-size: calc(var(--cell) * 0.6);
+}
+
+.portal-flash {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: portal-flash 0.5s ease-out forwards;
+}
+
+@keyframes portal-flash {
+  from {
+    box-shadow: 0 0 0 0 #a855f7;
+  }
+  50% {
+    box-shadow: 0 0 14px 6px #a855f7;
+  }
+  to {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.wall {
+  position: absolute;
+  z-index: 1;
+  border-radius: 1px;
+  background: var(--wall);
+  pointer-events: none;
+}
+
+.wall-right {
+  top: calc((var(--gap) + var(--wall-width)) / -2);
+  bottom: calc((var(--gap) + var(--wall-width)) / -2);
+  right: calc((var(--gap) + var(--wall-width)) / -2);
+  width: var(--wall-width);
+}
+
+.wall-bottom {
+  left: calc((var(--gap) + var(--wall-width)) / -2);
+  right: calc((var(--gap) + var(--wall-width)) / -2);
+  bottom: calc((var(--gap) + var(--wall-width)) / -2);
+  height: var(--wall-width);
+}
+
+.item {
+  font-size: calc(var(--cell) * 0.5);
+  line-height: 1;
+  animation: item-spawn 0.3s ease-out;
+}
+
+@keyframes item-spawn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.grid-board.frozen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: rgb(56 189 248 / 0.18);
+  box-shadow: inset 0 0 0 3px rgb(56 189 248 / 0.7);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.player-marker {
+  font-size: calc(var(--cell) * 0.65);
+  line-height: 1;
+}
+
+.player-marker.you {
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+.token-layer {
+  position: absolute;
+  inset: var(--gap);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.token {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: var(--cell);
+  height: var(--cell);
+  transform: translate(
+    calc(var(--x) * (var(--cell) + var(--gap))),
+    calc(var(--y) * (var(--cell) + var(--gap)))
+  );
+  transition: transform 120ms ease-out;
+}
+
+.token.frozen {
+  filter: grayscale(0.8) brightness(1.1);
+}
+
+.token.frozen::after,
+.token.boosted::after {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  font-size: calc(var(--cell) * 0.4);
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.8));
+}
+
+.token.frozen::after {
+  content: '❄️';
+}
+
+.token.boosted::after {
+  content: '⚡';
+}
+
+.countdown-number {
+  display: block;
+  text-align: center;
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--primary);
+  animation: count-pop 0.9s ease-out;
+}
+
+@keyframes count-pop {
+  from {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+
+.cheer {
+  position: absolute;
+  bottom: 0;
+  left: var(--lane);
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  animation: cheer-float 2.4s ease-out forwards;
+}
+
+@keyframes cheer-float {
+  from {
+    transform: translateY(20%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-260%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .token,
+  .item,
+  .portal-flash,
+  .cheer,
+  .countdown-number {
+    animation: none;
+    transition: none;
+  }
+}

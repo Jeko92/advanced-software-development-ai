@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
+  "name": "@bootcamp/polling-sse-code-along",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Communication code-along — runs the api and web dev servers together.",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"pnpm --filter @bootcamp/polling-sse-api dev\" \"pnpm --filter @bootcamp/polling-sse-web dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

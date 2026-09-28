@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.next
+.turbo
+next-env.d.ts
+.cache
+bun.lockb
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+**/.db/**
+*.md

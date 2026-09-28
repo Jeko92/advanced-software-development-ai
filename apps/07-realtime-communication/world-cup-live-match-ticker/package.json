@@ -1,0 +1,12 @@
+{
+  "name": "@bootcamp/world-cup-live-match-ticker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Communication challenge — a live match commentary feed streamed over Server-Sent Events, on plain Express + Next.js.",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"pnpm --filter @bootcamp/world-cup-live-match-ticker-api dev\" \"pnpm --filter @bootcamp/world-cup-live-match-ticker-web dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

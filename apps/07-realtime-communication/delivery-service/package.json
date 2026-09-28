@@ -1,0 +1,12 @@
+{
+  "name": "@bootcamp/delivery-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Communication challenge — an order tracked through short polling and long polling, on plain Express + Next.js.",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"pnpm --filter @bootcamp/delivery-service-api dev\" \"pnpm --filter @bootcamp/delivery-service-web dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

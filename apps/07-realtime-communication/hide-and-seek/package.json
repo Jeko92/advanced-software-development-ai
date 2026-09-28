@@ -1,0 +1,19 @@
+{
+  "name": "@bootcamp/hide-and-seek",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Communication recap project — a two-player hide-and-seek grid game over Socket.io, on NestJS + React (Vite).",
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,green \"pnpm --filter @bootcamp/hide-and-seek-backend dev\" \"pnpm --filter @bootcamp/hide-and-seek-frontend dev\"",
+    "lint": "pnpm --filter \"@bootcamp/hide-and-seek-*\" lint",
+    "lint:fix": "pnpm --filter \"@bootcamp/hide-and-seek-*\" lint:fix",
+    "typecheck": "pnpm --filter \"@bootcamp/hide-and-seek-*\" typecheck",
+    "format:check": "pnpm --filter \"@bootcamp/hide-and-seek-*\" format:check",
+    "format:write": "pnpm --filter \"@bootcamp/hide-and-seek-*\" format:write",
+    "test": "pnpm --filter @bootcamp/hide-and-seek-backend test",
+    "check": "pnpm lint && pnpm typecheck && pnpm format:check"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
