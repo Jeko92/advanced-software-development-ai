@@ -137,4 +137,29 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
     this.publish(match);
   }
+
+  @SubscribeMessage('requestSwap')
+  handleRequestSwap(@ConnectedSocket() client: Socket) {
+    const match = this.gameService.requestSwap(client.id);
+    if (match) this.publish(match);
+  }
+
+  @SubscribeMessage('respondToSwap')
+  handleRespondToSwap(
+    @MessageBody() body: { accepted: boolean },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const match = this.gameService.respondToSwap(
+      client.id,
+      body?.accepted === true,
+    );
+    if (!match) return;
+    this.server
+      .to(match.players.seeker!.socketId)
+      .emit('role', { role: 'seeker' });
+    this.server
+      .to(match.players.hider!.socketId)
+      .emit('role', { role: 'hider' });
+    this.publish(match);
+  }
 }

@@ -26,6 +26,8 @@ interface SocketState {
   clearMessages: () => void;
   move: (direction: string) => void;
   ready: () => void;
+  requestSwap: () => void;
+  respondToSwap: (accepted: boolean) => void;
 }
 
 export const useSocketStore = create<SocketState>()((set) => {
@@ -66,6 +68,8 @@ export const useSocketStore = create<SocketState>()((set) => {
     notice: null,
     move: (direction: string) => socket.emit('move', { direction }),
     ready: () => socket.emit('ready'),
+    requestSwap: () => socket.emit('requestSwap'),
+    respondToSwap: (accepted) => socket.emit('respondToSwap', { accepted }),
     createRoom: (settings) => socket.emit('createRoom', settings),
     joinRoom: (roomName) => socket.emit('joinRoom', { roomName }),
     leaveRoom: () => {

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SwapRoles } from '@/components/SwapRoles';
 import { useSocketStore } from '@/store/socketStore';
 import type { MatchState } from '@/types';
 
@@ -50,6 +51,8 @@ export function StartDialog({ match }: { match: MatchState }) {
             </Badge>
           </div>
         )}
+
+        {!counting && <SwapRoles match={match} />}
 
         {!counting && (
           <AlertDialogFooter>

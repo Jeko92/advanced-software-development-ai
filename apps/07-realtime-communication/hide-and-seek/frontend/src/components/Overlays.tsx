@@ -3,11 +3,13 @@ import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { SwapRoles } from '@/components/SwapRoles';
 import { cn } from '@/lib/utils';
 import { useSocketStore } from '@/store/socketStore';
 import type { EndReason, MatchState } from '@/types';
@@ -72,6 +74,11 @@ export function GameOverOverlay({ match }: { match: MatchState }) {
             <CardDescription>{REASON_TEXT[match.endReason]}</CardDescription>
           )}
         </CardHeader>
+        {isPlayer && (
+          <CardContent className="grid">
+            <SwapRoles match={match} />
+          </CardContent>
+        )}
         <CardFooter className="justify-center gap-2">
           {isPlayer && (
             <Button autoFocus onClick={ready}>

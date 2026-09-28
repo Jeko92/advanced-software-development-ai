@@ -31,6 +31,7 @@ export interface MatchState {
   endReason: EndReason | null;
   ready: Record<Role, boolean>;
   countdown: number | null;
+  swapRequestedBy: Role | null;
 }
 
 export type WorldSize = 'small' | 'medium' | 'large';

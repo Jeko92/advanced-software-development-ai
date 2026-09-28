@@ -96,6 +96,7 @@ export class GameService {
       endReason: null,
       ready: { seeker: false, hider: false },
       countdown: null,
+      swapRequestedBy: null,
     });
     return { roomId, role: 'seeker' };
   }
@@ -215,6 +216,44 @@ export class GameService {
     if (match.status !== 'ready-check') return null;
 
     match.ready[assignment.role] = true;
+    match.swapRequestedBy = null;
+    return match;
+  }
+
+  requestSwap(socketId: string): MatchState | null {
+    const assignment = this.socketAssignments.get(socketId);
+    if (!assignment) return null;
+    const match = this.matches.get(assignment.roomId);
+    if (!match || !this.canSwap(match) || match.swapRequestedBy) return null;
+
+    match.swapRequestedBy = assignment.role;
+    return match;
+  }
+
+  respondToSwap(socketId: string, accepted: boolean): MatchState | null {
+    const assignment = this.socketAssignments.get(socketId);
+    if (!assignment) return null;
+    const match = this.matches.get(assignment.roomId);
+    if (!match || !match.swapRequestedBy) return null;
+    if (match.swapRequestedBy === assignment.role) return null;
+
+    match.swapRequestedBy = null;
+    if (!accepted || !this.canSwap(match)) return match;
+
+    const seeker = match.players.seeker!;
+    const hider = match.players.hider!;
+    [seeker.socketId, hider.socketId] = [hider.socketId, seeker.socketId];
+    this.socketAssignments.set(seeker.socketId, {
+      roomId: match.roomId,
+      role: 'seeker',
+    });
+    this.socketAssignments.set(hider.socketId, {
+      roomId: match.roomId,
+      role: 'hider',
+    });
+
+    if (match.status === 'finished') this.startRound(match);
+    match.ready = { seeker: false, hider: false };
     return match;
   }
 
@@ -252,7 +291,18 @@ export class GameService {
     match.countdown = null;
     match.winner = null;
     match.endReason = null;
+    match.swapRequestedBy = null;
     match.timeRemaining = match.gameLengthSeconds;
+  }
+
+  private canSwap(match: MatchState) {
+    if (!match.players.seeker || !match.players.hider) return false;
+    if (match.status === 'finished') return true;
+    return (
+      match.status === 'ready-check' &&
+      !match.ready.seeker &&
+      !match.ready.hider
+    );
   }
 
   private isInBounds(pos: Position, gridSize: number) {
