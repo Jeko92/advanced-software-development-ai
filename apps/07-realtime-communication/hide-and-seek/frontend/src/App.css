@@ -1,10 +1,13 @@
 .grid-board {
   --grid-size: 10;
   --gap: 2px;
+  --wall-width: max(2px, calc(var(--cell) * 0.12));
+  --board-space: min(100vw - 2rem, 62rem, 100svh - 13rem);
   --cell: clamp(
     0.5rem,
     calc(
-      (100vw - 2rem - (var(--grid-size) + 1) * var(--gap)) / var(--grid-size)
+      (var(--board-space) - (var(--grid-size) + 1) * var(--gap)) /
+        var(--grid-size)
     ),
     2.25rem
   );
@@ -15,6 +18,7 @@
   padding: var(--gap);
   background: var(--border);
   border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .cell {
@@ -24,6 +28,28 @@
   justify-content: center;
   background: var(--card);
   border-radius: 3px;
+}
+
+.wall {
+  position: absolute;
+  z-index: 1;
+  border-radius: 1px;
+  background: var(--wall);
+  pointer-events: none;
+}
+
+.wall-right {
+  top: calc((var(--gap) + var(--wall-width)) / -2);
+  bottom: calc((var(--gap) + var(--wall-width)) / -2);
+  right: calc((var(--gap) + var(--wall-width)) / -2);
+  width: var(--wall-width);
+}
+
+.wall-bottom {
+  left: calc((var(--gap) + var(--wall-width)) / -2);
+  right: calc((var(--gap) + var(--wall-width)) / -2);
+  bottom: calc((var(--gap) + var(--wall-width)) / -2);
+  height: var(--wall-width);
 }
 
 .player-marker {

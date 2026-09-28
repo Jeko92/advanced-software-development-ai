@@ -21,7 +21,7 @@ const REASON_TEXT: Record<EndReason, string> = {
 
 export function BoardOverlay({ children }: { children: ReactNode }) {
   return (
-    <div className="absolute inset-0 grid place-items-center rounded-lg bg-background/70 p-4 backdrop-blur-[2px]">
+    <div className="absolute inset-0 z-10 grid place-items-center rounded-lg bg-background/70 p-4 backdrop-blur-[2px]">
       {children}
     </div>
   );
