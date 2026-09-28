@@ -1,5 +1,6 @@
 import { Announcer } from '@/components/Announcer';
 import { ChatPanel } from '@/components/ChatPanel';
+import { CheerLayer } from '@/components/CheerLayer';
 import { DPad } from '@/components/DPad';
 import { Grid } from '@/components/Grid';
 import { Hud } from '@/components/Hud';
@@ -43,6 +44,7 @@ export function GameScreen() {
             )}
             {match.status === 'finished' && <GameOverOverlay match={match} />}
             {match.status === 'paused' && <PausedOverlay />}
+            <CheerLayer />
           </div>
           <DPad />
           <Legend match={match} />

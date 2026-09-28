@@ -7,11 +7,15 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { randomUUID } from 'node:crypto';
 import { Server, Socket } from 'socket.io';
 import { GameService } from './game.service';
 import {
   CHAT_MESSAGE_MAX_LENGTH,
+  CHEER_EMOJIS,
   ChatMessage,
+  Cheer,
+  CheerEmoji,
   ClientRole,
   GameStatus,
   MatchState,
@@ -30,6 +34,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server!: Server;
 
   private listedStatus = new Map<string, GameStatus>();
+  private lastCheerAt = new Map<string, number>();
 
   constructor(private readonly gameService: GameService) {}
 
@@ -41,6 +46,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
+    this.lastCheerAt.delete(client.id);
     await this.leaveCurrentRoom(client);
   }
 
@@ -56,10 +62,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(
-    @MessageBody() body: { roomName: string },
+    @MessageBody() body: { roomName: string; nickname?: string },
     @ConnectedSocket() client: Socket,
   ) {
-    const result = this.gameService.joinRoom(client.id, body?.roomName);
+    const result = this.gameService.joinRoom(
+      client.id,
+      body?.roomName,
+      body?.nickname,
+    );
     await this.enterRoom(client, result);
   }
 
@@ -70,7 +80,9 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private async enterRoom(
     client: Socket,
-    result: { roomId: string; role: ClientRole } | { error: RoomError },
+    result:
+      | { roomId: string; role: ClientRole; name?: string }
+      | { error: RoomError },
   ) {
     if ('error' in result) {
       client.emit('roomError', { reason: result.error });
@@ -78,7 +90,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
     await client.leave(LOBBY);
     await client.join(result.roomId);
-    client.emit('role', { role: result.role });
+    client.emit('role', { role: result.role, name: result.name ?? null });
 
     const match = this.gameService.getMatch(result.roomId)!;
     this.publish(match);
@@ -160,17 +172,60 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() body: { text: string },
     @ConnectedSocket() client: Socket,
   ) {
-    const assignment = this.gameService.getAssignment(client.id);
     const text = String(body?.text ?? '')
       .trim()
       .slice(0, CHAT_MESSAGE_MAX_LENGTH);
-    if (!assignment || text === '') return;
+    if (text === '') return;
+
+    const assignment = this.gameService.getAssignment(client.id);
+    if (assignment) {
+      const message: ChatMessage = {
+        from: assignment.role,
+        name: null,
+        text,
+        sentAt: Date.now(),
+        audience: 'all',
+      };
+      this.server.to(assignment.roomId).emit('chatMessage', message);
+      return;
+    }
+
+    const observer = this.gameService.getObserver(client.id);
+    const match = observer && this.gameService.getMatch(observer.roomId);
+    if (!observer || !match) return;
+
+    const roundLive = ['countdown', 'running', 'paused'].includes(match.status);
     const message: ChatMessage = {
-      from: assignment.role,
+      from: 'observer',
+      name: observer.name,
       text,
       sentAt: Date.now(),
+      audience: roundLive ? 'spectators' : 'all',
     };
-    this.server.to(assignment.roomId).emit('chatMessage', message);
+    if (roundLive) {
+      for (const socketId of this.gameService.observerIds(observer.roomId)) {
+        this.server.to(socketId).emit('chatMessage', message);
+      }
+    } else {
+      this.server.to(observer.roomId).emit('chatMessage', message);
+    }
+  }
+
+  @SubscribeMessage('cheer')
+  handleCheer(
+    @MessageBody() body: { emoji: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const observer = this.gameService.getObserver(client.id);
+    const emoji = body?.emoji as CheerEmoji;
+    if (!observer || !CHEER_EMOJIS.includes(emoji)) return;
+
+    const now = Date.now();
+    if (now - (this.lastCheerAt.get(client.id) ?? 0) < 700) return;
+    this.lastCheerAt.set(client.id, now);
+
+    const cheer: Cheer = { id: randomUUID(), emoji, name: observer.name };
+    this.server.to(observer.roomId).emit('cheer', cheer);
   }
 
   @SubscribeMessage('requestPause')

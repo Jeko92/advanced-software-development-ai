@@ -205,10 +205,35 @@
   }
 }
 
+.cheer {
+  position: absolute;
+  bottom: 0;
+  left: var(--lane);
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  animation: cheer-float 2.4s ease-out forwards;
+}
+
+@keyframes cheer-float {
+  from {
+    transform: translateY(20%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-260%);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .token,
   .item,
   .portal-flash,
+  .cheer,
   .countdown-number {
     animation: none;
     transition: none;

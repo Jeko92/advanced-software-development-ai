@@ -147,10 +147,23 @@ export function gameLengthFor(
 
 export const CHAT_MESSAGE_MAX_LENGTH = 200;
 
+export const NICKNAME_MAX_LENGTH = 20;
+
 export interface ChatMessage {
-  from: Role;
+  from: ClientRole;
+  name: string | null;
   text: string;
   sentAt: number;
+  audience: 'all' | 'spectators';
+}
+
+export const CHEER_EMOJIS = ['👏', '🔥', '😱', '😂', '💪'] as const;
+export type CheerEmoji = (typeof CHEER_EMOJIS)[number];
+
+export interface Cheer {
+  id: string;
+  emoji: CheerEmoji;
+  name: string;
 }
 
 export interface PlayerView {

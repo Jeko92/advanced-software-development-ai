@@ -13,6 +13,7 @@ import {
   MatchView,
   Position,
   Role,
+  NICKNAME_MAX_LENGTH,
   ROOM_NAME_MAX_LENGTH,
   RoomError,
   RoomSummary,
@@ -46,7 +47,8 @@ const isDifficulty = (value: unknown): value is Difficulty =>
 @Injectable()
 export class GameService {
   private socketAssignments = new Map<string, SocketAssignment>();
-  private observers = new Map<string, string>();
+  private observers = new Map<string, { roomId: string; name: string }>();
+  private observerNumbers = new Map<string, number>();
   private matches = new Map<string, MatchState>();
   private readonly deltas: Record<string, Position> = {
     up: { x: 0, y: -1 },
@@ -81,8 +83,12 @@ export class GameService {
 
   observerIds(roomId: string): string[] {
     return [...this.observers]
-      .filter(([, observedRoomId]) => observedRoomId === roomId)
+      .filter(([, observer]) => observer.roomId === roomId)
       .map(([socketId]) => socketId);
+  }
+
+  getObserver(socketId: string) {
+    return this.observers.get(socketId);
   }
 
   getMatch(roomId: string): MatchState | undefined {
@@ -147,7 +153,9 @@ export class GameService {
   joinRoom(
     socketId: string,
     rawName: unknown,
-  ): { roomId: string; role: ClientRole } | { error: RoomError } {
+    rawNickname?: unknown,
+  ):
+    { roomId: string; role: ClientRole; name?: string } | { error: RoomError } {
     if (this.isInRoom(socketId)) return { error: 'already-in-room' };
 
     const roomId = normalizeRoomName(rawName);
@@ -164,9 +172,15 @@ export class GameService {
       return { roomId, role: 'hider' };
     }
 
-    this.observers.set(socketId, roomId);
+    const number = (this.observerNumbers.get(roomId) ?? 0) + 1;
+    this.observerNumbers.set(roomId, number);
+    const nickname = String(rawNickname ?? '')
+      .trim()
+      .slice(0, NICKNAME_MAX_LENGTH);
+    const name = nickname || `Observer ${number}`;
+    this.observers.set(socketId, { roomId, name });
     match.observerCount++;
-    return { roomId, role: 'observer' };
+    return { roomId, role: 'observer', name };
   }
 
   applyMove(socketId: string, direction: string): MatchState | null {
@@ -275,10 +289,10 @@ export class GameService {
     | { kind: 'room-closed'; roomId: string }
     | { kind: 'observer-left'; match: MatchState }
     | null {
-    const observedRoomId = this.observers.get(socketId);
-    if (observedRoomId) {
+    const observer = this.observers.get(socketId);
+    if (observer) {
       this.observers.delete(socketId);
-      const match = this.matches.get(observedRoomId);
+      const match = this.matches.get(observer.roomId);
       if (!match) return null;
       match.observerCount--;
       return { kind: 'observer-left', match };
@@ -740,8 +754,9 @@ export class GameService {
     for (const player of [match?.players.seeker, match?.players.hider]) {
       if (player) this.socketAssignments.delete(player.socketId);
     }
-    for (const [socketId, observedRoomId] of this.observers) {
-      if (observedRoomId === roomId) this.observers.delete(socketId);
+    this.observerNumbers.delete(roomId);
+    for (const [socketId, observer] of this.observers) {
+      if (observer.roomId === roomId) this.observers.delete(socketId);
     }
   }
 

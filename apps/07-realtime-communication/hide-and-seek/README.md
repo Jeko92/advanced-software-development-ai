@@ -27,11 +27,11 @@ If a player leaves, the room closes and everyone returns to the lobby.
 | Medium     | 20×20 | 120 s                  |
 | Large      | 30×30 | free mode (catch only) |
 
-| Difficulty | Round time | Walls | Ice  | Items           | Spawn / max |
-| ---------- | ---------- | ----- | ---- | --------------- | ----------- |
-| Easy       | 1.25×      | few   | few  | ⚡ ⏱️           | 10 s / 2    |
-| Normal     | 1×         | some  | some | ⚡ 🥶 ⏱️        | 8 s / 3     |
-| Hard       | 0.75×      | many  | many | ⚡ 🥶 ⏱️        | 5 s / 5     |
+| Difficulty | Round time | Walls | Ice  | Items    | Spawn / max |
+| ---------- | ---------- | ----- | ---- | -------- | ----------- |
+| Easy       | 1.25×      | few   | few  | ⚡ ⏱️    | 10 s / 2    |
+| Normal     | 1×         | some  | some | ⚡ 🥶 ⏱️ | 8 s / 3     |
+| Hard       | 0.75×      | many  | many | ⚡ 🥶 ⏱️ | 5 s / 5     |
 
 ## Features
 
@@ -41,7 +41,13 @@ If a player leaves, the room closes and everyone returns to the lobby.
 - **Items** — ⚡ two cells per key press for 5 s, 🥶 freezes your opponent for 3 s,
   ⏱️ adds 10 s for the hider or removes 10 s for the seeker.
 - **Portals** — two linked cells; stepping onto one moves you to the other.
-- **Chat** — players can talk; observers can read along.
+- **Hidden opponent** — players only see their own token; the opponent is revealed
+  when the round ends. Observers see everything.
+- **Chat** — players can talk anytime. Observers pick a name in the lobby (or get
+  numbered, e.g. "Observer 2") and appear with their initials; during a round their
+  messages reach only other spectators, between rounds everyone.
+- **Cheers** — observers send emoji reactions (👏 🔥 😱 😂 💪) that float over every
+  board, so they can root for the players without leaking positions.
 - **Pause** — needs both players to agree; resuming goes through a 3-2-1 countdown.
 
 ## Controls
