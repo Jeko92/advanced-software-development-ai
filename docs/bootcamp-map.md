@@ -46,8 +46,8 @@
 | 6.4 Next.js Tailwind & Shadcn              | `bootcamp/06-nextjs/tailwind-and-shadcn`            | 🟢         |
 | 6.5 Next.js Ecosystem                      | `bootcamp/06-nextjs/ecosystem`                      | 🟢         |
 | 6.6 Recap project                          | `bootcamp/06-nextjs`                                | 🟢         |
-| 7 Real-Time-Communication                  | `bootcamp/07-realtime`                              | ⬜         |
-| 7.1 Real-Time-Communication  Polling & SSE | `bootcamp/07-realtime`                              | ⬜         |
-| 7.2 Real-Time-Communication  WebSockets    | `bootcamp/07-realtime`                              | ⬜         |
-| 7.3 Recap Project                          | `bootcamp/07-realtime`                              | ⬜         |
+| 7 Real-Time-Communication                  | `bootcamp/07-realtime`                              | 🟢         |
+| 7.1 Real-Time-Communication  Polling & SSE | `bootcamp/07-realtime`                              | 🟢         |
+| 7.2 Real-Time-Communication  WebSockets    | `bootcamp/07-realtime`                              | 🟢         |
+| 7.3 Recap Project                          | `bootcamp/07-realtime`                              | 🟢         |
 | 8 AI                                       | `bootcamp/08-ai`                                    | ⬜         |
