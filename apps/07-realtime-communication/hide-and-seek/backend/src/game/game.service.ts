@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import {
   ClientRole,
@@ -98,6 +99,8 @@ export class GameService {
       swapRequestedBy: null,
       wallEdges: [],
       iceCells: [],
+      items: [],
+      effects: { seeker: null, hider: null },
     };
     this.generateTerrain(match);
     this.socketAssignments.set(socketId, { roomId, role: 'seeker' });
@@ -183,11 +186,17 @@ export class GameService {
     if (!match) return;
     this.clearTimer(roomId);
     match.timeRemaining = match.gameLengthSeconds;
+    this.spawnItem(match);
+    const { spawnEverySeconds } = DIFFICULTIES[match.difficulty];
+    let ticks = 0;
 
     const timer = setInterval(() => {
+      ticks++;
       match.timeRemaining -= 1;
       if (match.timeRemaining <= 0) {
         this.finishMatch(match, 'hider', 'timeout');
+      } else if (ticks % spawnEverySeconds === 0) {
+        this.spawnItem(match);
       }
       onTick(match);
     }, 1000);
@@ -313,7 +322,50 @@ export class GameService {
     match.endReason = null;
     match.swapRequestedBy = null;
     match.timeRemaining = match.gameLengthSeconds;
+    match.items = [];
+    match.effects = { seeker: null, hider: null };
     this.generateTerrain(match);
+  }
+
+  private spawnItem(match: MatchState) {
+    const rules = DIFFICULTIES[match.difficulty];
+    if (match.items.length >= rules.maxItems) return;
+
+    const minSpacing = Math.max(2, Math.floor(match.gridSize / 3));
+    const players = [match.players.seeker, match.players.hider]
+      .filter((p) => p !== null)
+      .map((p) => p.position);
+    const occupied = new Set(
+      [
+        ...players,
+        ...match.iceCells,
+        ...match.items.map((i) => i.position),
+      ].map((p) => `${p.x},${p.y}`),
+    );
+    const keepAway = [...players, ...match.items.map((i) => i.position)];
+
+    const candidates: Position[] = [];
+    for (let y = 0; y < match.gridSize; y++) {
+      for (let x = 0; x < match.gridSize; x++) {
+        if (!occupied.has(`${x},${y}`)) candidates.push({ x, y });
+      }
+    }
+
+    for (let i = candidates.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+    }
+
+    const position = candidates.find((c) =>
+      keepAway.every(
+        (p) => Math.abs(p.x - c.x) + Math.abs(p.y - c.y) >= minSpacing,
+      ),
+    );
+    if (!position) return;
+
+    const type =
+      rules.itemTypes[Math.floor(Math.random() * rules.itemTypes.length)];
+    match.items.push({ id: randomUUID(), type, position });
   }
 
   private generateTerrain(match: MatchState) {
